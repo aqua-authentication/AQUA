@@ -1,0 +1,327 @@
+<div class="svg-lightbox" id="svg-lightbox" hidden role="dialog" aria-modal="true" aria-labelledby="svg-lightbox-title">
+  <div class="svg-lightbox-toolbar">
+    <span id="svg-lightbox-title">Quality model structure</span>
+    <div class="svg-lightbox-actions" aria-label="Zoom controls">
+      <button type="button" id="svg-zoom-out" aria-label="Zoom out">−</button>
+      <button type="button" id="svg-zoom-reset" aria-label="Reset zoom">100%</button>
+      <button type="button" id="svg-zoom-in" aria-label="Zoom in">+</button>
+      <button type="button" id="svg-lightbox-close" class="svg-lightbox-close" aria-label="Close enlarged structure">×</button>
+    </div>
+  </div>
+  <div class="svg-lightbox-viewport" id="svg-lightbox-viewport">
+    <div class="svg-lightbox-canvas" id="svg-lightbox-canvas">
+      <img id="svg-lightbox-image" alt="">
+    </div>
+  </div>
+</div>
+<script id="quality-model-interactions">
+(function () {
+  "use strict";
+
+  try {
+    var overlay = document.getElementById("svg-lightbox");
+    var viewport = document.getElementById("svg-lightbox-viewport");
+    var canvas = document.getElementById("svg-lightbox-canvas");
+    var enlargedImage = document.getElementById("svg-lightbox-image");
+    var title = document.getElementById("svg-lightbox-title");
+    var closeButton = document.getElementById("svg-lightbox-close");
+    var zoomInButton = document.getElementById("svg-zoom-in");
+    var zoomOutButton = document.getElementById("svg-zoom-out");
+    var resetButton = document.getElementById("svg-zoom-reset");
+    var treeImages = Array.prototype.slice.call(document.querySelectorAll("img.quality-tree"));
+    var requestFrame = window.requestAnimationFrame || function (callback) {
+      return window.setTimeout(callback, 16);
+    };
+
+    if (overlay && viewport && canvas && enlargedImage && closeButton && zoomInButton && zoomOutButton && resetButton && treeImages.length) {
+      var minimumScale = 0.35;
+      var scale = 1;
+      var maximumScale = 1;
+      var baseWidth = 0;
+      var lastFocusedElement = null;
+
+      function clamp(value, minimum, maximum) {
+        return Math.min(maximum, Math.max(minimum, value));
+      }
+
+      function calculateMaximumScale() {
+        var availableWidth = Math.max(240, viewport.clientWidth - 64);
+        var availableHeight = Math.max(180, viewport.clientHeight - 48);
+        var naturalWidth = enlargedImage.naturalWidth || 900;
+        var naturalHeight = enlargedImage.naturalHeight || 400;
+
+        return Math.max(
+          minimumScale,
+          Math.min(availableWidth / naturalWidth, availableHeight / naturalHeight)
+        );
+      }
+
+      function updateControlState() {
+        resetButton.textContent = Math.round(scale * 100) + "%";
+        zoomOutButton.disabled = scale <= minimumScale + 0.001;
+        zoomInButton.disabled = scale >= maximumScale - 0.001;
+      }
+
+      function setScrollPosition(ratioX, ratioY, anchorX, anchorY) {
+        ratioX = typeof ratioX === "number" ? ratioX : 0.5;
+        ratioY = typeof ratioY === "number" ? ratioY : 0.5;
+        anchorX = typeof anchorX === "number" ? anchorX : viewport.clientWidth / 2;
+        anchorY = typeof anchorY === "number" ? anchorY : viewport.clientHeight / 2;
+
+        requestFrame(function () {
+          viewport.scrollLeft = Math.max(0, ratioX * viewport.scrollWidth - anchorX);
+          viewport.scrollTop = Math.max(0, ratioY * viewport.scrollHeight - anchorY);
+        });
+      }
+
+      function updateZoom(nextScale, anchorX, anchorY) {
+        anchorX = typeof anchorX === "number" ? anchorX : viewport.clientWidth / 2;
+        anchorY = typeof anchorY === "number" ? anchorY : viewport.clientHeight / 2;
+
+        var oldScrollWidth = Math.max(viewport.scrollWidth, 1);
+        var oldScrollHeight = Math.max(viewport.scrollHeight, 1);
+        var ratioX = (viewport.scrollLeft + anchorX) / oldScrollWidth;
+        var ratioY = (viewport.scrollTop + anchorY) / oldScrollHeight;
+
+        maximumScale = calculateMaximumScale();
+        scale = clamp(nextScale, minimumScale, maximumScale);
+        enlargedImage.style.width = Math.round(baseWidth * scale) + "px";
+        updateControlState();
+        setScrollPosition(ratioX, ratioY, anchorX, anchorY);
+      }
+
+      function setInitialSize() {
+        baseWidth = enlargedImage.naturalWidth || 900;
+        maximumScale = calculateMaximumScale();
+        scale = Math.min(maximumScale, 1.5);
+        enlargedImage.style.width = Math.round(baseWidth * scale) + "px";
+        updateControlState();
+        setScrollPosition(0.5, 0.5);
+      }
+
+      function handleImageLoad() {
+        enlargedImage.removeEventListener("load", handleImageLoad, false);
+        setInitialSize();
+      }
+
+      function openLightbox(sourceImage) {
+        lastFocusedElement = document.activeElement;
+        enlargedImage.src = sourceImage.currentSrc || sourceImage.src;
+        enlargedImage.alt = sourceImage.alt || "Enlarged quality model structure";
+        title.textContent = sourceImage.alt || "Quality model structure";
+        overlay.hidden = false;
+        document.body.classList.add("svg-lightbox-open");
+
+        if (enlargedImage.complete) {
+          setInitialSize();
+        } else {
+          enlargedImage.addEventListener("load", handleImageLoad, false);
+        }
+
+        closeButton.focus();
+      }
+
+      function closeLightbox() {
+        overlay.hidden = true;
+        document.body.classList.remove("svg-lightbox-open");
+        enlargedImage.removeAttribute("src");
+        if (lastFocusedElement && typeof lastFocusedElement.focus === "function") {
+          lastFocusedElement.focus();
+        }
+      }
+
+      treeImages.forEach(function (image) {
+        image.tabIndex = 0;
+        image.setAttribute("role", "button");
+        image.setAttribute("aria-label", (image.alt || "Quality model structure") + ". Click to enlarge.");
+        image.title = "Click to enlarge";
+        image.addEventListener("click", function () {
+          openLightbox(image);
+        }, false);
+        image.addEventListener("keydown", function (event) {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            openLightbox(image);
+          }
+        }, false);
+      });
+
+      closeButton.addEventListener("click", closeLightbox, false);
+      zoomInButton.addEventListener("click", function () {
+        updateZoom(scale + 0.2);
+      }, false);
+      zoomOutButton.addEventListener("click", function () {
+        updateZoom(scale - 0.2);
+      }, false);
+      resetButton.addEventListener("click", setInitialSize, false);
+
+      viewport.addEventListener("wheel", function (event) {
+        if (overlay.hidden) {
+          return;
+        }
+        event.preventDefault();
+        var bounds = viewport.getBoundingClientRect();
+        updateZoom(
+          scale + (event.deltaY < 0 ? 0.12 : -0.12),
+          event.clientX - bounds.left,
+          event.clientY - bounds.top
+        );
+      }, false);
+
+      viewport.addEventListener("click", function (event) {
+        if (event.target === viewport || event.target === canvas) {
+          closeLightbox();
+        }
+      }, false);
+
+      window.addEventListener("resize", function () {
+        if (overlay.hidden || !enlargedImage.src) {
+          return;
+        }
+        var previousMaximum = maximumScale;
+        maximumScale = calculateMaximumScale();
+
+        if (scale > maximumScale || Math.abs(scale - previousMaximum) < 0.001) {
+          updateZoom(maximumScale);
+        } else {
+          updateControlState();
+        }
+      }, false);
+
+      document.addEventListener("keydown", function (event) {
+        if (overlay.hidden) {
+          return;
+        }
+        if (event.key === "Escape") {
+          closeLightbox();
+        } else if (event.key === "+" || event.key === "=") {
+          updateZoom(scale + 0.2);
+        } else if (event.key === "-") {
+          updateZoom(scale - 0.2);
+        } else if (event.key === "0") {
+          setInitialSize();
+        }
+      }, false);
+    }
+
+    var tocLinks = Array.prototype.slice.call(document.querySelectorAll("#TOC a[href^='#']"));
+    var tocSections = [];
+    var scrollQueued = false;
+
+    var tocTopList = document.querySelector("#TOC > ul");
+
+    function topModelItemFor(link) {
+      var node = link ? link.parentNode : null;
+      while (node && tocTopList && node.parentNode !== tocTopList) {
+        node = node.parentNode;
+        if (node && node.tagName === "UL") {
+          node = node.parentNode;
+        }
+      }
+      return node && node.tagName === "LI" ? node : null;
+    }
+
+    function showModelNavigation(link) {
+      if (!tocTopList) {
+        return;
+      }
+      tocTopList.classList.add("show");
+      var selectedItem = topModelItemFor(link);
+      for (var i = 0; i < tocTopList.children.length; i += 1) {
+        var item = tocTopList.children[i];
+        var nestedList = null;
+        for (var j = 0; j < item.children.length; j += 1) {
+          if (item.children[j].tagName === "UL") {
+            nestedList = item.children[j];
+            break;
+          }
+        }
+        if (nestedList) {
+          if (item === selectedItem) {
+            nestedList.classList.add("show");
+          } else {
+            nestedList.classList.remove("show");
+          }
+        }
+      }
+    }
+
+    function removeActiveNavigation() {
+      tocLinks.forEach(function (link) {
+        link.classList.remove("active");
+      });
+    }
+
+    function activateNavigation(link) {
+      var listItem;
+      var parentList;
+      var parentItem;
+      var parentLink;
+
+      if (!link) {
+        return;
+      }
+
+      removeActiveNavigation();
+      link.classList.add("active");
+      showModelNavigation(link);
+      listItem = link.parentNode;
+      parentList = listItem ? listItem.parentNode : null;
+      parentItem = parentList ? parentList.parentNode : null;
+      parentLink = null;
+
+      if (parentItem) {
+        for (var i = 0; i < parentItem.children.length; i += 1) {
+          if (parentItem.children[i].tagName === "A") {
+            parentLink = parentItem.children[i];
+            break;
+          }
+        }
+      }
+
+      if (parentLink) {
+        parentLink.classList.add("active");
+      }
+    }
+
+    function updateActiveNavigation() {
+      var selected = tocSections.length ? tocSections[0] : null;
+      var threshold = 220;
+
+      tocSections.forEach(function (entry) {
+        if (entry.section.getBoundingClientRect().top <= threshold) {
+          selected = entry;
+        }
+      });
+
+      if (selected) {
+        activateNavigation(selected.link);
+      }
+      scrollQueued = false;
+    }
+
+    tocLinks.forEach(function (link) {
+      var identifier = link.getAttribute("href").slice(1);
+      var section = document.getElementById(identifier);
+      if (section) {
+        tocSections.push({ link: link, section: section });
+      }
+      link.addEventListener("click", function () {
+        activateNavigation(link);
+      }, false);
+    });
+
+    if (tocSections.length) {
+      updateActiveNavigation();
+      window.addEventListener("scroll", function () {
+        if (!scrollQueued) {
+          scrollQueued = true;
+          requestFrame(updateActiveNavigation);
+        }
+      }, false);
+    }
+  } catch (ignoredError) {
+    /* The document remains fully readable if a restricted viewer blocks interaction. */
+  }
+}());
+</script>

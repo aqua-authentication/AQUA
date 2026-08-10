@@ -1,0 +1,171 @@
+## Description {#authenticator-table}
+
+### Usability
+::: {.factor-definition}
+The degree to which an authenticator is inherently usable for authentication purposes.
+:::
+
+::: {.subfactor-card}
+#### Memorization effortlessness
+
+::: {.subfactor-field}
+**Description**
+
+The degree to which an authenticator requires a user's memorization in order to be used.
+:::
+
+::: {.subfactor-field}
+**Reasoning**
+
+Memorization burden is a well-known aspect in authentication, which heavily affects the usability of authentication [2].
+:::
+
+::: {.subfactor-field}
+**Example**
+
+A password requires the user to memorize a secret, whereas a fingerprint does not require memorization.
+:::
+:::
+
+
+::: {.subfactor-card}
+#### Ease of use
+
+::: {.subfactor-field}
+**Description**
+
+The degree of how easy an authenticator can be inherently used by a human for authentication purposes.
+:::
+
+::: {.subfactor-field}
+**Reasoning**
+
+Due to their inherent characteristics, without additional tool support some authenticators allow for authentication with less friction than others.
+:::
+
+::: {.subfactor-field}
+**Example**
+
+Presenting a fingerprint can require less user effort than manually entering a long password.
+:::
+:::
+
+
+::: {.subfactor-card}
+#### Accuracy
+
+::: {.subfactor-field}
+**Description**
+
+The degree to which the proper use of an authenticator by a valid user can ensure successful authentication.
+:::
+
+::: {.subfactor-field}
+**Reasoning**
+
+Some authenticators are prone to “false negatives,” while others can inherently guarantee successful authentication when used properly by a valid user. While being an inherent feature of authenticators, the authentication solution can implement means to increase it.
+:::
+
+::: {.subfactor-field}
+**Example**
+
+A biometric authenticator may reject a valid user despite proper use, whereas a correctly entered password can be matched exactly.
+:::
+:::
+
+
+::: {.subfactor-card}
+#### Availability
+
+::: {.subfactor-field}
+**Description**
+
+The degree of availability that is inherent to an authenticator.
+:::
+
+::: {.subfactor-field}
+**Reasoning**
+
+Availability merges two availability aspects. First, authenticators differ in the extent to which they can be forgotten or lost. Second, they differ in their ability to recover them upon loss. Both aspects indicate how inherently available an authenticator is in the context of authentication.
+:::
+
+::: {.subfactor-field}
+**Example**
+
+A memorized password cannot be physically lost, whereas a smart card can be lost.
+:::
+:::
+
+
+::: {.subfactor-card}
+#### Accessibility
+
+::: {.subfactor-field}
+**Description**
+
+The degree to which an authenticator is accessible to different users and user groups.
+:::
+
+::: {.subfactor-field}
+**Reasoning**
+
+Inherent to an authenticator are the possibilities required for a user to use it. For example, some authenticators must be entered manually using some form of input device; others require the user’s visual or auditory abilities to be properly used [3].
+:::
+
+::: {.subfactor-field}
+**Example**
+
+A fingerprint authenticator may be inaccessible to a user who cannot provide a readable fingerprint.
+:::
+:::
+
+
+### Security
+::: {.factor-definition}
+The level of security an authenticator inherently provides in terms of the extent to which the authenticator can be misused or compromised.
+:::
+
+::: {.subfactor-card}
+#### Threat sensitivity
+
+::: {.subfactor-field}
+**Description**
+
+The degree to which an authenticator is exposed to or involved in threats.
+:::
+
+::: {.subfactor-field}
+**Reasoning**
+
+Each authenticator is inherently exposed to different threats that allow it to be exploited or compromised. Some are exposed to more threats than others, indicating how secure an authenticator is relative to others.
+:::
+
+::: {.subfactor-field}
+**Example**
+
+A password can be disclosed to another person, whereas a smart card can be physically stolen.
+:::
+:::
+
+
+::: {.subfactor-card}
+#### Impairment risks
+
+::: {.subfactor-field}
+**Description**
+
+The degree to which modifications to how an authenticator is used to improve accessibility for users with impairments can pose security risks.
+:::
+
+::: {.subfactor-field}
+**Reasoning**
+
+Physiological or psychological impairments can limit the accessibility of authenticators. Authentication solutions can compensate for such limitations by implementing supportive measures; however, these measures may entail security risks. The specific measures that can be considered—and, consequently, the security risks that may be introduced as a result of impairments—are inherent to an authenticator [4].
+:::
+
+::: {.subfactor-field}
+**Example**
+
+Allowing another person to assist with entering a password can improve accessibility but may reveal the password.
+:::
+:::

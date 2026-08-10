@@ -1,0 +1,172 @@
+## Description {#employment-table}
+
+### Usability
+::: {.factor-definition}
+The degree to which an authenticator employment is inherently usable for authentication purposes.
+
+:::
+
+::: {.subfactor-card}
+#### Memorization effortlessness
+
+::: {.subfactor-field}
+**Description**
+
+The degree of memorization required of a user to use all employed authenticators to successfully authenticate themselves.
+:::
+
+::: {.subfactor-field}
+**Reasoning**
+
+Memorization burden is a well-known aspect in authentication, which heavily affects the usability of authentication [2].
+:::
+
+::: {.subfactor-field}
+**Example**
+
+An authenticator employment requiring both a password and a separate memorized PIN creates a greater memorization burden than one combining a smart card with a fingerprint.
+:::
+:::
+
+
+::: {.subfactor-card}
+#### Ease of use
+
+::: {.subfactor-field}
+**Description**
+
+The degree to which all employed authenticators can be easily used by a human for authentication purposes.
+:::
+
+::: {.subfactor-field}
+**Reasoning**
+
+Due to the inherent characteristics of the employed authenticators, without additional tool support, some authenticator employments allow for authentication with less friction than others.
+:::
+
+::: {.subfactor-field}
+**Example**
+
+An employment requiring a password and a fingerprint in sequence involves more user effort than one requiring only a password.
+:::
+:::
+
+
+::: {.subfactor-card}
+#### Accuracy
+
+::: {.subfactor-field}
+**Description**
+
+The degree to which the proper use of all employed authenticators by a valid user can ensure successful authentication.
+:::
+
+::: {.subfactor-field}
+**Reasoning**
+
+Some employed authenticators are prone to “false negatives,” while others can inherently guarantee successful authentication when all employed authenticators are used properly by a valid user. While being an inherent feature of the employed authenticators, the authentication solution can implement means to increase it.
+:::
+
+::: {.subfactor-field}
+**Example**
+
+If a password and a fingerprint are both required, a false rejection by the fingerprint prevents successful authentication even when the password is correct.
+:::
+:::
+
+
+::: {.subfactor-card}
+#### Availability
+
+::: {.subfactor-field}
+**Description**
+
+The degree of availability that is inherent to all employed authenticators.
+:::
+
+::: {.subfactor-field}
+**Reasoning**
+
+Availability merges two availability aspects. First, authenticator employments differ in the extent to which the employed authenticators can be forgotten or lost. Second, they differ in their ability to recover them upon loss. Both aspects indicate how inherently available an authenticator employment is in the context of authentication.
+:::
+
+::: {.subfactor-field}
+**Example**
+
+If a password and a smart card are both required, losing the smart card makes the complete employment unavailable.
+:::
+:::
+
+
+::: {.subfactor-card}
+#### Accessibility
+
+::: {.subfactor-field}
+**Description**
+
+The degree to which all employed authenticators are accessible to different users and user groups.
+:::
+
+::: {.subfactor-field}
+**Reasoning**
+
+An authenticator employment determines the possibilities required for a user to use all employed authenticators. For example, some employed authenticators must be entered manually using some form of input device, while others require the user’s visual or auditory abilities to be properly used [3].
+:::
+
+::: {.subfactor-field}
+**Example**
+
+An employment requiring both a fingerprint and a visual code may be inaccessible to a user who cannot use either required authenticator.
+:::
+:::
+
+
+### Security
+::: {.factor-definition}
+The level of security an authenticator employment provides in terms of the extent to which the employed authenticators can be misused or compromised.
+:::
+
+::: {.subfactor-card}
+#### Threat sensitivity
+
+::: {.subfactor-field}
+**Description**
+
+The degree to which an authenticator employment is exposed to or involved in threats.
+:::
+
+::: {.subfactor-field}
+**Reasoning**
+
+Each authenticator employment is exposed to different threats that allow its employed authenticators to be exploited or compromised. Some authenticator employments are exposed to more threats than others, indicating how secure an authenticator employment is relative to others.
+:::
+
+::: {.subfactor-field}
+**Example**
+
+In an employment requiring both a password and a fingerprint, compromising only one authenticator is insufficient for successful misuse.
+:::
+:::
+
+
+::: {.subfactor-card}
+#### Impairment risks
+
+::: {.subfactor-field}
+**Description**
+
+The degree to which modifications to how the employed authenticators are used to improve accessibility for users with impairments can pose security risks.
+:::
+
+::: {.subfactor-field}
+**Reasoning**
+
+Physiological or psychological impairments can limit the accessibility of employed authenticators. Authentication solutions can compensate for such limitations by implementing supportive measures; however, these measures may entail security risks. The specific measures that can be considered—and, consequently, the security risks that may be introduced as a result of impairments—are inherent to the employed authenticators [4].
+:::
+
+::: {.subfactor-field}
+**Example**
+
+Allowing one of two required authenticators to be skipped for accessibility reduces the number of authenticators that must be compromised.
+:::
+:::

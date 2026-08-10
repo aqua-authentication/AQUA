@@ -1,0 +1,96 @@
+digraph QualityModel {
+
+  graph [
+    rankdir=LR,
+    bgcolor="transparent",
+    pad="0.14",
+    margin="0.03",
+    nodesep="0.22",
+    ranksep="0.82",
+    splines=ortho,
+    outputorder=edgesfirst,
+    ordering=out
+  ];
+
+  node [
+    shape=box,
+    style="rounded,filled",
+    fontname="DejaVu Sans",
+    fontsize=10.5,
+    color="#7f95a8",
+    fontcolor="#183247",
+    penwidth=1.05,
+    margin="0.18,0.11"
+  ];
+
+  edge [
+    dir=none,
+    color="#7191aa",
+    penwidth=1.15
+  ];
+
+  Root [
+    label="Authentication Solution\nQuality Model",
+    fillcolor="#123b5d",
+    fontcolor="white",
+    color="#123b5d",
+    fontsize=13,
+    penwidth=1.5,
+    width=2.25,
+    height=0.72
+  ];
+
+  // Quality factors
+  Usability       [label="Usability",     fillcolor="#dceeff", color="#1769aa", penwidth=1.3, width=1.72];
+  Security        [label="Security",      fillcolor="#dceeff", color="#1769aa", penwidth=1.5, width=1.72, style="rounded,filled,dashed"];
+  Privacy         [label="Privacy",       fillcolor="#dceeff", color="#1769aa", penwidth=1.3, width=1.72];
+  Applicability   [label="Applicability", fillcolor="#dceeff", color="#1769aa", penwidth=1.3, width=1.72];
+
+  // Quality subfactors
+  MemorizationEffortlessness      [label="Memorization effortlessness", fillcolor="white", width=2.05, style="rounded,filled,dashed", penwidth=1.3];
+  EaseOfUse                       [label="Ease of use",                 fillcolor="white", width=2.05, style="rounded,filled,dashed", penwidth=1.3];
+  Accuracy                        [label="Accuracy",                    fillcolor="white", width=2.05, style="rounded,filled,dashed", penwidth=1.3];
+  Availability                    [label="Availability",                fillcolor="white", width=2.05, style="rounded,filled,dashed", penwidth=1.3];
+  Accessibility                   [label="Accessibility",               fillcolor="white", width=2.05, style="rounded,filled,dashed", penwidth=1.3];
+  EaseOfEnrollment                [label="Ease of enrollment",          fillcolor="white", width=2.05];
+  EaseOfRecovery                  [label="Ease of recovery",            fillcolor="white", width=2.05];
+
+  ThreatSensitivity               [label="Threat sensitivity",          fillcolor="white", width=2.05, style="rounded,filled,dashed", penwidth=1.3];
+  ImpairmentRisks                 [label="Impairment risks",            fillcolor="white", width=2.05, style="rounded,filled,dashed", penwidth=1.3];
+
+  Anonymity                       [label="Anonymity",                   fillcolor="white", width=2.05];
+  Unlinkability                   [label="Unlinkability",               fillcolor="white", width=2.05];
+  ThirdPartyExposure              [label="Third party exposure",        fillcolor="white", width=2.05];
+
+  StructuralComplexity            [label="Structural complexity",       fillcolor="white", width=2.05];
+  BehavioralComplexity            [label="Behavioral complexity",       fillcolor="white", width=2.05];
+  OperationalComplexity           [label="Operational complexity",      fillcolor="white", width=2.05];
+  CognitiveComplexity            [label="Cognitive complexity",         fillcolor="white", width=2.05];
+
+ 
+  Root -> Usability;
+  Root -> Security;
+  Root -> Privacy;
+  Root -> Applicability;
+
+  
+  Usability -> MemorizationEffortlessness;
+  Usability -> EaseOfUse;
+  Usability -> Accuracy;
+  Usability -> Availability;
+  Usability -> Accessibility;
+  Usability -> EaseOfEnrollment;
+  Usability -> EaseOfRecovery;
+
+  Security -> ThreatSensitivity;
+  Security -> ImpairmentRisks;
+
+  Privacy -> Anonymity;
+  Privacy -> Unlinkability;
+  Privacy -> ThirdPartyExposure;
+
+  Applicability -> StructuralComplexity;
+  Applicability -> BehavioralComplexity;
+  Applicability -> OperationalComplexity;
+  Applicability -> CognitiveComplexity;
+}

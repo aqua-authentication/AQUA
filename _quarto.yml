@@ -1,0 +1,23 @@
+project:
+  type: default
+  output-dir: _output
+  render:
+    - index.qmd
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: true
+    toc-location: left
+    toc-depth: 2
+    toc-title: "Quality Models"
+    embed-resources: true
+    self-contained-math: true
+    anchor-sections: false
+    smooth-scroll: true
+    page-layout: article
+    include-after-body: zoom-lightbox.html
+
+execute:
+  freeze: auto

@@ -1,0 +1,11 @@
+# Authenticator Quality Model {#authenticator-quality-model}
+
+::: {.model-intro .authenticator}
+We identified two quality factors that are inherent to authenticators: usability and security. They are documented in the [**Description**](#authenticator-table) along with their subfactors.
+:::
+
+## Structure {#authenticator-tree}
+
+::: {.tree-figure}
+![Hierarchical structure of the Authenticator Quality Model.](figures/authenticator-tree.svg){.quality-tree}
+:::

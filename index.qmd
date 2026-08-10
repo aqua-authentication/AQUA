@@ -1,0 +1,41 @@
+---
+title: '<span class="acronym-literal">AQUA</span> - <span class="acronym-literal">A</span>uthentication <span class="acronym-literal">Qua</span>lity Model'
+subtitle: "Interactive Research Artifact"
+output-file: "authentication-quality-models"
+---
+
+# Authentication Quality Concepts {#authentication-quality-concepts .unnumbered}
+
+To describe authentication quality, authentication is modeled through three closely related concepts based on the “Digital Identity Guidelines” by NIST [1]. Authentication is realized by an **authentication solution**, which comprises the key design, architectural, and implementation choices made to realize authentication. An authentication solution implements an **authenticator employment**. An authenticator employment is a composition scheme that specifies the cardinality, mode, and order in which one or more **authenticators** are used. An authenticator is something a user possesses, controls, and uses to perform authentication, such as a password or fingerprint.
+
+Each of the three concepts has quality properties that are specified by a corresponding quality model. Authentication solution quality depends on authenticator employment quality, which depends on authenticator quality. The quality of an authenticator employment depends on both the quality of the composed authenticators and the way they are composed. Parts of authentication solution quality depend on the authenticator employment, while other quality factors and subfactors are solution-specific. Accordingly, the Authentication Solution Quality Model is based on the Authenticator Employment Quality Model, which is based on the Authenticator Quality Model.
+
+![Authentication is realized by an authentication solution, which implements an authenticator employment that composes authenticators. Each concept has quality specified by a quality model, with dependencies from solution quality to employment quality to authenticator quality.](figures/concept-model.png){.concept-model-image}
+
+Credentials bind an authenticator to a user’s identity. They are not represented as a separate concept in this artefact, but distinguishing credentials from authenticators is relevant when considering availability properties.
+
+{{< include authenticator-tree.qmd >}}
+
+{{< include authenticator-table.qmd >}}
+
+{{< include auth-employ-tree.qmd >}}
+
+{{< include auth-employ-table.qmd >}}
+
+{{< include auth-sol-tree.qmd >}}
+
+{{< include auth-sol-table.qmd >}}
+
+# References {.unnumbered .unlisted}
+
+[1] David Temoshok, Diana Proud-Madruga, Yee-Yin Choong, Ryan Galluzzo, Sarbari Gupta, Connie LaSalle, Naomi Lefkovitz, and Andrew Regenscheid, “Digital identity guidelines: NIST special publication.”
+
+[2] J. Bonneau, C. Herley, P. C. v. Oorschot, and F. Stajano, “The quest to replace passwords: A framework for comparative evaluation of web authentication schemes,” in *Proceedings of the 2012 IEEE Symposium on Security and Privacy*, ser. SP ’12. USA: IEEE Computer Society, 2012, p. 553–567. [Online]. Available: <https://doi.org/10.1109/SP.2012.44>
+
+[3] N. Fenton and J. Bieman, *Software Metrics: A Rigorous and Practical Approach, Third Edition*, 3rd ed. USA: CRC Press, Inc., 2014.
+
+[4] S. Furnell and M. Bishop, “Addressing cyber security skills: the spectrum, not the silo,” *Computer Fraud & Security*, vol. 2020, no. 2, pp. 6–11, 2020.
+
+[5] A. Pfitzmann and M. Hansen, “A terminology for talking about privacy by data minimization: Anonymity, unlinkability, undetectability, unobservability, pseudonymity, and identity management,” Aug. 2010, v0.34. [Online]. Available: <http://dud.inf.tu-dresden.de/literatur/Anon%20Terminology%20v0.34.pdf>
+
+[6] J. Küster, “lea.online - software applications for individuals with low literacy,” *Electronic Communications of the EASST*, vol. 83, Feb. 2025.

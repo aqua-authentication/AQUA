@@ -1,0 +1,388 @@
+## Description {#solution-table}
+
+### Usability
+::: {.factor-definition}
+The degree to which the authentication solution is usable for its users.
+:::
+
+::: {.subfactor-card}
+#### Memorization effortlessness
+
+::: {.subfactor-field}
+**Description**
+
+The degree of memorization required of a user to use the authenticators employed by an authentication solution to successfully authenticate themselves.
+:::
+
+::: {.subfactor-field}
+**Reasoning**
+
+Memorization burden is a well-known aspect in authentication, which heavily affects the usability of authentication [2].
+:::
+
+::: {.subfactor-field}
+**Example**
+
+A solution requiring a password creates more memorization burden than one requiring a smart card.
+:::
+:::
+
+
+::: {.subfactor-card}
+#### Ease of use
+
+::: {.subfactor-field}
+**Description**
+
+The degree to which the authenticators employed by an authentication solution can be easily used by a human for authentication purposes.
+:::
+
+::: {.subfactor-field}
+**Reasoning**
+
+Due to the inherent characteristics of the employed authenticators and the way in which they are employed, some authentication solutions allow for authentication with less friction than others.
+:::
+
+::: {.subfactor-field}
+**Example**
+
+A solution requiring a password and a fingerprint in sequence involves more user effort than a solution requiring only a password.
+:::
+:::
+
+
+::: {.subfactor-card}
+#### Accuracy
+
+::: {.subfactor-field}
+**Description**
+
+The degree to which the proper use of the authenticators employed by an authentication solution by a valid user can ensure successful authentication.
+:::
+
+::: {.subfactor-field}
+**Reasoning**
+
+Some employed authenticators are prone to “false negatives,” while others can guarantee successful authentication when used properly by a valid user. While being an inherent feature of the employed authenticators, the authentication solution can implement means to increase it.
+:::
+
+::: {.subfactor-field}
+**Example**
+
+A solution requiring both a password and a fingerprint fails when the fingerprint check rejects the valid user, even if the password is correct.
+:::
+:::
+
+
+::: {.subfactor-card}
+#### Availability
+
+::: {.subfactor-field}
+**Description**
+
+The degree of availability provided by an authentication solution through its employed authenticators and their employment.
+:::
+
+::: {.subfactor-field}
+**Reasoning**
+
+Availability merges two availability aspects. First, authentication solutions differ in the extent to which authentication can become unavailable when an employed authenticator is forgotten or lost. Second, they differ in their ability to support recovery upon loss. Both aspects indicate how inherently available an authentication solution is based on its employed authenticators and their employment.
+:::
+
+::: {.subfactor-field}
+**Example**
+
+A solution that requires a smart card is unavailable to the user when the card is lost until the card is recovered or replaced.
+:::
+:::
+
+
+::: {.subfactor-card}
+#### Accessibility
+
+::: {.subfactor-field}
+**Description**
+
+The degree to which an authentication solution, including its employed authenticators and their employment, is accessible to different users and user groups.
+:::
+
+::: {.subfactor-field}
+**Reasoning**
+
+Authentication solutions provide the means required for a user to use the employed authenticators. For example, some authenticators must be entered manually using some form of input device, while others require the user’s visual or auditory abilities to be properly used [3].
+:::
+
+::: {.subfactor-field}
+**Example**
+
+A solution that only supports fingerprint authentication may be inaccessible to a user who cannot provide a readable fingerprint.
+:::
+:::
+
+
+::: {.subfactor-card}
+#### Ease of enrollment
+
+::: {.subfactor-field}
+**Description**
+
+The ease with which a user can enroll for authentication.
+:::
+
+::: {.subfactor-field}
+**Reasoning**
+
+The enrollment process for new users can vary a lot and affects the usability of an authentication solution. A self-enrollment process that allows a user to quickly access restricted resources or services has higher usability than a process managed by a trusted authority.
+:::
+
+::: {.subfactor-field}
+**Example**
+
+A solution that allows users to enroll online is easier to access than one requiring enrollment by a trusted authority in person.
+:::
+:::
+
+
+::: {.subfactor-card}
+#### Ease of recovery
+
+::: {.subfactor-field}
+**Description**
+
+The ease with which a user can recover or replace lost credentials.
+:::
+
+::: {.subfactor-field}
+**Reasoning**
+
+As explained above, losing an authenticator—described within its inherent subfactor “availability”—can imply losing the credentials. An authentication solution should offer corresponding recovery mechanisms, which can differ in their ease of use.
+:::
+
+::: {.subfactor-field}
+**Example**
+
+An online credential reset is easier than a recovery process that requires the user to visit a trusted authority.
+:::
+:::
+
+
+### Security
+::: {.factor-definition}
+The level of security an authentication solution provides through its employed authenticators and their employment, in terms of the extent to which the solution can be misused or compromised.
+:::
+
+::: {.subfactor-card}
+#### Threat sensitivity
+
+::: {.subfactor-field}
+**Description**
+
+The degree to which an authentication solution is exposed to or involved in threats through its employed authenticators and their employment.
+:::
+
+::: {.subfactor-field}
+**Reasoning**
+
+The authenticators employed by an authentication solution and the way in which they are employed are exposed to different threats that allow them to be exploited or compromised. Some authentication solutions are exposed to more threats than others, indicating how secure an authentication solution is relative to others.
+:::
+
+::: {.subfactor-field}
+**Example**
+
+A password-only solution can be misused when the password is disclosed, whereas a solution requiring a password and a fingerprint requires both authenticators.
+:::
+:::
+
+
+::: {.subfactor-card}
+#### Impairment risks
+
+::: {.subfactor-field}
+**Description**
+
+The degree to which modifications to the use or employment of authenticators within an authentication solution, intended to improve accessibility for users with impairments, can pose security risks.
+:::
+
+::: {.subfactor-field}
+**Reasoning**
+
+Physiological or psychological impairments can limit the accessibility of the authenticators employed by an authentication solution. Authentication solutions can compensate for such limitations by implementing supportive measures; however, these measures may entail security risks. The specific measures that can be considered—and, consequently, the security risks that may be introduced as a result of impairments—are inherent to the employed authenticators [4].
+:::
+
+::: {.subfactor-field}
+**Example**
+
+Allowing a user to bypass a required fingerprint authenticator for accessibility can reduce the security provided by the solution.
+:::
+:::
+
+### Privacy
+::: {.factor-definition}
+The degree to which user data involved in or used for authentication is treated confidentially.
+:::
+
+::: {.subfactor-card}
+#### Anonymity
+
+::: {.subfactor-field}
+**Description**
+
+The degree of a user’s anonymity that an authentication solution preserves.
+:::
+
+::: {.subfactor-field}
+**Reasoning**
+
+Some authentication solutions ensure full anonymity of their users. Others ensure pseudonymity or even reveal the identity of the user.
+:::
+
+::: {.subfactor-field}
+**Example**
+
+A solution that uses a pseudonym reveals less about the user than one that requires the user’s real identity.
+:::
+:::
+
+
+::: {.subfactor-card}
+#### Unlinkability
+
+::: {.subfactor-field}
+**Description**
+
+The degree to which an authentication solution ensures that multiple verifiers used in the solution cannot determine, based solely on the authenticator and credentials, whether the same user is authenticating with both of them.
+:::
+
+::: {.subfactor-field}
+**Reasoning**
+
+Unlinkability is an important characteristic for privacy [5]. In terms of authentication, we adapt the definition of Bonneau et al. [2].
+:::
+
+::: {.subfactor-field}
+**Example**
+
+A solution using different credentials for two verifiers prevents those verifiers from linking the authentications based on the credentials alone.
+:::
+:::
+
+
+::: {.subfactor-card}
+#### Third party exposure
+
+::: {.subfactor-field}
+**Description**
+
+The degree to which the authentication solution relies on trusted third parties to perform authentication.
+:::
+
+::: {.subfactor-field}
+**Reasoning**
+
+User data shared with third parties is a crucial privacy subfactor; third parties are a major source of compromised sensitive user data [2].
+:::
+
+::: {.subfactor-field}
+**Example**
+
+A solution using an external identity provider exposes authentication data to that provider, whereas a locally operated solution does not.
+:::
+:::
+
+
+### Applicability
+::: {.factor-definition}
+The degree to which an authentication solution can be easily implemented and maintained in a software system.
+:::
+
+::: {.subfactor-card}
+#### Structural complexity
+
+::: {.subfactor-field}
+**Description**
+
+The degree of structural complexity of an authentication solution, as measured by the architectural components used to implement it.
+:::
+
+::: {.subfactor-field}
+**Reasoning**
+
+Authentication solutions are comprised of architectural elements. This subfactor describes the structural complexity they entail.
+:::
+
+::: {.subfactor-field}
+**Example**
+
+A solution with an authentication server, external identity provider, recovery service, and credential store is structurally more complex than a solution with only a client and server.
+:::
+:::
+
+
+::: {.subfactor-card}
+#### Behavioral complexity
+
+::: {.subfactor-field}
+**Description**
+
+The degree of behavioral complexity of an authentication solution, as measured by the authentication-related interactions required to provide authentication-related functionalities.
+:::
+
+::: {.subfactor-field}
+**Reasoning**
+
+This subfactor refers to the complexity resulting from interactions between the architectural elements that provide authentication functionality.
+:::
+
+::: {.subfactor-field}
+**Example**
+
+A solution that redirects the user to an identity provider and then requests a second factor requires more interactions than a direct password check.
+:::
+:::
+
+
+::: {.subfactor-card}
+#### Operational complexity
+
+::: {.subfactor-field}
+**Description**
+
+The degree of complexity associated with operating the authentication solution.
+:::
+
+::: {.subfactor-field}
+**Reasoning**
+
+Authentication solutions add operational complexity, such as the infrastructure needed to run it, or key and certificate management.
+:::
+
+::: {.subfactor-field}
+**Example**
+
+A solution that requires certificate and key management is more complex to operate than one without those requirements.
+:::
+:::
+
+
+::: {.subfactor-card}
+#### Cognitive complexity
+
+::: {.subfactor-field}
+**Description**
+
+The degree of cognitive complexity of an authentication solution, associated with how easy or difficult it is for a human to grasp and understand the authentication solution as a whole.
+:::
+
+::: {.subfactor-field}
+**Reasoning**
+
+Security solutions and, thus, authentication solutions are difficult to understand as a whole, evidenced by the pure existence of security patterns. However, the difficulties are not caused by their architectural complexity, but rather by the overall concepts they entail [6].
+:::
+
+::: {.subfactor-field}
+**Example**
+
+A solution combining federation, multiple authenticators, and recovery procedures is harder to understand as a whole than a simple password-based solution.
+:::
+:::
+
