@@ -4,8 +4,6 @@ subtitle: "Interactive Research Artifact"
 output-file: "authentication-quality-models"
 ---
 
-Test
-
 # Authentication Quality Concepts {#authentication-quality-concepts .unnumbered}
 
 To describe authentication quality, authentication is modeled through three closely related concepts based on the “Digital Identity Guidelines” by NIST [1]. Authentication is realized by an **authentication solution**, which comprises the key design, architectural, and implementation choices made to realize authentication. An authentication solution implements an **authenticator employment**. An authenticator employment is a composition scheme that specifies the cardinality, mode, and order in which one or more **authenticators** are used. An authenticator is something a user possesses, controls, and uses to perform authentication, such as a password or fingerprint.
