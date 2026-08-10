@@ -4,15 +4,17 @@ subtitle: "Interactive Research Artifact"
 output-file: "authentication-quality-models"
 ---
 
+Test
+
 # Authentication Quality Concepts {#authentication-quality-concepts .unnumbered}
 
 To describe authentication quality, authentication is modeled through three closely related concepts based on the “Digital Identity Guidelines” by NIST [1]. Authentication is realized by an **authentication solution**, which comprises the key design, architectural, and implementation choices made to realize authentication. An authentication solution implements an **authenticator employment**. An authenticator employment is a composition scheme that specifies the cardinality, mode, and order in which one or more **authenticators** are used. An authenticator is something a user possesses, controls, and uses to perform authentication, such as a password or fingerprint.
 
 Each of the three concepts has quality properties that are specified by a corresponding quality model. Authentication solution quality depends on authenticator employment quality, which depends on authenticator quality. The quality of an authenticator employment depends on both the quality of the composed authenticators and the way they are composed. Parts of authentication solution quality depend on the authenticator employment, while other quality factors and subfactors are solution-specific. Accordingly, the Authentication Solution Quality Model is based on the Authenticator Employment Quality Model, which is based on the Authenticator Quality Model.
 
-![Authentication is realized by an authentication solution, which implements an authenticator employment that composes authenticators. Each concept has quality specified by a quality model, with dependencies from solution quality to employment quality to authenticator quality.](figures/concept-model.png){.concept-model-image}
+![Authentication is realized by an authentication solution, which implements an authenticator employment that composes authenticators. Each concept has quality specified by a quality model, with dependencies from solution quality to employment quality to authenticator quality.](figures/concepts.svg){.concept-model-image}
 
-Credentials bind an authenticator to a user’s identity. They are not represented as a separate concept in this artefact, but distinguishing credentials from authenticators is relevant when considering availability properties.
+Credentials bind an authenticator to a user’s identity. They are not represented as a separate concept in this artifact, but distinguishing credentials from authenticators is relevant when considering availability properties.
 
 {{< include authenticator-tree.qmd >}}
 
