@@ -14,6 +14,12 @@ Each of the three concepts has quality properties that are specified by a corres
 
 Credentials bind an authenticator to a user’s identity. They are not represented as a separate concept in this artifact, but distinguishing credentials from authenticators is relevant when considering availability properties.
 
+## Initial AQUA Quality Models {#initial-aqua-quality-models}
+
+To demonstrate the strengths of the modular approach for quality modeling of authentication solutions, we developed initial, non-exhaustive QMs for the three AQUA concepts. The result is three tailored, interrelated QMs: the **Authenticator QM (AQUA-A)**, the **Authenticator Employment QM (AQUA-E)**, and the **Authentication Solution QM (AQUA-S)**. AQUA-A and AQUA-E define the same quality factors, **Usability** and **Security**. In AQUA-S, both factors depend on the corresponding factors of AQUA-E, while **Privacy** and **Applicability** are solution-specific quality factors.
+
+![Overview of the AQUA quality models and their quality-factor dependencies.](figures/aqua-models.png){.concept-model-image}
+
 {{< include authenticator-tree.qmd >}}
 
 {{< include authenticator-table.qmd >}}

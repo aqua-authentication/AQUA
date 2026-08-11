@@ -1,11 +1,11 @@
-# Authenticator Employment Quality Model {#authenticator-employment-quality-model}
+# AQUA-E: Authenticator Employment QM {#authenticator-employment-quality-model}
 
 ::: {.model-intro .employment}
-The quality model of authenticator employment has the same quality factors and subfactors as the one of [**authenticators**](#authenticator-quality-model). The difference lies only in their definitions, which are documented in the [**Description**](#employment-table).
+**AQUA-E** has the same quality factors and subfactors as [**AQUA-A**](#authenticator-quality-model). The difference lies only in their definitions, which are documented in the [**Description**](#employment-table).
 :::
 
 ## Structure {#employment-tree}
 
 ::: {.tree-figure}
-![Hierarchical structure of the Authenticator Employment Quality Model. Dashed outlines identify quality factors and subfactors derived from the Authenticator Quality Model.](figures/employment-tree.svg){.quality-tree}
+![Hierarchical structure of AQUA-E. Dashed outlines identify quality factors and subfactors derived from AQUA-A.](figures/employment-tree.svg){.quality-tree}
 :::
