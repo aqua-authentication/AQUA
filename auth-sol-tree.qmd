@@ -1,11 +1,11 @@
-# AQUA-S: Authentication Solution QM {#authentication-solution-quality-model}
+# [AQUA]{.acronym-literal}-S: Authentication Solution QM {#authentication-solution-quality-model}
 
 ::: {.model-intro}
-**AQUA-S** derives the Security factor and its subfactors, as well as five Usability subfactors, from **AQUA-E**. In addition, we identified two solution-specific Usability subfactors and two solution-specific quality factors: Privacy and Applicability. The [**Description**](#solution-table) documents them.
+**[AQUA]{.acronym-literal}-S** derives the Security factor and its subfactors, as well as five Usability subfactors, from **[AQUA]{.acronym-literal}-E**. In addition, we identified two solution-specific Usability subfactors and two solution-specific quality factors: Privacy and Applicability. The [**Description**](#solution-table) documents them.
 :::
 
 ## Structure {#solution-tree}
 
 ::: {.tree-figure}
-![Hierarchical structure of AQUA-S. Dashed outlines identify quality factors and subfactors derived from AQUA-E; solid outlines identify solution-specific elements.](figures/solution-tree.svg){.quality-tree}
+![Hierarchical structure of [AQUA]{.acronym-literal}-S. Dashed outlines identify quality factors and subfactors derived from [AQUA]{.acronym-literal}-E; solid outlines identify solution-specific elements.](figures/solution-tree.svg){.quality-tree}
 :::
