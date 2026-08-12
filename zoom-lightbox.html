@@ -217,13 +217,13 @@
 
       var descriptions = {
         authenticator: {
-          description: "The authenticator is the most fundamental part of authentication. It is something a user possesses, controls, and uses to perform authentication, such as a password or fingerprint."
+          description: "The authenticator is the most fundamental part of authentication. It is something a user possesses, controls, and uses to perform authentication, such as a password or fingerprint. Qualitative properties characterize the authenticator. Some of these properties are inherent to the authenticator and independent of the solution."
         },
         employment: {
-          description: "An authenticator employment (employment for short) is a composition scheme. It specifies the cardinality (single or multiple authenticators), mode (conditional or unconditional use), and order in which authenticators are used. For example, a solution offering simple password-based authentication implements an employment with a single authenticator."
+          description: "An authenticator employment (employment for short) is a composition scheme. It specifies the cardinality (single or multiple authenticators), mode (conditional or unconditional use), and order in which authenticators are used. Qualitative properties characterize the employment. An employment’s quality is heavily based on the inherent quality of the employed authenticators."
         },
         solution: {
-          description: "Authentication is realized by an authentication solution. An authentication solution (solution for short) is the key design, architectural, and implementation choices made to realize authentication."
+          description: "Authentication is realized by an authentication solution. An authentication solution (solution for short) is the key design, architectural, and implementation choices made to realize authentication. Qualitative properties characterize the solution. Certain aspects of the quality of an authentication solution depend on the quality of the employment. Other quality factors, such as privacy, are determined solely by the authentication solution."
         }
       };
 
