@@ -210,6 +210,26 @@
       return lookup[normalizeKey(nodeName)] || null;
     }
 
+    function rootInfoFor(nodeName, modelKey) {
+      if (normalizeKey(nodeName) !== "root") {
+        return null;
+      }
+
+      var descriptions = {
+        authenticator: {
+          description: "The authenticator is the most fundamental part of authentication. It is something a user possesses, controls, and uses to perform authentication, such as a password or fingerprint."
+        },
+        employment: {
+          description: "An authenticator employment (employment for short) is a composition scheme. It specifies the cardinality (single or multiple authenticators), mode (conditional or unconditional use), and order in which authenticators are used. For example, a solution offering simple password-based authentication implements an employment with a single authenticator."
+        },
+        solution: {
+          description: "Authentication is realized by an authentication solution. An authentication solution (solution for short) is the key design, architectural, and implementation choices made to realize authentication."
+        }
+      };
+
+      return descriptions[modelKey] || null;
+    }
+
     function subfactorInfoFor(nodeName, modelSection, lookup) {
       var key = normalizeKey(nodeName);
       var direct = lookup[key];
@@ -328,6 +348,26 @@
       positionPopover(node);
     }
 
+    function showRootPopover(node, label, info, modelKey) {
+      if (!popover || !node || !info) {
+        return;
+      }
+
+      popover.setAttribute("data-model", modelKey || "");
+      popover.setAttribute("data-kind", "root");
+      popover.innerHTML =
+        '<div class="subfactor-popover-title">' + escapeHtml(label) + "</div>" +
+        '<div class="subfactor-popover-field">' +
+          '<div class="subfactor-popover-label">Description</div>' +
+          '<div class="subfactor-popover-value">' + escapeHtml(info.description) + "</div>" +
+        "</div>";
+
+      activePopoverNode = node;
+      popover.style.visibility = "hidden";
+      popover.hidden = false;
+      positionPopover(node);
+    }
+
     function hideSubfactorPopover(node) {
       if (!popover) {
         return;
@@ -359,13 +399,14 @@
 
           var subfactorInfo = subfactorInfoFor(nodeName, modelSection, subfactorLookup);
           var factorInfo = subfactorInfo ? null : factorInfoFor(nodeName, factorLookup);
-          var info = subfactorInfo || factorInfo;
+          var rootInfo = (!subfactorInfo && !factorInfo) ? rootInfoFor(nodeName, modelKey) : null;
+          var info = subfactorInfo || factorInfo || rootInfo;
 
           if (!info) {
             return;
           }
 
-          var isFactor = !!factorInfo;
+          var nodeKind = rootInfo ? "root" : (factorInfo ? "factor" : "subfactor");
           var label = visibleNodeLabel(node, info.title || nodeName);
           node.setAttribute("data-aqua-node-name", nodeName);
 
@@ -373,12 +414,14 @@
             titleElement.parentNode.removeChild(titleElement);
           }
 
-          node.classList.add(isFactor ? "interactive-factor" : "interactive-subfactor");
+          node.classList.add("interactive-" + nodeKind);
           node.setAttribute("tabindex", "0");
           node.setAttribute("aria-label", label);
 
           function showPopover() {
-            if (isFactor) {
+            if (nodeKind === "root") {
+              showRootPopover(node, label, info, modelKey);
+            } else if (nodeKind === "factor") {
               showFactorPopover(node, label, info, modelKey);
             } else {
               showSubfactorPopover(node, label, info, modelKey);
@@ -481,7 +524,7 @@
       lastFocusedElement = document.activeElement;
 
       /*
-       * A mouse click on an interactive factor/subfactor can leave that SVG
+       * A mouse click on an interactive root/factor/subfactor can leave that SVG
        * node focused. Restoring focus to it after closing the lightbox would
        * immediately show its popover again, even when the pointer is elsewhere.
        * In that case, restore focus to the tree as a whole instead.
@@ -491,7 +534,8 @@
         lastFocusedElement.classList &&
         (
           lastFocusedElement.classList.contains("interactive-subfactor") ||
-          lastFocusedElement.classList.contains("interactive-factor")
+          lastFocusedElement.classList.contains("interactive-factor") ||
+          lastFocusedElement.classList.contains("interactive-root")
         )
       ) {
         lastFocusedElement = sourceSvg;
