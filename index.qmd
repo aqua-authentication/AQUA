@@ -26,10 +26,10 @@ This research project is currently in progress. Therefore, all quality models pr
 
 To demonstrate the strengths of the modular approach for quality modeling of authentication solutions using [AQUA]{.acronym-literal}, we developed initial, non-exhaustive, interrelated quality models for each of the three [AQUA]{.acronym-literal} concepts. the **Authenticator QM ([AQUA-A]{.acronym-literal})**, the **Authenticator Employment QM ([AQUA-E]{.acronym-literal})**, and the **Authentication Solution QM ([AQUA-S]{.acronym-literal})**. [AQUA-A]{.acronym-literal} and [AQUA-E]{.acronym-literal} define the same quality factors, **Usability** and **Security**, but differ in their definitions. Moreover, both quality factors and their subfactors of [AQUA-E]{.acronym-literal} depend on the quality factors and subfactors of [AQUA-A]{.acronym-literal}. Similarly, in [AQUA-S]{.acronym-literal}, Usability and Security and their subfactors, too, depend on the corresponding factors and subfactors of [AQUA-E]{.acronym-literal} respectively; **Privacy** and **Applicability** are solution-specific quality factors. The high-level structure and interrelated quality models is depicted in the figure below.
 
-![Overview of the [AQUA]{.acronym-literal} quality models and their quality-factor dependencies.](figures/aqua-models.png){.concept-model-image}
+![Overview of the [AQUA]{.acronym-literal} quality models and their quality-factor dependencies.](figures/aqua-models.svg){.concept-model-image}
 
 
-# The [AQUA]{.acronym-literal} Quality Models {#aqua-quality-models}
+# [AQUA]{.acronym-literal} Quality Models {#aqua-quality-models}
 
 In the following, all quality models will be presented in detail. Each model is presented first by its tree structure, then by a detailed subfactor description in table format.
 
