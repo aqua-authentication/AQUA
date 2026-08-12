@@ -664,3 +664,194 @@ body.svg-lightbox-open {
   background: #edf5fb;
   color: #174f7d;
 }
+
+/* Interactive quality-model subfactors */
+.interactive-quality-tree {
+  overflow: visible;
+}
+
+.interactive-quality-tree .interactive-subfactor {
+  cursor: help;
+  outline: none;
+}
+
+.interactive-quality-tree .interactive-subfactor > path,
+.interactive-quality-tree .interactive-subfactor > polygon,
+.interactive-quality-tree .interactive-subfactor > ellipse {
+  transition: stroke-width 120ms ease, filter 120ms ease;
+}
+
+.interactive-quality-tree .interactive-subfactor > text {
+  transition: font-weight 120ms ease;
+}
+
+.interactive-quality-tree .interactive-subfactor:hover > path,
+.interactive-quality-tree .interactive-subfactor:focus > path,
+.interactive-quality-tree .interactive-subfactor:hover > polygon,
+.interactive-quality-tree .interactive-subfactor:focus > polygon,
+.interactive-quality-tree .interactive-subfactor:hover > ellipse,
+.interactive-quality-tree .interactive-subfactor:focus > ellipse {
+  stroke-width: 1.8;
+  filter: drop-shadow(0 2px 3px rgba(32, 42, 53, 0.22));
+}
+
+.interactive-quality-tree .interactive-subfactor:hover > text,
+.interactive-quality-tree .interactive-subfactor:focus > text {
+  font-weight: 700;
+}
+
+/* The enlarged structure is now an inline SVG so its nodes remain interactive. */
+.svg-lightbox-viewport .svg-lightbox-tree {
+  display: block;
+  max-width: none;
+  height: auto;
+  padding: clamp(0.35rem, 1vw, 0.75rem);
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  border-radius: 0.55rem;
+  background: rgba(255, 255, 255, 0.97);
+  box-shadow: 0 14px 45px rgba(25, 33, 42, 0.28);
+  box-sizing: content-box;
+}
+
+/* Floating subfactor details, populated from the existing Description cards. */
+.subfactor-popover[hidden] {
+  display: none;
+}
+
+.subfactor-popover {
+  --subfactor-accent: #6f8191;
+  position: fixed;
+  z-index: 12000;
+  width: min(430px, calc(100vw - 24px));
+  max-height: calc(100vh - 24px);
+  overflow: hidden;
+  border: 1px solid #cfd8e1;
+  border-top: 4px solid var(--subfactor-accent);
+  border-radius: 0.7rem;
+  background: rgba(255, 255, 255, 0.985);
+  box-shadow: 0 16px 42px rgba(25, 33, 42, 0.22);
+  color: var(--qm-ink);
+  pointer-events: none;
+}
+
+.subfactor-popover[data-model="authenticator"] {
+  --subfactor-accent: var(--authenticator);
+}
+
+.subfactor-popover[data-model="employment"] {
+  --subfactor-accent: var(--employment);
+}
+
+.subfactor-popover[data-model="solution"] {
+  --subfactor-accent: var(--solution);
+}
+
+.subfactor-popover-title {
+  padding: 0.85rem 1rem 0.75rem;
+  border-bottom: 1px solid var(--qm-soft-border);
+  color: var(--qm-title);
+  font-size: 1.05rem;
+  font-weight: 750;
+  line-height: 1.3;
+}
+
+.subfactor-popover-field {
+  display: grid;
+  grid-template-columns: 6.8rem minmax(0, 1fr);
+  gap: 0.8rem;
+  padding: 0.72rem 1rem;
+  border-bottom: 1px solid var(--qm-soft-border);
+}
+
+.subfactor-popover-field:last-child {
+  border-bottom: 0;
+}
+
+.subfactor-popover-label {
+  color: #536171;
+  font-size: 0.78rem;
+  font-weight: 750;
+  letter-spacing: 0.035em;
+  text-transform: uppercase;
+}
+
+.subfactor-popover-value {
+  color: var(--qm-ink);
+  font-size: 0.9rem;
+  line-height: 1.48;
+}
+
+.subfactor-popover-value p {
+  margin: 0;
+}
+
+.subfactor-popover-value a {
+  color: inherit;
+  text-decoration-thickness: 1px;
+}
+
+@media (max-width: 680px) {
+  .subfactor-popover {
+    width: calc(100vw - 16px);
+    max-height: calc(100vh - 16px);
+  }
+
+  .subfactor-popover-field {
+    display: block;
+  }
+
+  .subfactor-popover-label {
+    margin-bottom: 0.2rem;
+  }
+}
+
+@media print {
+  .subfactor-popover {
+    display: none !important;
+  }
+}
+
+/* Factor hover support for interactive quality-model trees */
+.interactive-quality-tree .interactive-factor {
+  cursor: help;
+  outline: none;
+}
+
+.interactive-quality-tree .interactive-factor > path,
+.interactive-quality-tree .interactive-factor > polygon,
+.interactive-quality-tree .interactive-factor > ellipse {
+  transition: stroke-width 120ms ease, filter 120ms ease;
+}
+
+.interactive-quality-tree .interactive-factor > text {
+  transition: font-weight 120ms ease;
+}
+
+.interactive-quality-tree .interactive-factor:hover > path,
+.interactive-quality-tree .interactive-factor:focus > path,
+.interactive-quality-tree .interactive-factor:hover > polygon,
+.interactive-quality-tree .interactive-factor:focus > polygon,
+.interactive-quality-tree .interactive-factor:hover > ellipse,
+.interactive-quality-tree .interactive-factor:focus > ellipse {
+  stroke-width: 1.8;
+  filter: drop-shadow(0 2px 3px rgba(32, 42, 53, 0.22));
+}
+
+.interactive-quality-tree .interactive-factor:hover > text,
+.interactive-quality-tree .interactive-factor:focus > text {
+  font-weight: 700;
+}
+
+/* Factor popovers are intentionally more compact than subfactor popovers:
+   factors only expose their existing Description text. */
+.subfactor-popover[data-kind="factor"] {
+  width: min(390px, calc(100vw - 24px));
+}
+
+.subfactor-popover[data-kind="factor"] .subfactor-popover-field {
+  display: block;
+}
+
+.subfactor-popover[data-kind="factor"] .subfactor-popover-label {
+  margin-bottom: 0.25rem;
+}

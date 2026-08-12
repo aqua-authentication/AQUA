@@ -6,7 +6,7 @@ The degree to which the authentication solution is usable for its users.
 :::
 
 ::: {.subfactor-card}
-#### Memorization effortlessness
+#### Ease of memorization
 
 ::: {.subfactor-field}
 **Description**

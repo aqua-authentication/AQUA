@@ -9,156 +9,594 @@
     </div>
   </div>
   <div class="svg-lightbox-viewport" id="svg-lightbox-viewport">
-    <div class="svg-lightbox-canvas" id="svg-lightbox-canvas">
-      <img id="svg-lightbox-image" alt="">
-    </div>
+    <div class="svg-lightbox-canvas" id="svg-lightbox-canvas"></div>
   </div>
 </div>
+
+<div class="subfactor-popover" id="subfactor-popover" hidden role="tooltip"></div>
+
 <script id="quality-model-interactions">
 (function () {
   "use strict";
-
   try {
     var overlay = document.getElementById("svg-lightbox");
     var viewport = document.getElementById("svg-lightbox-viewport");
     var canvas = document.getElementById("svg-lightbox-canvas");
-    var enlargedImage = document.getElementById("svg-lightbox-image");
     var title = document.getElementById("svg-lightbox-title");
     var closeButton = document.getElementById("svg-lightbox-close");
     var zoomInButton = document.getElementById("svg-zoom-in");
     var zoomOutButton = document.getElementById("svg-zoom-out");
     var resetButton = document.getElementById("svg-zoom-reset");
+    var popover = document.getElementById("subfactor-popover");
     var treeImages = Array.prototype.slice.call(document.querySelectorAll("img.quality-tree"));
     var requestFrame = window.requestAnimationFrame || function (callback) {
       return window.setTimeout(callback, 16);
     };
 
-    if (overlay && viewport && canvas && enlargedImage && closeButton && zoomInButton && zoomOutButton && resetButton && treeImages.length) {
-      var minimumScale = 0.35;
-      var scale = 1;
-      var maximumScale = 1;
-      var baseWidth = 0;
-      var lastFocusedElement = null;
+    var activePopoverNode = null;
+    var currentLightboxSvg = null;
+    var currentLightboxSource = null;
+    var minimumScale = 0.35;
+    var scale = 1;
+    var maximumScale = 1;
+    var baseWidth = 0;
+    var baseHeight = 0;
+    var lastFocusedElement = null;
 
-      function clamp(value, minimum, maximum) {
-        return Math.min(maximum, Math.max(minimum, value));
-      }
+    function clamp(value, minimum, maximum) {
+      return Math.min(maximum, Math.max(minimum, value));
+    }
 
-      function calculateMaximumScale() {
-        var availableWidth = Math.max(240, viewport.clientWidth - 64);
-        var availableHeight = Math.max(180, viewport.clientHeight - 48);
-        var naturalWidth = enlargedImage.naturalWidth || 900;
-        var naturalHeight = enlargedImage.naturalHeight || 400;
-
-        return Math.max(
-          minimumScale,
-          Math.min(availableWidth / naturalWidth, availableHeight / naturalHeight)
-        );
-      }
-
-      function updateControlState() {
-        resetButton.textContent = Math.round(scale * 100) + "%";
-        zoomOutButton.disabled = scale <= minimumScale + 0.001;
-        zoomInButton.disabled = scale >= maximumScale - 0.001;
-      }
-
-      function setScrollPosition(ratioX, ratioY, anchorX, anchorY) {
-        ratioX = typeof ratioX === "number" ? ratioX : 0.5;
-        ratioY = typeof ratioY === "number" ? ratioY : 0.5;
-        anchorX = typeof anchorX === "number" ? anchorX : viewport.clientWidth / 2;
-        anchorY = typeof anchorY === "number" ? anchorY : viewport.clientHeight / 2;
-
-        requestFrame(function () {
-          viewport.scrollLeft = Math.max(0, ratioX * viewport.scrollWidth - anchorX);
-          viewport.scrollTop = Math.max(0, ratioY * viewport.scrollHeight - anchorY);
-        });
-      }
-
-      function updateZoom(nextScale, anchorX, anchorY) {
-        anchorX = typeof anchorX === "number" ? anchorX : viewport.clientWidth / 2;
-        anchorY = typeof anchorY === "number" ? anchorY : viewport.clientHeight / 2;
-
-        var oldScrollWidth = Math.max(viewport.scrollWidth, 1);
-        var oldScrollHeight = Math.max(viewport.scrollHeight, 1);
-        var ratioX = (viewport.scrollLeft + anchorX) / oldScrollWidth;
-        var ratioY = (viewport.scrollTop + anchorY) / oldScrollHeight;
-
-        maximumScale = calculateMaximumScale();
-        scale = clamp(nextScale, minimumScale, maximumScale);
-        enlargedImage.style.width = Math.round(baseWidth * scale) + "px";
-        updateControlState();
-        setScrollPosition(ratioX, ratioY, anchorX, anchorY);
-      }
-
-      function setInitialSize() {
-        baseWidth = enlargedImage.naturalWidth || 900;
-        maximumScale = calculateMaximumScale();
-        scale = Math.min(maximumScale, 1.5);
-        enlargedImage.style.width = Math.round(baseWidth * scale) + "px";
-        updateControlState();
-        setScrollPosition(0.5, 0.5);
-      }
-
-      function handleImageLoad() {
-        enlargedImage.removeEventListener("load", handleImageLoad, false);
-        setInitialSize();
-      }
-
-      function openLightbox(sourceImage) {
-        lastFocusedElement = document.activeElement;
-        enlargedImage.src = sourceImage.currentSrc || sourceImage.src;
-        enlargedImage.alt = sourceImage.alt || "Enlarged quality model structure";
-        title.textContent = sourceImage.alt || "Quality model structure";
-        overlay.hidden = false;
-        document.body.classList.add("svg-lightbox-open");
-
-        if (enlargedImage.complete) {
-          setInitialSize();
-        } else {
-          enlargedImage.addEventListener("load", handleImageLoad, false);
+    function closestLevelOne(element) {
+      var node = element;
+      while (node && node !== document.body) {
+        if (node.tagName === "SECTION" && (" " + node.className + " ").indexOf(" level1 ") !== -1) {
+          return node;
         }
-
-        closeButton.focus();
+        node = node.parentNode;
       }
+      return null;
+    }
 
-      function closeLightbox() {
-        overlay.hidden = true;
-        document.body.classList.remove("svg-lightbox-open");
-        enlargedImage.removeAttribute("src");
-        if (lastFocusedElement && typeof lastFocusedElement.focus === "function") {
-          lastFocusedElement.focus();
+    function normalizeKey(value) {
+      return String(value || "").toLowerCase().replace(/[^a-z0-9]+/g, "");
+    }
+
+    function modelKeyFor(section) {
+      if (!section) return "";
+      if (section.id === "authenticator-quality-model") return "authenticator";
+      if (section.id === "authenticator-employment-quality-model") return "employment";
+      if (section.id === "authentication-solution-quality-model") return "solution";
+      return "";
+    }
+
+    function directChildTitle(group) {
+      var children = group ? group.children : [];
+      for (var i = 0; i < children.length; i += 1) {
+        if (String(children[i].tagName).toLowerCase() === "title") {
+          return children[i];
         }
       }
+      return null;
+    }
 
+    function decodeBase64Utf8(value) {
+      var binary = window.atob(value);
+      if (typeof window.TextDecoder === "function") {
+        var bytes = new Uint8Array(binary.length);
+        for (var i = 0; i < binary.length; i += 1) {
+          bytes[i] = binary.charCodeAt(i);
+        }
+        return new TextDecoder("utf-8").decode(bytes);
+      }
+
+      var encoded = "";
+      for (var j = 0; j < binary.length; j += 1) {
+        encoded += "%" + ("00" + binary.charCodeAt(j).toString(16)).slice(-2);
+      }
+      return decodeURIComponent(encoded);
+    }
+
+    function svgMarkupFromDataUri(source) {
+      var comma;
+      var metadata;
+      var payload;
+
+      if (!source || source.indexOf("data:image/svg+xml") !== 0) {
+        return null;
+      }
+
+      comma = source.indexOf(",");
+      if (comma < 0) {
+        return null;
+      }
+
+      metadata = source.slice(0, comma);
+      payload = source.slice(comma + 1);
+
+      if (/;base64/i.test(metadata)) {
+        return decodeBase64Utf8(payload);
+      }
+
+      return decodeURIComponent(payload);
+    }
+
+    function parseTreeImage(image) {
+      var source = image.currentSrc || image.src;
+      var markup = svgMarkupFromDataUri(source);
+      var parsed;
+      var svg;
+
+      if (!markup) {
+        return null;
+      }
+
+      parsed = new DOMParser().parseFromString(markup, "image/svg+xml");
+      svg = parsed.documentElement;
+
+      if (!svg || String(svg.tagName).toLowerCase() !== "svg" || parsed.querySelector("parsererror")) {
+        return null;
+      }
+
+      svg = document.importNode(svg, true);
+      svg.classList.add("quality-tree", "interactive-quality-tree");
+      svg.setAttribute("preserveAspectRatio", "xMidYMid meet");
+      svg.setAttribute("data-tree-alt", image.alt || "Quality model structure");
+      return svg;
+    }
+
+    function fieldHtml(card, fieldName) {
+      var fields = card.querySelectorAll(".subfactor-field");
+      var wanted = fieldName.toLowerCase();
+
+      for (var i = 0; i < fields.length; i += 1) {
+        var paragraphs = fields[i].querySelectorAll("p");
+        if (paragraphs.length >= 2 && paragraphs[0].textContent.trim().toLowerCase() === wanted) {
+          return paragraphs[1].innerHTML;
+        }
+      }
+
+      return "";
+    }
+
+    function buildSubfactorLookup(modelSection) {
+      var lookup = {};
+      if (!modelSection) {
+        return lookup;
+      }
+
+      var cards = modelSection.querySelectorAll(".subfactor-card");
+      for (var i = 0; i < cards.length; i += 1) {
+        var heading = cards[i].querySelector("h4");
+        if (!heading) {
+          continue;
+        }
+
+        lookup[normalizeKey(heading.textContent)] = {
+          title: heading.textContent.trim(),
+          description: fieldHtml(cards[i], "Description"),
+          reasoning: fieldHtml(cards[i], "Reasoning"),
+          example: fieldHtml(cards[i], "Example")
+        };
+      }
+
+      return lookup;
+    }
+
+    function buildFactorLookup(modelSection) {
+      var lookup = {};
+      if (!modelSection) {
+        return lookup;
+      }
+
+      var headings = modelSection.querySelectorAll("h3");
+      for (var i = 0; i < headings.length; i += 1) {
+        var definition = headings[i].nextElementSibling;
+
+        if (!definition || !definition.classList || !definition.classList.contains("factor-definition")) {
+          continue;
+        }
+
+        lookup[normalizeKey(headings[i].textContent)] = {
+          title: headings[i].textContent.trim(),
+          description: definition.innerHTML
+        };
+      }
+
+      return lookup;
+    }
+
+    function factorInfoFor(nodeName, lookup) {
+      return lookup[normalizeKey(nodeName)] || null;
+    }
+
+    function subfactorInfoFor(nodeName, modelSection, lookup) {
+      var key = normalizeKey(nodeName);
+      var direct = lookup[key];
+
+      if (direct) {
+        return direct;
+      }
+
+      /*
+       * AQUA-S currently labels the tree node "Ease of memorization" while
+       * its Description card is titled "Memorization effortlessness".
+       * This alias links the existing texts without changing either source.
+       */
+      if (
+        modelSection &&
+        modelSection.id === "authentication-solution-quality-model" &&
+        key === "easeofmemorization"
+      ) {
+        return lookup.memorizationeffortlessness || null;
+      }
+
+      return null;
+    }
+
+    function visibleNodeLabel(node, fallback) {
+      var texts = node.querySelectorAll("text");
+      var parts = [];
+
+      for (var i = 0; i < texts.length; i += 1) {
+        var value = texts[i].textContent.trim();
+        if (value) {
+          parts.push(value);
+        }
+      }
+
+      return parts.length ? parts.join(" ") : fallback;
+    }
+
+    function escapeHtml(value) {
+      return String(value || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+
+    function positionPopover(node) {
+      if (!popover || popover.hidden || !node) {
+        return;
+      }
+
+      var nodeBounds = node.getBoundingClientRect();
+      var popoverBounds = popover.getBoundingClientRect();
+      var gap = 14;
+      var margin = 12;
+      var left = nodeBounds.right + gap;
+      var top = nodeBounds.top + nodeBounds.height / 2 - popoverBounds.height / 2;
+
+      if (left + popoverBounds.width > window.innerWidth - margin) {
+        left = nodeBounds.left - popoverBounds.width - gap;
+      }
+
+      left = clamp(left, margin, Math.max(margin, window.innerWidth - popoverBounds.width - margin));
+      top = clamp(top, margin, Math.max(margin, window.innerHeight - popoverBounds.height - margin));
+
+      popover.style.left = Math.round(left) + "px";
+      popover.style.top = Math.round(top) + "px";
+      popover.style.visibility = "visible";
+    }
+
+    function showSubfactorPopover(node, label, info, modelKey) {
+      if (!popover || !node || !info) {
+        return;
+      }
+
+      popover.setAttribute("data-model", modelKey || "");
+      popover.setAttribute("data-kind", "subfactor");
+      popover.innerHTML =
+        '<div class="subfactor-popover-title">' + escapeHtml(label) + "</div>" +
+        '<div class="subfactor-popover-field">' +
+          '<div class="subfactor-popover-label">Description</div>' +
+          '<div class="subfactor-popover-value">' + info.description + "</div>" +
+        "</div>" +
+        '<div class="subfactor-popover-field">' +
+          '<div class="subfactor-popover-label">Reasoning</div>' +
+          '<div class="subfactor-popover-value">' + info.reasoning + "</div>" +
+        "</div>" +
+        '<div class="subfactor-popover-field">' +
+          '<div class="subfactor-popover-label">Example</div>' +
+          '<div class="subfactor-popover-value">' + info.example + "</div>" +
+        "</div>";
+
+      activePopoverNode = node;
+      popover.style.visibility = "hidden";
+      popover.hidden = false;
+      positionPopover(node);
+    }
+
+    function showFactorPopover(node, label, info, modelKey) {
+      if (!popover || !node || !info) {
+        return;
+      }
+
+      popover.setAttribute("data-model", modelKey || "");
+      popover.setAttribute("data-kind", "factor");
+      popover.innerHTML =
+        '<div class="subfactor-popover-title">' + escapeHtml(label) + "</div>" +
+        '<div class="subfactor-popover-field">' +
+          '<div class="subfactor-popover-label">Description</div>' +
+          '<div class="subfactor-popover-value">' + info.description + "</div>" +
+        "</div>";
+
+      activePopoverNode = node;
+      popover.style.visibility = "hidden";
+      popover.hidden = false;
+      positionPopover(node);
+    }
+
+    function hideSubfactorPopover(node) {
+      if (!popover) {
+        return;
+      }
+
+      if (node && activePopoverNode && node !== activePopoverNode) {
+        return;
+      }
+
+      activePopoverNode = null;
+      popover.hidden = true;
+      popover.style.visibility = "hidden";
+    }
+
+    function prepareInteractiveNodes(svg, modelSection, subfactorLookup, factorLookup) {
+      var modelKey = modelKeyFor(modelSection);
+      var edgeTitles = svg.querySelectorAll("g.edge > title");
+
+      for (var e = 0; e < edgeTitles.length; e += 1) {
+        edgeTitles[e].parentNode.removeChild(edgeTitles[e]);
+      }
+
+      var nodes = svg.querySelectorAll("g.node");
+      for (var i = 0; i < nodes.length; i += 1) {
+        (function (node) {
+          var titleElement = directChildTitle(node);
+          var nodeName = node.getAttribute("data-aqua-node-name") ||
+            (titleElement ? titleElement.textContent.trim() : "");
+
+          var subfactorInfo = subfactorInfoFor(nodeName, modelSection, subfactorLookup);
+          var factorInfo = subfactorInfo ? null : factorInfoFor(nodeName, factorLookup);
+          var info = subfactorInfo || factorInfo;
+
+          if (!info) {
+            return;
+          }
+
+          var isFactor = !!factorInfo;
+          var label = visibleNodeLabel(node, info.title || nodeName);
+          node.setAttribute("data-aqua-node-name", nodeName);
+
+          if (titleElement && titleElement.parentNode) {
+            titleElement.parentNode.removeChild(titleElement);
+          }
+
+          node.classList.add(isFactor ? "interactive-factor" : "interactive-subfactor");
+          node.setAttribute("tabindex", "0");
+          node.setAttribute("aria-label", label);
+
+          function showPopover() {
+            if (isFactor) {
+              showFactorPopover(node, label, info, modelKey);
+            } else {
+              showSubfactorPopover(node, label, info, modelKey);
+            }
+          }
+
+          node.addEventListener("mouseenter", showPopover, false);
+
+          node.addEventListener("mouseleave", function () {
+            hideSubfactorPopover(node);
+          }, false);
+
+          node.addEventListener("focus", showPopover, false);
+
+          node.addEventListener("blur", function () {
+            hideSubfactorPopover(node);
+          }, false);
+        }(nodes[i]));
+      }
+    }
+
+    function svgDimensions(svg) {
+      var viewBox = svg && svg.viewBox ? svg.viewBox.baseVal : null;
+      var width = viewBox && viewBox.width ? viewBox.width : parseFloat(svg.getAttribute("width")) || 900;
+      var height = viewBox && viewBox.height ? viewBox.height : parseFloat(svg.getAttribute("height")) || 400;
+      return { width: width, height: height };
+    }
+
+    function calculateMaximumScale() {
+      var availableWidth = Math.max(240, viewport.clientWidth - 64);
+      var availableHeight = Math.max(180, viewport.clientHeight - 48);
+
+      return Math.max(
+        minimumScale,
+        Math.min(availableWidth / baseWidth, availableHeight / baseHeight)
+      );
+    }
+
+    function updateControlState() {
+      resetButton.textContent = Math.round(scale * 100) + "%";
+      zoomOutButton.disabled = scale <= minimumScale + 0.001;
+      zoomInButton.disabled = scale >= maximumScale - 0.001;
+    }
+
+    function setScrollPosition(ratioX, ratioY, anchorX, anchorY) {
+      ratioX = typeof ratioX === "number" ? ratioX : 0.5;
+      ratioY = typeof ratioY === "number" ? ratioY : 0.5;
+      anchorX = typeof anchorX === "number" ? anchorX : viewport.clientWidth / 2;
+      anchorY = typeof anchorY === "number" ? anchorY : viewport.clientHeight / 2;
+
+      requestFrame(function () {
+        viewport.scrollLeft = Math.max(0, ratioX * viewport.scrollWidth - anchorX);
+        viewport.scrollTop = Math.max(0, ratioY * viewport.scrollHeight - anchorY);
+        if (activePopoverNode) {
+          positionPopover(activePopoverNode);
+        }
+      });
+    }
+
+    function updateZoom(nextScale, anchorX, anchorY) {
+      if (!currentLightboxSvg) {
+        return;
+      }
+
+      anchorX = typeof anchorX === "number" ? anchorX : viewport.clientWidth / 2;
+      anchorY = typeof anchorY === "number" ? anchorY : viewport.clientHeight / 2;
+
+      var oldScrollWidth = Math.max(viewport.scrollWidth, 1);
+      var oldScrollHeight = Math.max(viewport.scrollHeight, 1);
+      var ratioX = (viewport.scrollLeft + anchorX) / oldScrollWidth;
+      var ratioY = (viewport.scrollTop + anchorY) / oldScrollHeight;
+
+      maximumScale = calculateMaximumScale();
+      scale = clamp(nextScale, minimumScale, maximumScale);
+      currentLightboxSvg.style.width = Math.round(baseWidth * scale) + "px";
+      updateControlState();
+      setScrollPosition(ratioX, ratioY, anchorX, anchorY);
+    }
+
+    function setInitialSize() {
+      if (!currentLightboxSvg) {
+        return;
+      }
+
+      var dimensions = svgDimensions(currentLightboxSvg);
+      baseWidth = dimensions.width;
+      baseHeight = dimensions.height;
+      maximumScale = calculateMaximumScale();
+      scale = Math.min(maximumScale, 1.5);
+      currentLightboxSvg.style.width = Math.round(baseWidth * scale) + "px";
+      updateControlState();
+      setScrollPosition(0.5, 0.5);
+    }
+
+    function openLightbox(sourceSvg) {
+      if (!overlay || !viewport || !canvas || !sourceSvg) {
+        return;
+      }
+
+      lastFocusedElement = document.activeElement;
+
+      /*
+       * A mouse click on an interactive factor/subfactor can leave that SVG
+       * node focused. Restoring focus to it after closing the lightbox would
+       * immediately show its popover again, even when the pointer is elsewhere.
+       * In that case, restore focus to the tree as a whole instead.
+       */
+      if (
+        lastFocusedElement &&
+        lastFocusedElement.classList &&
+        (
+          lastFocusedElement.classList.contains("interactive-subfactor") ||
+          lastFocusedElement.classList.contains("interactive-factor")
+        )
+      ) {
+        lastFocusedElement = sourceSvg;
+      }
+
+      hideSubfactorPopover();
+
+      currentLightboxSource = sourceSvg;
+      currentLightboxSvg = sourceSvg.cloneNode(true);
+      currentLightboxSvg.classList.add("svg-lightbox-tree");
+      currentLightboxSvg.removeAttribute("tabindex");
+      currentLightboxSvg.removeAttribute("role");
+      currentLightboxSvg.removeAttribute("aria-label");
+      currentLightboxSvg.style.width = "";
+
+      canvas.innerHTML = "";
+      canvas.appendChild(currentLightboxSvg);
+
+      prepareInteractiveNodes(
+        currentLightboxSvg,
+        sourceSvg._aquaModelSection,
+        sourceSvg._aquaSubfactorLookup,
+        sourceSvg._aquaFactorLookup
+      );
+
+      title.textContent = sourceSvg.getAttribute("data-tree-alt") || "Quality model structure";
+      overlay.hidden = false;
+      document.body.classList.add("svg-lightbox-open");
+      setInitialSize();
+      closeButton.focus();
+    }
+
+    function closeLightbox() {
+      if (!overlay) {
+        return;
+      }
+
+      hideSubfactorPopover();
+      overlay.hidden = true;
+      document.body.classList.remove("svg-lightbox-open");
+      canvas.innerHTML = "";
+      currentLightboxSvg = null;
+      currentLightboxSource = null;
+
+      if (lastFocusedElement && typeof lastFocusedElement.focus === "function") {
+        lastFocusedElement.focus();
+      }
+    }
+
+    if (treeImages.length) {
       treeImages.forEach(function (image) {
-        image.tabIndex = 0;
-        image.setAttribute("role", "button");
-        image.setAttribute("aria-label", (image.alt || "Quality model structure") + ". Click to enlarge.");
-        image.title = "Click to enlarge";
-        image.addEventListener("click", function () {
-          openLightbox(image);
+        var modelSection = closestLevelOne(image);
+        var lookup = buildSubfactorLookup(modelSection);
+        var factorLookup = buildFactorLookup(modelSection);
+        var svg = parseTreeImage(image);
+
+        if (!svg) {
+          return;
+        }
+
+        svg._aquaModelSection = modelSection;
+        svg._aquaSubfactorLookup = lookup;
+        svg._aquaFactorLookup = factorLookup;
+        svg.setAttribute("tabindex", "0");
+        svg.setAttribute("role", "button");
+        svg.setAttribute(
+          "aria-label",
+          (image.alt || "Quality model structure") + ". Click to enlarge."
+        );
+
+        prepareInteractiveNodes(svg, modelSection, lookup, factorLookup);
+
+        svg.addEventListener("click", function () {
+          openLightbox(svg);
         }, false);
-        image.addEventListener("keydown", function (event) {
-          if (event.key === "Enter" || event.key === " ") {
+
+        svg.addEventListener("keydown", function (event) {
+          if (event.target === svg && (event.key === "Enter" || event.key === " ")) {
             event.preventDefault();
-            openLightbox(image);
+            openLightbox(svg);
           }
         }, false);
-      });
 
+        image.parentNode.replaceChild(svg, image);
+      });
+    }
+
+    if (overlay && viewport && canvas && closeButton && zoomInButton && zoomOutButton && resetButton) {
       closeButton.addEventListener("click", closeLightbox, false);
+
       zoomInButton.addEventListener("click", function () {
         updateZoom(scale + 0.2);
       }, false);
+
       zoomOutButton.addEventListener("click", function () {
         updateZoom(scale - 0.2);
       }, false);
+
       resetButton.addEventListener("click", setInitialSize, false);
 
       viewport.addEventListener("wheel", function (event) {
-        if (overlay.hidden) {
+        if (overlay.hidden || !currentLightboxSvg) {
           return;
         }
+
         event.preventDefault();
         var bounds = viewport.getBoundingClientRect();
         updateZoom(
@@ -168,6 +606,14 @@
         );
       }, false);
 
+      viewport.addEventListener("scroll", function () {
+        if (activePopoverNode) {
+          requestFrame(function () {
+            positionPopover(activePopoverNode);
+          });
+        }
+      }, false);
+
       viewport.addEventListener("click", function (event) {
         if (event.target === viewport || event.target === canvas) {
           closeLightbox();
@@ -175,16 +621,19 @@
       }, false);
 
       window.addEventListener("resize", function () {
-        if (overlay.hidden || !enlargedImage.src) {
-          return;
-        }
-        var previousMaximum = maximumScale;
-        maximumScale = calculateMaximumScale();
+        if (!overlay.hidden && currentLightboxSvg) {
+          var previousMaximum = maximumScale;
+          maximumScale = calculateMaximumScale();
 
-        if (scale > maximumScale || Math.abs(scale - previousMaximum) < 0.001) {
-          updateZoom(maximumScale);
-        } else {
-          updateControlState();
+          if (scale > maximumScale || Math.abs(scale - previousMaximum) < 0.001) {
+            updateZoom(maximumScale);
+          } else {
+            updateControlState();
+          }
+        }
+
+        if (activePopoverNode) {
+          positionPopover(activePopoverNode);
         }
       }, false);
 
@@ -192,6 +641,7 @@
         if (overlay.hidden) {
           return;
         }
+
         if (event.key === "Escape") {
           closeLightbox();
         } else if (event.key === "+" || event.key === "=") {
@@ -209,7 +659,6 @@
     var scrollQueued = false;
 
     var tocTopList = document.querySelector("#TOC > ul");
-
     function topModelItemFor(link) {
       var node = link ? link.parentNode : null;
       while (node && tocTopList && node.parentNode !== tocTopList) {
@@ -220,7 +669,6 @@
       }
       return node && node.tagName === "LI" ? node : null;
     }
-
     function showModelNavigation(link) {
       if (!tocTopList) {
         return;
@@ -245,7 +693,6 @@
         }
       }
     }
-
     function removeActiveNavigation() {
       tocLinks.forEach(function (link) {
         link.classList.remove("active");
@@ -261,7 +708,6 @@
       if (!link) {
         return;
       }
-
       removeActiveNavigation();
       link.classList.add("active");
       showModelNavigation(link);
@@ -269,7 +715,6 @@
       parentList = listItem ? listItem.parentNode : null;
       parentItem = parentList ? parentList.parentNode : null;
       parentLink = null;
-
       if (parentItem) {
         for (var i = 0; i < parentItem.children.length; i += 1) {
           if (parentItem.children[i].tagName === "A") {
@@ -287,7 +732,6 @@
     function updateActiveNavigation() {
       var selected = tocSections.length ? tocSections[0] : null;
       var threshold = 220;
-
       tocSections.forEach(function (entry) {
         if (entry.section.getBoundingClientRect().top <= threshold) {
           selected = entry;
@@ -299,7 +743,6 @@
       }
       scrollQueued = false;
     }
-
     tocLinks.forEach(function (link) {
       var identifier = link.getAttribute("href").slice(1);
       var section = document.getElementById(identifier);
@@ -310,7 +753,6 @@
         activateNavigation(link);
       }, false);
     });
-
     if (tocSections.length) {
       updateActiveNavigation();
       window.addEventListener("scroll", function () {
