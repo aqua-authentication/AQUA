@@ -44,7 +44,7 @@ digraph QualityModel {
   Security    [label="Security",  fillcolor="#fff0dd", color="#9a5718", penwidth=1.3, width=1.84];
 
   // Quality subfactors
-  MemorizationEffortlessness [label="Memorization effortlessness", fillcolor="white", width=2.12];
+  EaseOfMemorization         [label="Ease of memorization",        fillcolor="white", width=2.12];
   EaseOfUse                  [label="Ease of use",                 fillcolor="white", width=2.12];
   Accuracy                   [label="Accuracy",                    fillcolor="white", width=2.12];
   Availability               [label="Availability",                fillcolor="white", width=2.12];
@@ -56,7 +56,7 @@ digraph QualityModel {
   Root -> Usability;
   Root -> Security;
 
-  Usability -> MemorizationEffortlessness;
+  Usability -> EaseOfMemorization;
   Usability -> EaseOfUse;
   Usability -> Accuracy;
   Usability -> Availability;

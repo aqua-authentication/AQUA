@@ -47,7 +47,7 @@ digraph QualityModel {
   Applicability   [label="Applicability", fillcolor="#dceeff", color="#1769aa", penwidth=1.3, width=1.72];
 
   // Quality subfactors
-  MemorizationEffortlessness      [label="Memorization effortlessness", fillcolor="white", width=2.05, style="rounded,filled,dashed", penwidth=1.3];
+  EaseOfMemorization              [label="Ease of memorization",        fillcolor="white", width=2.05, style="rounded,filled,dashed", penwidth=1.3];
   EaseOfUse                       [label="Ease of use",                 fillcolor="white", width=2.05, style="rounded,filled,dashed", penwidth=1.3];
   Accuracy                        [label="Accuracy",                    fillcolor="white", width=2.05, style="rounded,filled,dashed", penwidth=1.3];
   Availability                    [label="Availability",                fillcolor="white", width=2.05, style="rounded,filled,dashed", penwidth=1.3];
@@ -63,9 +63,8 @@ digraph QualityModel {
   ThirdPartyExposure              [label="Third party exposure",        fillcolor="white", width=2.05];
 
   StructuralComplexity            [label="Structural complexity",       fillcolor="white", width=2.05];
-  BehavioralComplexity            [label="Behavioral complexity",       fillcolor="white", width=2.05];
   OperationalComplexity           [label="Operational complexity",      fillcolor="white", width=2.05];
-  CognitiveComplexity            [label="Cognitive complexity",         fillcolor="white", width=2.05];
+  CognitiveComplexity             [label="Cognitive complexity",        fillcolor="white", width=2.05];
 
  
   Root -> Usability;
@@ -74,7 +73,7 @@ digraph QualityModel {
   Root -> Applicability;
 
   
-  Usability -> MemorizationEffortlessness;
+  Usability -> EaseOfMemorization;
   Usability -> EaseOfUse;
   Usability -> Accuracy;
   Usability -> Availability;
@@ -90,7 +89,6 @@ digraph QualityModel {
   Privacy -> ThirdPartyExposure;
 
   Applicability -> StructuralComplexity;
-  Applicability -> BehavioralComplexity;
   Applicability -> OperationalComplexity;
   Applicability -> CognitiveComplexity;
 }
