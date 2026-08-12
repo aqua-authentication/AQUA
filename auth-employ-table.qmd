@@ -7,7 +7,7 @@ The degree to which an authenticator employment is inherently usable for authent
 :::
 
 ::: {.subfactor-card}
-#### Memorization effortlessness
+#### Ease of memorization
 
 ::: {.subfactor-field}
 **Description**
@@ -24,7 +24,7 @@ Memorization burden is a well-known aspect in authentication, which heavily affe
 ::: {.subfactor-field}
 **Example**
 
-An authenticator employment requiring both a password and a separate memorized PIN creates a greater memorization burden than one combining a smart card with a fingerprint.
+An authenticator employment requiring both a password and a separate memorized PIN is more difficult to memorize than one combining a smart card with a fingerprint.
 :::
 :::
 
