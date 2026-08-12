@@ -6,7 +6,7 @@ The degree to which an authenticator is inherently usable for authentication pur
 :::
 
 ::: {.subfactor-card}
-#### Memorization effortlessness
+#### Ease of memorization
 
 ::: {.subfactor-field}
 **Description**
@@ -23,7 +23,7 @@ Memorization burden is a well-known aspect in authentication, which heavily affe
 ::: {.subfactor-field}
 **Example**
 
-A password requires the user to memorize a secret, whereas a fingerprint does not require memorization.
+A password requires the user to memorize a secret, whereas a fingerprint requires the user to memorize solely which finger they use for authentication.
 :::
 :::
 
