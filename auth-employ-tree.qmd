@@ -1,11 +1,11 @@
-# AQUA-E: Authenticator Employment QM {#authenticator-employment-quality-model}
+# [AQUA]{.acronym-literal}-E: Authenticator Employment QM {#authenticator-employment-quality-model}
 
 ::: {.model-intro .employment}
-**AQUA-E** has the same quality factors and subfactors as [**AQUA-A**](#authenticator-quality-model). The difference lies only in their definitions, which are documented in the [**Description**](#employment-table).
+**[AQUA]{.acronym-literal}-E** has the same quality factors and subfactors as [**[AQUA]{.acronym-literal}-A**](#authenticator-quality-model). The difference lies only in their definitions, which are documented in the [**Description**](#employment-table).
 :::
 
 ## Structure {#employment-tree}
 
 ::: {.tree-figure}
-![Hierarchical structure of AQUA-E. Dashed outlines identify quality factors and subfactors derived from AQUA-A.](figures/employment-tree.svg){.quality-tree}
+![Hierarchical structure of [AQUA]{.acronym-literal}-E. Dashed outlines identify quality factors and subfactors derived from [AQUA]{.acronym-literal}-A.](figures/employment-tree.svg){.quality-tree}
 :::
