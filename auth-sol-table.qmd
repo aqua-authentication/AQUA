@@ -301,7 +301,7 @@ The degree to which an authentication solution can be easily implemented and mai
 ::: {.subfactor-field}
 **Description**
 
-The degree of structural complexity of an authentication solution, as measured by the architectural components used to implement it.
+The degree of complexity associated with the architectural structure of an authentication solution.
 :::
 
 ::: {.subfactor-field}
@@ -317,28 +317,6 @@ A solution with an authentication server, external identity provider, recovery s
 :::
 :::
 
-
-::: {.subfactor-card}
-#### Behavioral complexity
-
-::: {.subfactor-field}
-**Description**
-
-The degree of behavioral complexity of an authentication solution, as measured by the authentication-related interactions required to provide authentication-related functionalities.
-:::
-
-::: {.subfactor-field}
-**Reasoning**
-
-This subfactor refers to the complexity resulting from interactions between the architectural elements that provide authentication functionality.
-:::
-
-::: {.subfactor-field}
-**Example**
-
-A solution that redirects the user to an identity provider and then requests a second factor requires more interactions than a direct password check.
-:::
-:::
 
 
 ::: {.subfactor-card}
@@ -370,7 +348,7 @@ A solution that requires certificate and key management is more complex to opera
 ::: {.subfactor-field}
 **Description**
 
-The degree of cognitive complexity of an authentication solution, associated with how easy or difficult it is for a human to grasp and understand the authentication solution as a whole.
+The degree of complexity associated with how easy or difficult it is for a human to understand the authentication solution
 :::
 
 ::: {.subfactor-field}
