@@ -20,9 +20,9 @@ Credentials bind an authenticator to a user’s identity. They are not represent
 
 ## Initial [AQUA]{.acronym-literal} Quality Models {#initial-aqua-quality-models}
 
-To demonstrate the strengths of the modular approach for quality modeling of authentication solutions, we developed initial, non-exhaustive QMs for the three AQUA concepts. The result is three tailored, interrelated QMs: the **Authenticator QM (AQUA-A)**, the **Authenticator Employment QM (AQUA-E)**, and the **Authentication Solution QM (AQUA-S)**. AQUA-A and AQUA-E define the same quality factors, **Usability** and **Security**. In AQUA-S, both factors depend on the corresponding factors of AQUA-E, while **Privacy** and **Applicability** are solution-specific quality factors.
+To demonstrate the strengths of the modular approach for quality modeling of authentication solutions, we developed initial, non-exhaustive QMs for the three [AQUA]{.acronym-literal} concepts. The result is three tailored, interrelated QMs: the **Authenticator QM ([AQUA]{.acronym-literal}-A)**, the **Authenticator Employment QM ([AQUA]{.acronym-literal}-E)**, and the **Authentication Solution QM ([AQUA]{.acronym-literal}-S)**. [AQUA]{.acronym-literal}-A and [AQUA]{.acronym-literal}-E define the same quality factors, **Usability** and **Security**. In [AQUA]{.acronym-literal}-S, both factors depend on the corresponding factors of [AQUA]{.acronym-literal}-E, while **Privacy** and **Applicability** are solution-specific quality factors.
 
-![Overview of the AQUA quality models and their quality-factor dependencies.](figures/aqua-models.png){.concept-model-image}
+![Overview of the [AQUA]{.acronym-literal} quality models and their quality-factor dependencies.](figures/aqua-models.png){.concept-model-image}
 
 {{< include authenticator-tree.qmd >}}
 
