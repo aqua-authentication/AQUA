@@ -29,7 +29,7 @@ To demonstrate the strengths of the modular approach for quality modeling of aut
 ![Overview of the [AQUA]{.acronym-literal} quality models and their quality-factor dependencies.](figures/aqua-models.png){.concept-model-image}
 
 
-# The[AQUA]{.acronym-literal} Quality Models {#aqua-quality-models}
+# The [AQUA]{.acronym-literal} Quality Models {#aqua-quality-models}
 
 In the following, all quality models will be presented in detail. Each model is presented first by its tree structure, then by a detailed subfactor description in table format.
 
