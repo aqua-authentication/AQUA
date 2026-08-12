@@ -1,8 +1,12 @@
 ---
-title: '<span class="acronym-literal">AQUA</span> - <span class="acronym-literal">A</span>uthentication <span class="acronym-literal">Qua</span>lity Model'
+title: '<span class="acronym-literal">AQUA</span> - A highly modular <span class="acronym-literal">A</span>uthentication <span class="acronym-literal">Qua</span>lity Model'
 subtitle: "Interactive Research Artifact"
 output-file: "authentication-quality-models"
 ---
+
+Welcome to the Webpage of [AQUA]{.acronym-literal}.
+
+[AQUA]{.acronym-literal} is a research artifact from a research project in secure system design and represents a highly modular quality model for authentication solutions. It is built around a decomposition of the concept of authentication, for which tailored quality models can be developed. They are presented in the following. 
 
 # Authentication Quality Concepts {#authentication-quality-concepts .unnumbered}
 
@@ -14,7 +18,7 @@ Each of the three concepts has quality properties that are specified by a corres
 
 Credentials bind an authenticator to a user’s identity. They are not represented as a separate concept in this artifact, but distinguishing credentials from authenticators is relevant when considering availability properties.
 
-## Initial AQUA Quality Models {#initial-aqua-quality-models}
+## Initial [AQUA]{.acronym-literal} Quality Models {#initial-aqua-quality-models}
 
 To demonstrate the strengths of the modular approach for quality modeling of authentication solutions, we developed initial, non-exhaustive QMs for the three AQUA concepts. The result is three tailored, interrelated QMs: the **Authenticator QM (AQUA-A)**, the **Authenticator Employment QM (AQUA-E)**, and the **Authentication Solution QM (AQUA-S)**. AQUA-A and AQUA-E define the same quality factors, **Usability** and **Security**. In AQUA-S, both factors depend on the corresponding factors of AQUA-E, while **Privacy** and **Applicability** are solution-specific quality factors.
 
