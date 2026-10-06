@@ -29,7 +29,7 @@ digraph QualityModel {
   ];
 
   Root [
-    label="Authenticator Employment\nQuality Model",
+    label="Authentication Technique\nQuality Model",
     fillcolor="#1f513f",
     fontcolor="white",
     color="#1f513f",
@@ -51,7 +51,7 @@ digraph QualityModel {
   Accessibility              [label="Accessibility",               fillcolor="white", width=2.08, style="rounded,filled,dashed", penwidth=1.3];
 
 
-  ThreatSensitivity          [label="Threat sensitivity",          fillcolor="white", width=2.08, style="rounded,filled,dashed", penwidth=1.3];
+  AttackRobustness           [label="Attack robustness",          fillcolor="white", width=2.08, style="rounded,filled,dashed", penwidth=1.3];
   ImpairmentRisks            [label="Impairment risks",            fillcolor="white", width=2.08, style="rounded,filled,dashed", penwidth=1.3];
 
 
@@ -64,6 +64,6 @@ digraph QualityModel {
   Usability -> Availability;
   Usability -> Accessibility;
 
-  Security -> ThreatSensitivity;
+  Security -> AttackRobustness;
   Security -> ImpairmentRisks;
 }

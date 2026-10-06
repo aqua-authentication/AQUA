@@ -83,11 +83,19 @@ try {
   var html = readUtf8(path);
 
   html = html.replace(
-    /<script\b[^>]*>[\s\S]*?<\/script>/gi,
-    function (block) {
-      return /id=["']quality-model-interactions["']/i.test(block)
-        ? block
-        : "";
+  /<script\b[^>]*>[\s\S]*?<\/script>/gi,
+  function (block) {
+    var isInteractionScript =
+      /id=["']quality-model-interactions["']/i.test(block);
+
+    var isMathScript =
+      /MathJax/i.test(block) ||
+      /mathjax/i.test(block) ||
+      /tex-mml-chtml/i.test(block);
+
+    return isInteractionScript || isMathScript
+      ? block
+      : "";
     }
   );
 

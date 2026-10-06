@@ -7,7 +7,7 @@
   --qm-card: #ffffff;
   --qm-title: #293746;
   --solution: #1769aa;
-  --employment: #287a58;
+  --technique: #287a58;
   --authenticator: #9a5718;
 }
 
@@ -69,7 +69,7 @@ h3 {
 
 .model-intro p:last-child { margin-bottom: 0; }
 .model-intro.solution { border-left-color: var(--solution); }
-.model-intro.employment { border-left-color: var(--employment); }
+.model-intro.technique { border-left-color: var(--technique); }
 .model-intro.authenticator { border-left-color: var(--authenticator); }
 
 .factor-definition {
@@ -304,20 +304,6 @@ figcaption {
   .subfactor-card, .tree-figure { break-inside: avoid; box-shadow: none; }
 }
 
-.manual-sidebar > ul > li:nth-child(2) a.active,
-.sidebar nav[role="doc-toc"] > ul > li:nth-child(2) a.active {
-  border-left-color: var(--employment);
-  background: #edf7f2;
-  color: #215f47;
-}
-
-.manual-sidebar > ul > li:nth-child(3) a.active,
-.sidebar nav[role="doc-toc"] > ul > li:nth-child(3) a.active {
-  border-left-color: var(--authenticator);
-  background: #fbf2e9;
-  color: #7b4817;
-}
-
 
 /* Wider, centered reading area */
 #quarto-content {
@@ -408,9 +394,9 @@ main.content {
   color: #174f7d;
 }
 
-.manual-sidebar .model-group.employment-nav.current-model > .model-link,
-.manual-sidebar .employment-nav a.active {
-  border-left-color: var(--employment);
+.manual-sidebar .model-group.technique-nav.current-model > .model-link,
+.manual-sidebar .technique-nav a.active {
+  border-left-color: var(--technique);
   background: #edf7f2;
   color: #215f47;
 }
@@ -636,30 +622,49 @@ body.svg-lightbox-open {
   border-radius: 0.55rem;
 }
 
-/* Sidebar colors for the concept and model order */
-.sidebar nav[role="doc-toc"] > ul > li:nth-child(1) a.active,
-.manual-sidebar > ul > li:nth-child(1) a.active {
+/* Sidebar colors based on section identity rather than TOC position.
+   This remains stable when new top-level sections are added. */
+
+/* General / framework sections */
+.sidebar nav[role="doc-toc"] > ul > li:has(> a[href="#authentication-quality-concepts"]) > a.active,
+.sidebar nav[role="doc-toc"] > ul > li:has(> a[href="#aquaedict-quality-model-overview"]) > a.active,
+.sidebar nav[role="doc-toc"] > ul > li:has(> a[href="#quality-prediction-models"]) > a.active,
+.sidebar nav[role="doc-toc"] > ul > li:has(> a[href="#aquaedict-quality-models"]) > a.active,
+#TOC > ul > li:has(> a[href="#authentication-quality-concepts"]) > a.active,
+#TOC > ul > li:has(> a[href="#aquaedict-quality-model-overview"]) > a.active,
+#TOC > ul > li:has(> a[href="#quality-prediction-models"]) > a.active,
+#TOC > ul > li:has(> a[href="#aquaedict-quality-models"]) > a.active,
+.manual-sidebar > ul > li:has(> a[href="#authentication-quality-concepts"]) > a.active,
+.manual-sidebar > ul > li:has(> a[href="#aquaedict-quality-model-overview"]) > a.active,
+.manual-sidebar > ul > li:has(> a[href="#quality-prediction-models"]) > a.active,
+.manual-sidebar > ul > li:has(> a[href="#aquaedict-quality-models"]) > a.active {
   border-left-color: #6f8191;
   background: #f2f5f7;
   color: #3d5061;
 }
 
-.sidebar nav[role="doc-toc"] > ul > li:nth-child(2) a.active,
-.manual-sidebar > ul > li:nth-child(2) a.active {
+/* AQUÆDICT-A / Authenticator Quality Model */
+.sidebar nav[role="doc-toc"] > ul > li:has(> a[href="#authenticator-quality-model"]) > a.active,
+#TOC > ul > li:has(> a[href="#authenticator-quality-model"]) > a.active,
+.manual-sidebar > ul > li:has(> a[href="#authenticator-quality-model"]) > a.active {
   border-left-color: var(--authenticator);
   background: #fbf2e9;
   color: #7b4817;
 }
 
-.sidebar nav[role="doc-toc"] > ul > li:nth-child(3) a.active,
-.manual-sidebar > ul > li:nth-child(3) a.active {
-  border-left-color: var(--employment);
+/* AQUÆDICT-T / Authentication Technique Quality Model */
+.sidebar nav[role="doc-toc"] > ul > li:has(> a[href="#authentication-technique-quality-model"]) > a.active,
+#TOC > ul > li:has(> a[href="#authentication-technique-quality-model"]) > a.active,
+.manual-sidebar > ul > li:has(> a[href="#authentication-technique-quality-model"]) > a.active {
+  border-left-color: var(--technique);
   background: #edf7f2;
   color: #215f47;
 }
 
-.sidebar nav[role="doc-toc"] > ul > li:nth-child(4) a.active,
-.manual-sidebar > ul > li:nth-child(4) a.active {
+/* AQUÆDICT-S / Authentication Solution Quality Model */
+.sidebar nav[role="doc-toc"] > ul > li:has(> a[href="#authentication-solution-quality-model"]) > a.active,
+#TOC > ul > li:has(> a[href="#authentication-solution-quality-model"]) > a.active,
+.manual-sidebar > ul > li:has(> a[href="#authentication-solution-quality-model"]) > a.active {
   border-left-color: var(--solution);
   background: #edf5fb;
   color: #174f7d;
@@ -738,8 +743,8 @@ body.svg-lightbox-open {
   --subfactor-accent: var(--authenticator);
 }
 
-.subfactor-popover[data-model="employment"] {
-  --subfactor-accent: var(--employment);
+.subfactor-popover[data-model="technique"] {
+  --subfactor-accent: var(--technique);
 }
 
 .subfactor-popover[data-model="solution"] {
@@ -897,4 +902,125 @@ body.svg-lightbox-open {
 
 .subfactor-popover[data-kind="root"] .subfactor-popover-label {
   margin-bottom: 0.25rem;
+}
+
+/* Prediction metric rank layout */
+.prediction-metric .rank-header,
+.prediction-metric .rank-row {
+  display: grid;
+  grid-template-columns: 3.5rem minmax(0, 1fr);
+  column-gap: 0.9rem;
+}
+
+.prediction-metric .rank-header {
+  margin-top: 0.65rem;
+  padding-bottom: 0.35rem;
+  border-bottom: 1px solid var(--bs-border-color);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--bs-secondary-color);
+}
+
+.prediction-metric .rank-header-label {
+  text-align: center;
+}
+
+.prediction-metric .rank-header-description {
+  text-align: left;
+}
+
+
+/* One complete rank row */
+.prediction-metric .rank-row {
+  align-items: stretch;
+  padding: 0.5rem 0;
+}
+
+
+/* Left rank block */
+.prediction-metric .rank-value {
+  display: grid !important;
+  place-items: center !important;
+  align-self: stretch;
+
+  width: 100%;
+  min-width: 0;
+  padding: 0;
+
+  border: 1px solid var(--bs-border-color);
+  border-radius: 0.4rem;
+
+  font-weight: 700;
+  text-align: center;
+}
+
+
+/* Quarto creates a <p> inside the div */
+.prediction-metric .rank-value > p {
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 1 !important;
+}
+
+
+/* Right description column */
+.prediction-metric .rank-content {
+  min-width: 0;
+  padding: 0.15rem 0;
+}
+
+.prediction-metric .rank-content > p {
+  margin-top: 0;
+  margin-bottom: 0.4rem;
+}
+
+.prediction-metric .rank-content > p:last-child {
+  margin-bottom: 0;
+}
+
+.prediction-metric .rank-content em {
+  display: block;
+  margin-top: 0.25rem;
+  color: var(--bs-secondary-color);
+}
+
+.normalization-example-content,
+.calculation-example-content {
+  min-width: 0;
+  width: 100%;
+}
+
+.normalization-grid,
+.calculation-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin-top: 0.65rem;
+}
+
+.normalization-case,
+.calculation-case {
+  min-width: 0;
+  padding: 0.7rem 0.8rem;
+  border: 1px solid var(--qm-soft-border);
+  border-radius: 0.45rem;
+  background: var(--qm-surface);
+}
+
+.normalization-case > p,
+.calculation-case > p {
+  margin-top: 0;
+  margin-bottom: 0.3rem;
+}
+
+.normalization-case > p:last-child,
+.calculation-case > p:last-child {
+  margin-bottom: 0;
+}
+
+@media (max-width: 680px) {
+  .normalization-grid,
+  .calculation-grid {
+    grid-template-columns: 1fr;
+  }
 }

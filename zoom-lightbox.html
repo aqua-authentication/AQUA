@@ -15,6 +15,165 @@
 
 <div class="subfactor-popover" id="subfactor-popover" hidden role="tooltip"></div>
 
+
+<style id="quality-model-prediction-popover-styles">
+/* Compact subfactor hover, including prediction and worked examples. */
+.subfactor-popover[data-kind="subfactor"] {
+  width: min(550px, calc(100vw - 20px));
+  max-height: none;
+  overflow: visible;
+  box-sizing: border-box;
+  transform-origin: top left;
+}
+
+.subfactor-popover[data-kind="subfactor"] .subfactor-popover-title {
+  padding: 0.58rem 0.78rem 0.5rem;
+  font-size: 0.96rem;
+  line-height: 1.22;
+}
+
+.subfactor-popover[data-kind="subfactor"] .subfactor-popover-field {
+  grid-template-columns: 6rem minmax(0, 1fr);
+  gap: 0.62rem;
+  padding: 0.5rem 0.78rem;
+}
+
+.subfactor-popover[data-kind="subfactor"] .subfactor-popover-label {
+  font-size: 0.69rem;
+  line-height: 1.25;
+}
+
+.subfactor-popover[data-kind="subfactor"] .subfactor-popover-value {
+  min-width: 0;
+  font-size: 0.82rem;
+  line-height: 1.34;
+}
+
+.subfactor-popover[data-kind="subfactor"] .subfactor-popover-prediction,
+.subfactor-popover[data-kind="subfactor"] .subfactor-popover-normalization,
+.subfactor-popover[data-kind="subfactor"] .subfactor-popover-calculation {
+  padding-top: 0.48rem;
+  padding-bottom: 0.5rem;
+}
+
+.subfactor-popover[data-kind="subfactor"] .subfactor-popover-prediction .prediction-metric-content,
+.subfactor-popover[data-kind="subfactor"] .subfactor-popover-normalization .normalization-example-content,
+.subfactor-popover[data-kind="subfactor"] .subfactor-popover-calculation .calculation-example-content {
+  width: 100%;
+  min-width: 0;
+}
+
+.subfactor-popover[data-kind="subfactor"] .subfactor-popover-prediction .rank-header,
+.subfactor-popover[data-kind="subfactor"] .subfactor-popover-prediction .rank-row {
+  grid-template-columns: 2.05rem minmax(0, 1fr);
+  column-gap: 0.5rem;
+}
+
+.subfactor-popover[data-kind="subfactor"] .subfactor-popover-prediction .rank-header {
+  margin-top: 0.1rem;
+  padding-bottom: 0.16rem;
+  font-size: 0.68rem;
+}
+
+.subfactor-popover[data-kind="subfactor"] .subfactor-popover-prediction .rank-row {
+  align-items: start;
+  padding: 0.18rem 0;
+}
+
+.subfactor-popover[data-kind="subfactor"] .subfactor-popover-prediction .rank-value {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  align-self: start !important;
+  width: 1.85rem;
+  height: 1.85rem;
+  min-height: 1.85rem;
+  border-radius: 0.32rem;
+  font-size: 0.75rem;
+  line-height: 1;
+}
+
+.subfactor-popover[data-kind="subfactor"] .subfactor-popover-prediction .rank-value > p {
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 1 !important;
+}
+
+.subfactor-popover[data-kind="subfactor"] .subfactor-popover-prediction .rank-content {
+  padding: 0;
+  font-size: 0.78rem;
+  line-height: 1.28;
+}
+
+.subfactor-popover[data-kind="subfactor"] .subfactor-popover-prediction .rank-content > p {
+  margin: 0 0 0.1rem;
+}
+
+.subfactor-popover[data-kind="subfactor"] .subfactor-popover-prediction .rank-content em {
+  margin-top: 0.05rem;
+  font-size: 0.74rem;
+  line-height: 1.24;
+}
+
+/* Worked example cards in the hover. */
+.subfactor-popover[data-kind="subfactor"] .normalization-example-content,
+.subfactor-popover[data-kind="subfactor"] .calculation-example-content {
+  font-size: 0.76rem;
+  line-height: 1.27;
+}
+
+.subfactor-popover[data-kind="subfactor"] .normalization-example-content > p,
+.subfactor-popover[data-kind="subfactor"] .calculation-example-content > p {
+  margin: 0 0 0.28rem;
+}
+
+.subfactor-popover[data-kind="subfactor"] .normalization-grid,
+.subfactor-popover[data-kind="subfactor"] .calculation-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.35rem;
+  margin: 0.28rem 0 0;
+}
+
+.subfactor-popover[data-kind="subfactor"] .normalization-case,
+.subfactor-popover[data-kind="subfactor"] .calculation-case {
+  min-width: 0;
+  padding: 0.34rem 0.4rem;
+  border: 1px solid var(--qm-soft-border);
+  border-radius: 0.34rem;
+  background: rgba(248, 250, 252, 0.9);
+  overflow: hidden;
+}
+
+.subfactor-popover[data-kind="subfactor"] .normalization-case > p,
+.subfactor-popover[data-kind="subfactor"] .calculation-case > p {
+  margin: 0 0 0.1rem;
+}
+
+.subfactor-popover[data-kind="subfactor"] .math.display,
+.subfactor-popover[data-kind="subfactor"] mjx-container[display="true"] {
+  margin: 0.12rem 0 !important;
+}
+
+.subfactor-popover[data-kind="subfactor"] .normalization-case mjx-container,
+.subfactor-popover[data-kind="subfactor"] .calculation-case mjx-container {
+  font-size: 76% !important;
+  max-width: 100%;
+}
+
+@media (max-width: 680px) {
+  .subfactor-popover[data-kind="subfactor"] {
+    width: calc(100vw - 12px);
+  }
+
+  .subfactor-popover[data-kind="subfactor"] .subfactor-popover-field {
+    grid-template-columns: 5.4rem minmax(0, 1fr);
+    padding-left: 0.55rem;
+    padding-right: 0.55rem;
+  }
+}
+</style>
+
 <script id="quality-model-interactions">
 (function () {
   "use strict";
@@ -65,7 +224,7 @@
     function modelKeyFor(section) {
       if (!section) return "";
       if (section.id === "authenticator-quality-model") return "authenticator";
-      if (section.id === "authenticator-employment-quality-model") return "employment";
+      if (section.id === "authentication-technique-quality-model") return "technique";
       if (section.id === "authentication-solution-quality-model") return "solution";
       return "";
     }
@@ -146,14 +305,33 @@
     }
 
     function fieldHtml(card, fieldName) {
-      var fields = card.querySelectorAll(".subfactor-field");
-      var wanted = fieldName.toLowerCase();
+      var wanted = String(fieldName || "").toLowerCase();
+      var children = card ? card.children : [];
 
-      for (var i = 0; i < fields.length; i += 1) {
-        var paragraphs = fields[i].querySelectorAll("p");
-        if (paragraphs.length >= 2 && paragraphs[0].textContent.trim().toLowerCase() === wanted) {
-          return paragraphs[1].innerHTML;
+      /*
+       * Read only direct .subfactor-field children. This is important for
+       * Prediction Metric because that field contains its own nested layout.
+       */
+      for (var i = 0; i < children.length; i += 1) {
+        var field = children[i];
+
+        if (!field.classList || !field.classList.contains("subfactor-field")) {
+          continue;
         }
+
+        var label = field.firstElementChild;
+        if (!label || label.textContent.trim().toLowerCase() !== wanted) {
+          continue;
+        }
+
+        var html = "";
+        var content = label.nextElementSibling;
+        while (content) {
+          html += content.outerHTML;
+          content = content.nextElementSibling;
+        }
+
+        return html;
       }
 
       return "";
@@ -176,7 +354,10 @@
           title: heading.textContent.trim(),
           description: fieldHtml(cards[i], "Description"),
           reasoning: fieldHtml(cards[i], "Reasoning"),
-          example: fieldHtml(cards[i], "Example")
+          example: fieldHtml(cards[i], "Example"),
+          predictionMetric: fieldHtml(cards[i], "Prediction Metric"),
+          normalizationExample: fieldHtml(cards[i], "Normalization Example"),
+          calculationExample: fieldHtml(cards[i], "Calculation Example")
         };
       }
 
@@ -219,11 +400,11 @@
         authenticator: {
           description: "The authenticator is the most fundamental part of authentication. It is something a user possesses, controls, and uses to perform authentication, such as a password or fingerprint. Qualitative properties characterize the authenticator. Some of these properties are inherent to the authenticator and independent of the solution."
         },
-        employment: {
-          description: "An authenticator employment (employment for short) is a composition scheme. It specifies the cardinality (single or multiple authenticators), mode (conditional or unconditional use), and order in which authenticators are used. Qualitative properties characterize the employment. An employment’s quality is heavily based on the inherent quality of the employed authenticators."
+        technique: {
+          description: "An authentication technique is the concrete composition of one or more authenticators that conforms to an authenticator employment. The authenticator employment determines how authenticators are composed in terms of cardinality, mode, and order. While the employment determines the composition and thereby affects quality, the resulting quality is inherent to the authentication technique."
         },
         solution: {
-          description: "Authentication is realized by an authentication solution. An authentication solution (solution for short) is the key design, architectural, and implementation choices made to realize authentication. Qualitative properties characterize the solution. Certain aspects of the quality of an authentication solution depend on the quality of the employment. Other quality factors, such as privacy, are determined solely by the authentication solution."
+          description: "Authentication is realized by an authentication solution. An authentication solution (solution for short) is the key design, architectural, and implementation choices made to realize authentication. Qualitative properties characterize the solution. Certain aspects of the quality of an authentication solution depend on the quality of the authentication technique. Other quality factors, such as privacy, are determined solely by the authentication solution."
         }
       };
 
@@ -236,19 +417,6 @@
 
       if (direct) {
         return direct;
-      }
-
-      /*
-       * AQUA-S currently labels the tree node "Ease of memorization" while
-       * its Description card is titled "Memorization effortlessness".
-       * This alias links the existing texts without changing either source.
-       */
-      if (
-        modelSection &&
-        modelSection.id === "authentication-solution-quality-model" &&
-        key === "easeofmemorization"
-      ) {
-        return lookup.memorizationeffortlessness || null;
       }
 
       return null;
@@ -276,10 +444,27 @@
         .replace(/"/g, "&quot;");
     }
 
+    function fitSubfactorPopoverToViewport() {
+      if (!popover || popover.hidden || popover.getAttribute("data-kind") !== "subfactor") {
+        return;
+      }
+
+      popover.style.transform = "none";
+      var naturalHeight = popover.getBoundingClientRect().height;
+      var availableHeight = Math.max(240, window.innerHeight - 16);
+
+      if (naturalHeight > availableHeight) {
+        var fitScale = Math.max(0.82, availableHeight / naturalHeight);
+        popover.style.transform = "scale(" + fitScale.toFixed(3) + ")";
+      }
+    }
+
     function positionPopover(node) {
       if (!popover || popover.hidden || !node) {
         return;
       }
+
+      fitSubfactorPopoverToViewport();
 
       var nodeBounds = node.getBoundingClientRect();
       var popoverBounds = popover.getBoundingClientRect();
@@ -307,6 +492,40 @@
 
       popover.setAttribute("data-model", modelKey || "");
       popover.setAttribute("data-kind", "subfactor");
+
+      var predictionMetricHtml = "";
+      if (info.predictionMetric) {
+        predictionMetricHtml =
+          '<div class="subfactor-popover-field subfactor-popover-prediction">' +
+            '<div class="subfactor-popover-label">Prediction Metric</div>' +
+            '<div class="subfactor-popover-value prediction-metric">' +
+              info.predictionMetric +
+            "</div>" +
+          "</div>";
+      }
+
+      var normalizationExampleHtml = "";
+      if (info.normalizationExample) {
+        normalizationExampleHtml =
+          '<div class="subfactor-popover-field subfactor-popover-normalization">' +
+            '<div class="subfactor-popover-label">Normalization Example</div>' +
+            '<div class="subfactor-popover-value normalization-example">' +
+              info.normalizationExample +
+            "</div>" +
+          "</div>";
+      }
+
+      var calculationExampleHtml = "";
+      if (info.calculationExample) {
+        calculationExampleHtml =
+          '<div class="subfactor-popover-field subfactor-popover-calculation">' +
+            '<div class="subfactor-popover-label">Calculation Example</div>' +
+            '<div class="subfactor-popover-value calculation-example">' +
+              info.calculationExample +
+            "</div>" +
+          "</div>";
+      }
+
       popover.innerHTML =
         '<div class="subfactor-popover-title">' + escapeHtml(label) + "</div>" +
         '<div class="subfactor-popover-field">' +
@@ -320,11 +539,34 @@
         '<div class="subfactor-popover-field">' +
           '<div class="subfactor-popover-label">Example</div>' +
           '<div class="subfactor-popover-value">' + info.example + "</div>" +
-        "</div>";
+        "</div>" +
+        predictionMetricHtml +
+        normalizationExampleHtml +
+        calculationExampleHtml;
 
       activePopoverNode = node;
       popover.style.visibility = "hidden";
       popover.hidden = false;
+
+      /*
+       * Quarto exposes typesetMath(). Use it synchronously here instead of
+       * waiting for MathJax.typesetPromise(). Waiting kept the popover hidden
+       * and caused the hover to appear broken in some standalone renders.
+       */
+      if ((info.predictionMetric || info.normalizationExample || info.calculationExample) && typeof window.typesetMath === "function") {
+        try {
+          window.typesetMath(popover);
+        } catch (error) {
+          /* Keep the hover usable even if math rendering fails. */
+        }
+      } else if ((info.predictionMetric || info.normalizationExample || info.calculationExample) && typeof typesetMath === "function") {
+        try {
+          typesetMath(popover);
+        } catch (error) {
+          /* Keep the hover usable even if math rendering fails. */
+        }
+      }
+
       positionPopover(node);
     }
 

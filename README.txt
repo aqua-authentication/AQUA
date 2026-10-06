@@ -2,7 +2,7 @@ A QUALITY MODEL FOR AUTHENTICATION SOLUTIONS — QUICK GUIDE
 
 1. Edit the written content
 - Authentication solution: auth-sol-table.qmd
-- Authenticator employment: auth-employ-table.qmd
+- Authentication technique: auth-technique-table.qmd
 - Authenticator: authenticator-table.qmd
 - Main page text and section order: index.qmd
 
@@ -11,7 +11,7 @@ Change the text inside a subfactor card in auth-sol-table.qmd, then save the fil
 
 2. Edit the tree diagrams
 - Authentication solution: trees/solution-tree.dot
-- Authenticator employment: trees/employment-tree.dot
+- Authentication technique: trees/technique-tree.dot
 - Authenticator: trees/authenticator-tree.dot
 
 Example:

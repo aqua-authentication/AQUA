@@ -43,9 +43,9 @@
 <title>Usability&#45;&gt;Accessibility</title>
 <path fill="none" stroke="#b18559" stroke-width="1.15" d="M348.44,-200 L376.76,-200 L376.76,-122 L407.44,-122"/>
 </g>
-<!-- Security&#45;&gt;ThreatSensitivity -->
+<!-- Security&#45;&gt;AttackRobustness -->
 <g id="edge8" class="edge">
-<title>Security&#45;&gt;ThreatSensitivity</title>
+<title>Security&#45;&gt;AttackRobustness</title>
 <path fill="none" stroke="#b18559" stroke-width="1.15" d="M348.44,-70 L376.76,-70 L376.76,-70 L407.44,-70"/>
 </g>
 <!-- Security&#45;&gt;ImpairmentRisks -->
@@ -102,11 +102,11 @@
 <path fill="white" stroke="#a38b75" stroke-width="1.05" d="M548.08,-140C548.08,-140 419.44,-140 419.44,-140 413.44,-140 407.44,-134 407.44,-128 407.44,-128 407.44,-116 407.44,-116 407.44,-110 413.44,-104 419.44,-104 419.44,-104 548.08,-104 548.08,-104 554.08,-104 560.08,-110 560.08,-116 560.08,-116 560.08,-128 560.08,-128 560.08,-134 554.08,-140 548.08,-140"/>
 <text xml:space="preserve" text-anchor="middle" x="483.76" y="-118.78" font-family="DejaVu Sans" font-size="10.50" fill="#4b311c">Accessibility</text>
 </g>
-<!-- ThreatSensitivity -->
+<!-- AttackRobustness -->
 <g id="node9" class="node">
-<title>ThreatSensitivity</title>
+<title>AttackRobustness</title>
 <path fill="white" stroke="#a38b75" stroke-width="1.05" d="M548.08,-88C548.08,-88 419.44,-88 419.44,-88 413.44,-88 407.44,-82 407.44,-76 407.44,-76 407.44,-64 407.44,-64 407.44,-58 413.44,-52 419.44,-52 419.44,-52 548.08,-52 548.08,-52 554.08,-52 560.08,-58 560.08,-64 560.08,-64 560.08,-76 560.08,-76 560.08,-82 554.08,-88 548.08,-88"/>
-<text xml:space="preserve" text-anchor="middle" x="483.76" y="-66.78" font-family="DejaVu Sans" font-size="10.50" fill="#4b311c">Threat sensitivity</text>
+<text xml:space="preserve" text-anchor="middle" x="483.76" y="-66.78" font-family="DejaVu Sans" font-size="10.50" fill="#4b311c">Attack robustness</text>
 </g>
 <!-- ImpairmentRisks -->
 <g id="node10" class="node">

@@ -17,13 +17,95 @@ The degree to which an authenticator requires a user's memorization in order to 
 ::: {.subfactor-field}
 **Reasoning**
 
-Memorization burden is a well-known aspect in authentication, which heavily affects the usability of authentication [2].
+Memorization burden is a well-known aspect in authentication, which heavily affects the usability of authentication [7].
 :::
 
 ::: {.subfactor-field}
 **Example**
 
 A password requires the user to memorize a secret, whereas a fingerprint requires the user to memorize solely which finger they use for authentication.
+:::
+::: {.subfactor-field .prediction-metric}
+**Prediction Metric**
+
+:::: {.prediction-metric-content}
+
+::: {.rank-header}
+::: {.rank-header-label}
+Rank
+:::
+::: {.rank-header-description}
+Description
+:::
+:::
+
+::: {.rank-row}
+::: {.rank-value}
+0
+:::
+::: {.rank-content}
+A secret known to the user, but one that the user does not know is an authenticator until authentication starts.
+
+*Example: Dynamic knowledge. The user does not have control over actively memorizing the secret.*
+:::
+:::
+
+::: {.rank-row}
+::: {.rank-value}
+1
+:::
+::: {.rank-content}
+Secret knowledge that the user knows is an authenticator.
+
+*Example: Password. The user actively chooses a password or is assigned one that they can actively memorize.*
+:::
+:::
+
+::: {.rank-row}
+::: {.rank-value}
+2
+:::
+::: {.rank-content}
+The authenticator is an inherence- or possession-based authenticator.
+
+*Example: Fingerprint. Fingerprint requires no memorization effort to be used.*
+:::
+:::
+
+::::
+:::
+::: {.subfactor-field .normalization-example}
+**Normalization Example**
+
+:::: {.normalization-example-content}
+
+The ranks used in this example are taken from the case study presented in the accompanying paper. For **Ease of Memorization**, the ordinal scale contains three quality levels ($k_q = 3$).
+
+::: {.normalization-grid}
+
+::: {.normalization-case}
+**Password — Rank 1**
+
+$$
+\operatorname{norm}(l_1)=\frac{1}{3-1}=0.5
+$$
+
+Normalized EoM: **0.50**
+:::
+
+::: {.normalization-case}
+**Fingerprint — Rank 2**
+
+$$
+\operatorname{norm}(l_2)=\frac{2}{3-1}=1
+$$
+
+Normalized EoM: **1.00**
+:::
+
+:::
+
+::::
 :::
 :::
 
@@ -48,6 +130,88 @@ Due to their inherent characteristics, without additional tool support some auth
 
 Presenting a fingerprint can require less user effort than manually entering a long password.
 :::
+::: {.subfactor-field .prediction-metric}
+**Prediction Metric**
+
+:::: {.prediction-metric-content}
+
+::: {.rank-header}
+::: {.rank-header-label}
+Rank
+:::
+::: {.rank-header-description}
+Description
+:::
+:::
+
+::: {.rank-row}
+::: {.rank-value}
+0
+:::
+::: {.rank-content}
+Has no upper limit apart from technical limits on the minimum number of user inputs required to be used.
+
+*Example: Password. The length of a password is only capped by technical reasons.*
+:::
+:::
+
+::: {.rank-row}
+::: {.rank-value}
+1
+:::
+::: {.rank-content}
+An inherent upper limit > 1 exists on the minimum number of user inputs.
+
+*Example: PIN. The length of a PIN is limited to a certain, small number of characters by design.*
+:::
+:::
+
+::: {.rank-row}
+::: {.rank-value}
+2
+:::
+::: {.rank-content}
+Can be inherently and meaningfully used for authentication with at most 1 user input.
+
+*Example: Face. Can be used with a single or even without any user interaction.*
+:::
+:::
+
+::::
+:::
+::: {.subfactor-field .normalization-example}
+**Normalization Example**
+
+:::: {.normalization-example-content}
+
+The ranks used in this example are taken from the case study presented in the accompanying paper. For **Ease of Use**, the ordinal scale contains three quality levels ($k_q = 3$).
+
+::: {.normalization-grid}
+
+::: {.normalization-case}
+**Password — Rank 0**
+
+$$
+\operatorname{norm}(l_0)=\frac{0}{3-1}=0
+$$
+
+Normalized EoU: **0.00**
+:::
+
+::: {.normalization-case}
+**Fingerprint — Rank 2**
+
+$$
+\operatorname{norm}(l_2)=\frac{2}{3-1}=1
+$$
+
+Normalized EoU: **1.00**
+:::
+
+:::
+
+::::
+:::
 :::
 
 
@@ -70,6 +234,88 @@ Some authenticators are prone to “false negatives,” while others can inheren
 **Example**
 
 A biometric authenticator may reject a valid user despite proper use, whereas a correctly entered password can be matched exactly.
+:::
+::: {.subfactor-field .prediction-metric}
+**Prediction Metric**
+
+:::: {.prediction-metric-content}
+
+::: {.rank-header}
+::: {.rank-header-label}
+Rank
+:::
+::: {.rank-header-description}
+Description
+:::
+:::
+
+::: {.rank-row}
+::: {.rank-value}
+0
+:::
+::: {.rank-content}
+The authenticator is inherently highly prone to inaccurate detection.
+
+*Example: Face. Biometric features require biometric sample comparison, which is, by its very nature, probabilistic. Facial samples may overlap to some extent, making face-based authentication particularly prone to inaccuracies.*
+:::
+:::
+
+::: {.rank-row}
+::: {.rank-value}
+1
+:::
+::: {.rank-content}
+The authenticator is inherently somewhat prone to inaccurate detection.
+
+*Example: Iris. Is a biometric feature, but more unique than facial features, making it less prone to inaccuracies.*
+:::
+:::
+
+::: {.rank-row}
+::: {.rank-value}
+2
+:::
+::: {.rank-content}
+The authenticator inherently does not allow for inaccurate detection without external influence.
+
+*Example: Password. A correctly entered password can only be invalidated due to external factors.*
+:::
+:::
+
+::::
+:::
+::: {.subfactor-field .normalization-example}
+**Normalization Example**
+
+:::: {.normalization-example-content}
+
+The ranks used in this example are taken from the case study presented in the accompanying paper. For **Accuracy**, the ordinal scale contains three quality levels ($k_q = 3$).
+
+::: {.normalization-grid}
+
+::: {.normalization-case}
+**Password — Rank 2**
+
+$$
+\operatorname{norm}(l_2)=\frac{2}{3-1}=1
+$$
+
+Normalized Accuracy: **1.00**
+:::
+
+::: {.normalization-case}
+**Fingerprint — Rank 1**
+
+$$
+\operatorname{norm}(l_1)=\frac{1}{3-1}=0.5
+$$
+
+Normalized Accuracy: **0.50**
+:::
+
+:::
+
+::::
 :::
 :::
 
@@ -94,6 +340,97 @@ Availability merges two availability aspects. First, authenticators differ in th
 
 A memorized password cannot be physically lost, whereas a smart card can be lost.
 :::
+::: {.subfactor-field .prediction-metric}
+**Prediction Metric**
+
+:::: {.prediction-metric-content}
+
+::: {.rank-header}
+::: {.rank-header-label}
+Rank
+:::
+::: {.rank-header-description}
+Description
+:::
+:::
+
+::: {.rank-row}
+::: {.rank-value}
+0
+:::
+::: {.rank-content}
+Likely to be lost; has limited recoverability upon loss.
+
+*Example: Smart Card. Can be lost easily, and by design its credential cannot be reset by the user.*
+:::
+:::
+
+::: {.rank-row}
+::: {.rank-value}
+1
+:::
+::: {.rank-content}
+Likely to be lost; has broad recoverability upon loss.
+
+*Example: Password. Can be lost easily, but its design allows for self-managed recovery.*
+:::
+:::
+
+::: {.rank-row}
+::: {.rank-value}
+2
+:::
+::: {.rank-content}
+Unlikely to be lost; has limited recoverability upon loss.
+
+*Example: Iris. A loss of the iris is very unlikely. Can only be replaced by the other iris.*
+:::
+:::
+
+::: {.rank-row}
+::: {.rank-value}
+3
+:::
+::: {.rank-content}
+Unlikely to be lost; has broad recoverability upon loss.
+
+*Example: Fingerprint. A loss of the fingerprint is very unlikely. Can be replaced by other fingerprints.*
+:::
+:::
+
+::::
+:::
+::: {.subfactor-field .normalization-example}
+**Normalization Example**
+
+:::: {.normalization-example-content}
+
+The ranks used in this example are taken from the case study presented in the accompanying paper. For **Availability**, the ordinal scale contains four quality levels ($k_q = 4$).
+
+::: {.normalization-grid}
+
+::: {.normalization-case}
+**Password — Rank 1**
+
+$$
+\operatorname{norm}(l_1)=\frac{1}{4-1}\approx0.33
+$$
+
+Normalized Availability: **0.33**
+:::
+
+::: {.normalization-case}
+**Fingerprint — Rank 3**
+
+$$
+\operatorname{norm}(l_3)=\frac{3}{4-1}=1
+$$
+
+Normalized Availability: **1.00**
+:::
+:::
+::::
+:::
 :::
 
 
@@ -109,13 +446,63 @@ The degree to which an authenticator is accessible to different users and user g
 ::: {.subfactor-field}
 **Reasoning**
 
-Inherent to an authenticator are the possibilities required for a user to use it. For example, some authenticators must be entered manually using some form of input device; others require the user’s visual or auditory abilities to be properly used [3].
+Inherent to an authenticator are the possibilities required for a user to use it. For example, some authenticators must be entered manually using some form of input device; others require the user’s visual or auditory abilities to be properly used [8].
 :::
 
 ::: {.subfactor-field}
 **Example**
 
 A fingerprint authenticator may be inaccessible to a user who cannot provide a readable fingerprint.
+:::
+::: {.subfactor-field .prediction-metric}
+**Prediction Metric**
+
+:::: {.prediction-metric-content}
+
+The proportion of ICF impairments that have a negative impact on an authenticator's usability [9].
+
+$$
+Access(A) = 1 - \frac{|ICF^U(A)|}{|ICF|}
+$$
+
+where $ICF^U(A)$ is the set of ICF impairments that affect the authenticator's usability.
+
+*Example: Based on Furnell et al. [9], hand geometry usability is affected by two ICF impairments (life function, walking). Given a total of ten ICF impairments, this yields $1-(2/10)=0.8$.*
+
+::::
+:::
+::: {.subfactor-field .calculation-example}
+**Calculation Example**
+
+:::: {.calculation-example-content}
+
+In the case study presented in the accompanying paper, password is affected by 6 of 10 ICF impairments in terms of usability, while fingerprint is affected by 3 of 10.
+
+::: {.calculation-grid}
+
+::: {.calculation-case}
+**Password**
+
+$$
+Access(pw)=1-\frac{6}{10}=0.4
+$$
+
+Accessibility: **0.40**
+:::
+
+::: {.calculation-case}
+**Fingerprint**
+
+$$
+Access(fp)=1-\frac{3}{10}=0.7
+$$
+
+Accessibility: **0.70**
+:::
+
+:::
+
+::::
 :::
 :::
 
@@ -126,7 +513,7 @@ The level of security an authenticator inherently provides in terms of the exten
 :::
 
 ::: {.subfactor-card}
-#### Threat sensitivity
+#### Attack robustness
 
 ::: {.subfactor-field}
 **Description**
@@ -145,6 +532,112 @@ Each authenticator is inherently exposed to different threats that allow it to b
 
 A password can be disclosed to another person, whereas a smart card can be physically stolen.
 :::
+::: {.subfactor-field .prediction-metric}
+**Prediction Metric**
+
+:::: {.prediction-metric-content}
+
+The proportion of authentication attack classes the authenticator is resistant to.
+
+$$
+AR(A) = \frac{1}{3|C|}\sum_{c \in C} r(A,c)
+      = \frac{1}{33}\sum_{c \in C} r(A,c)
+$$
+
+where $C$ is a fixed set of $|C| = 11$ common authentication attack classes, $A$ is an authenticator, and $r(A,c) \in \{0,1,2,3\}$ is an ordinal rank indicating how vulnerable or robust $A$ is to $c \in C$.
+
+::: {.rank-header}
+::: {.rank-header-label}
+Rank
+:::
+::: {.rank-header-description}
+Description
+:::
+:::
+
+::: {.rank-row}
+::: {.rank-value}
+0
+:::
+::: {.rank-content}
+**Vulnerable**
+
+The authenticator is inherently vulnerable to the attack class and no countermeasures exist.
+:::
+:::
+
+::: {.rank-row}
+::: {.rank-value}
+1
+:::
+::: {.rank-content}
+**Quasi-vulnerable**
+
+Countermeasures exist that can mitigate the vulnerability.
+:::
+:::
+
+::: {.rank-row}
+::: {.rank-value}
+2
+:::
+::: {.rank-content}
+**Quasi-resistant**
+
+Countermeasures exist that can completely eliminate the vulnerability.
+:::
+:::
+
+::: {.rank-row}
+::: {.rank-value}
+3
+:::
+::: {.rank-content}
+**Resistant**
+
+The authenticator is inherently not vulnerable to the attack class.
+:::
+:::
+
+::::
+:::
+::: {.subfactor-field .calculation-example}
+**Calculation Example**
+
+:::: {.calculation-example-content}
+
+In the case study presented in the accompanying paper, the ranks across the 11 considered attack classes sum to **16** for password and **21** for fingerprint.
+
+::: {.calculation-grid}
+
+::: {.calculation-case}
+**Password**
+
+$$
+AR(pw)=\frac{16}{3\cdot11}
+      =\frac{16}{33}
+      \approx0.48
+$$
+
+Attack Robustness: **0.48**
+:::
+
+::: {.calculation-case}
+**Fingerprint**
+
+$$
+AR(fp)=\frac{21}{3\cdot11}
+      =\frac{21}{33}
+      \approx0.64
+$$
+
+Attack Robustness: **0.64**
+:::
+
+:::
+
+::::
+:::
 :::
 
 
@@ -160,12 +653,62 @@ The degree to which modifications to how an authenticator is used to improve acc
 ::: {.subfactor-field}
 **Reasoning**
 
-Physiological or psychological impairments can limit the accessibility of authenticators. Authentication solutions can compensate for such limitations by implementing supportive measures; however, these measures may entail security risks. The specific measures that can be considered—and, consequently, the security risks that may be introduced as a result of impairments—are inherent to an authenticator [4].
+Physiological or psychological impairments can limit the accessibility of authenticators. Authentication solutions can compensate for such limitations by implementing supportive measures; however, these measures may entail security risks. The specific measures that can be considered—and, consequently, the security risks that may be introduced as a result of impairments—are inherent to an authenticator [10].
 :::
 
 ::: {.subfactor-field}
 **Example**
 
 Allowing another person to assist with entering a password can improve accessibility but may reveal the password.
+:::
+::: {.subfactor-field .prediction-metric}
+**Prediction Metric**
+
+:::: {.prediction-metric-content}
+
+The proportion of ICF impairments that have a negative impact on an authenticator's security [9].
+
+$$
+IR(A) = 1 - \frac{|ICF^S(A)|}{|ICF|}
+$$
+
+where $ICF^S(A)$ is the set of ICF impairments that affect the authenticator's security.
+
+*Example: Hand geometry: Based on Furnell et al. [9], PIN security is affected by five ICF impairments (intellectual, memory, visual, competence, dexterity). Given a total of ten ICF impairments, this yields $IR=1-(5/10)=0.5$.*
+
+::::
+:::
+::: {.subfactor-field .calculation-example}
+**Calculation Example**
+
+:::: {.calculation-example-content}
+
+In the case study presented in the accompanying paper, password is affected by 6 of 10 ICF impairments in terms of security, while fingerprint is affected by 1 of 10.
+
+::: {.calculation-grid}
+
+::: {.calculation-case}
+**Password**
+
+$$
+IR(pw)=1-\frac{6}{10}=0.4
+$$
+
+Impairment Risks: **0.40**
+:::
+
+::: {.calculation-case}
+**Fingerprint**
+
+$$
+IR(fp)=1-\frac{1}{10}=0.9
+$$
+
+Impairment Risks: **0.90**
+:::
+
+:::
+
+::::
 :::
 :::

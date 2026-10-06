@@ -40,14 +40,14 @@ jobs:
         run: |
           mkdir -p figures
           dot -Tsvg trees/solution-tree.dot -o figures/solution-tree.svg
-          dot -Tsvg trees/employment-tree.dot -o figures/employment-tree.svg
+          dot -Tsvg trees/technique-tree.dot -o figures/technique-tree.svg
           dot -Tsvg trees/authenticator-tree.dot -o figures/authenticator-tree.svg
 
       - name: Fix tree branches
         run: |
           node fix-tree-branches.js \
             figures/solution-tree.svg \
-            figures/employment-tree.svg \
+            figures/technique-tree.svg \
             figures/authenticator-tree.svg
 
       - name: Render Quarto project
