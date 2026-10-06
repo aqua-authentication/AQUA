@@ -1,9 +1,10 @@
-name: Build and deploy AQUA
+name: Build and deploy AQUA V1 + AQUÆDICT V2
 
 on:
   push:
     branches:
       - main
+      - v2
   workflow_dispatch:
 
 permissions:
@@ -20,8 +21,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Check out repository
+      - name: Check out V1 from main
         uses: actions/checkout@v4
+        with:
+          ref: main
+          path: v1-source
+
+      - name: Check out V2 from v2
+        uses: actions/checkout@v4
+        with:
+          ref: v2
+          path: v2-source
 
       - name: Install Graphviz
         run: |
@@ -36,33 +46,65 @@ jobs:
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
 
-      - name: Render tree graphics
+      # -------------------------
+      # Build AQUA Version 1
+      # -------------------------
+      - name: Render V1 tree graphics
+        working-directory: v1-source
         run: |
           mkdir -p figures
           dot -Tsvg trees/solution-tree.dot -o figures/solution-tree.svg
           dot -Tsvg trees/employment-tree.dot -o figures/employment-tree.svg
           dot -Tsvg trees/authenticator-tree.dot -o figures/authenticator-tree.svg
-
-      - name: Fix tree branches
-        run: |
           node fix-tree-branches.js \
             figures/solution-tree.svg \
             figures/employment-tree.svg \
             figures/authenticator-tree.svg
 
-      - name: Render Quarto project
-        run: |
-          quarto render index.qmd --to html
+      - name: Render V1 Quarto project
+        working-directory: v1-source
+        run: quarto render index.qmd --to html
 
-      - name: Make standalone HTML
-        run: |
-          node make-standalone.js "_output/authentication-quality-models.html"
+      - name: Make V1 standalone HTML
+        working-directory: v1-source
+        run: node make-standalone.js "_output/authentication-quality-models.html"
 
-      - name: Prepare final HTML
+      # -------------------------
+      # Build AQUÆDICT Version 2
+      # -------------------------
+      - name: Render V2 tree graphics
+        working-directory: v2-source
         run: |
-          mv "_output/authentication-quality-models.html" "_output/a-quality-model-for-authentication-solutions.html"
-          mkdir -p public
-          cp "_output/a-quality-model-for-authentication-solutions.html" "public/index.html"
+          mkdir -p figures
+          dot -Tsvg trees/solution-tree.dot -o figures/solution-tree.svg
+          dot -Tsvg trees/technique-tree.dot -o figures/technique-tree.svg
+          dot -Tsvg trees/authenticator-tree.dot -o figures/authenticator-tree.svg
+          node fix-tree-branches.js \
+            figures/solution-tree.svg \
+            figures/technique-tree.svg \
+            figures/authenticator-tree.svg
+
+      - name: Render V2 Quarto project
+        working-directory: v2-source
+        run: quarto render index.qmd --to html
+
+      - name: Make V2 standalone HTML
+        working-directory: v2-source
+        run: node make-standalone.js "_output/authentication-quality-models.html"
+
+      # -------------------------
+      # Assemble one Pages site
+      # /       -> V1
+      # /v1/    -> V1
+      # /v2/    -> V2
+      # -------------------------
+      - name: Prepare GitHub Pages site
+        run: |
+          mkdir -p public/v1 public/v2
+
+          cp "v1-source/_output/authentication-quality-models.html" "public/index.html"
+          cp "v1-source/_output/authentication-quality-models.html" "public/v1/index.html"
+          cp "v2-source/_output/authentication-quality-models.html" "public/v2/index.html"
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
