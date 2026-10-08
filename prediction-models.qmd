@@ -1,0 +1,76 @@
+---
+pagetitle: "AQUÆDICT – Quality Prediction Models"
+---
+
+# [AQUÆDICT]{.acronym-literal} Quality Prediction Models
+
+::: {.floating-site-nav role="navigation" aria-label="Page navigation"}
+[[AQUA]{.acronym-literal} Overview](authentication-quality-models.html){.floating-nav-link}
+[Definitional Models](definitional-models.html){.floating-nav-link}
+[Prediction Models](prediction-models.html){.floating-nav-link .active}
+:::
+
+[AQUÆDICT]{.acronym-literal} extends the [AQUA]{.acronym-literal} framework with **quality prediction models**. It does not introduce new definitional quality models. Instead, it builds on the existing definitional models **[AQUA-A]{.acronym-literal}**, **[AQUA-T]{.acronym-literal}**, and **[AQUA-S]{.acronym-literal}** [1] and operationalizes their quality factors and subfactors through prediction metrics.
+
+The corresponding prediction models are **[AQUÆDICT-A]{.acronym-literal}** for Authenticator Quality Prediction, **[AQUÆDICT-T]{.acronym-literal}** for Authentication Technique Quality Prediction, and **[AQUÆDICT-S]{.acronym-literal}** for Authentication Solution Quality Prediction.
+
+In other words, [AQUA]{.acronym-literal} defines **what quality means** for the respective authentication concepts, while [AQUÆDICT]{.acronym-literal} defines **how that quality can be predicted**.
+
+
+::: {.callout-note}
+## Current Scope
+
+[AQUÆDICT]{.acronym-literal} is structured into three quality prediction models: **[AQUÆDICT-A]{.acronym-literal}** for Authenticators, **[AQUÆDICT-T]{.acronym-literal}** for Authentication Techniques, and **[AQUÆDICT-S]{.acronym-literal}** for Authentication Solutions.
+
+At the current stage, **[AQUÆDICT-A]{.acronym-literal}** is developed in detail, including prediction metrics, normalization, and a worked demonstration. **[AQUÆDICT-T]{.acronym-literal}** and **[AQUÆDICT-S]{.acronym-literal}** are part of the prediction-model architecture but are not yet specified at the same level of detail.
+
+Accordingly, the detailed material on this page currently focuses on **[AQUÆDICT-A]{.acronym-literal}**.
+:::
+
+# Prediction Methodology
+
+The prediction methodology of [AQUÆDICT]{.acronym-literal} operationalizes the quality subfactors defined by [AQUA]{.acronym-literal} through corresponding **prediction metrics**. The methodology presented below is currently instantiated in detail for **[AQUÆDICT-A]{.acronym-literal}**, the Authenticator Quality Prediction Model.
+
+## Prediction Metrics
+
+For each quality subfactor considered by [AQUÆDICT-A]{.acronym-literal}, a **prediction metric** is defined. Depending on the subfactor, the metric either assigns an ordinal quality rank or directly yields a cardinal prediction value.
+
+For an ordinal scale with $k$ quality levels,
+
+$$
+L_k = \{l_0 < l_1 < \dots < l_{k-1}\},
+$$
+
+the levels are ordered from the worst quality level $l_0$ to the best quality level $l_{k-1}$. For a quality subfactor $q$, the corresponding Authenticator-level quality prediction function is defined as
+
+$$
+Q_q : A \rightarrow L_{k_q},
+$$
+
+where $A$ is an Authenticator and $k_q$ is the number of quality levels defined for the respective subfactor.
+
+## Normalization
+
+To make ordinal prediction values comparable with cardinal prediction values, ordinal scales are normalized to the interval **[0, 1]** using an established approach from multi-criteria decision analysis [2].
+
+$$
+\operatorname{norm}(l_i) = \frac{i}{k_q - 1}
+$$
+
+The normalization assigns **0** to the worst quality level and **1** to the best quality level, independent of the number of levels defined for a particular quality subfactor. This provides a common numerical scale for comparing the resulting quality predictions.
+
+{{< include aquaedict-a-tree.qmd >}}
+
+{{< include aquaedict-a-predictions.qmd >}}
+
+# References {.unnumbered}
+
+[1] A. R. Mattukat, K. Carka, M. Zerbe, AQUA - A Modular Authentication Quality Modeling Framework, 2026. To be published.
+
+[2] I. Z. Mukhametzyanov, Normalization of Multidimensional Data for Multi-Criteria Decision Making Problems: Inversion, Displacement, Asymmetry, volume 348 of International Series in Operations Research & Management Science, Springer International Publishing, 2023. doi:10.1007/978-3-031-33837-3.
+
+[3] J. Bonneau, C. Herley, P. C. v. Oorschot, F. Stajano, The quest to replace passwords: A framework for comparative evaluation of web authentication schemes, in: Proceedings of the 2012 IEEE Symposium on Security and Privacy, SP ’12, IEEE Computer Society, USA, 2012, p. 553–567. URL: https://doi.org/10.1109/SP.2012.44. doi:10.1109/SP.2012.44.
+
+[4] S. Furnell, K. Helkala, N. Woods, Accessible authentication: Assessing the applicability for users with disabilities, Computers & Security 113 (2022) 102561. URL: https://www.sciencedirect.com/science/article/pii/S0167404821003850. doi:10.1016/j.cose.2021.102561.
+
+[5] A. R. Mattukat, H. Lichter, A Catalog of User Authentication Patterns, arXiv e-prints (2026) arXiv:2608.26955. doi:10.48550/arXiv.2608.26955.

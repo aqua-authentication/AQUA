@@ -18,7 +18,7 @@ The degree of memorization required of a user to use all authenticators employed
 ::: {.subfactor-field}
 **Reasoning**
 
-Memorization burden is a well-known aspect in authentication, which heavily affects the usability of authentication [7].
+Memorization burden is a well-known aspect in authentication, which heavily affects the usability of authentication [1].
 :::
 
 ::: {.subfactor-field}
@@ -110,7 +110,7 @@ The degree to which the authenticators employed by an authentication technique a
 ::: {.subfactor-field}
 **Reasoning**
 
-An Authenticator Employment determines how authenticators are composed within an Authentication Technique. Together with the inherent properties of the employed authenticators, this determines the possibilities required for a user to use the technique. For example, some authenticators must be entered manually using some form of input device, while others require the user’s visual or auditory abilities to be properly used [8].
+An Authenticator Employment determines how authenticators are composed within an Authentication Technique. Together with the inherent properties of the employed authenticators, this determines the possibilities required for a user to use the technique. For example, some authenticators must be entered manually using some form of input device, while others require the user’s visual or auditory abilities to be properly used [2].
 :::
 
 ::: {.subfactor-field}
@@ -127,12 +127,12 @@ The level of security an authentication technique provides in terms of the exten
 :::
 
 ::: {.subfactor-card}
-#### Attack robustness
+#### Threat sensitivity
 
 ::: {.subfactor-field}
 **Description**
 
-The degree to which an authentication technique is exposed to or involved in threats.
+The degree to which all authenticators employed by an authentication technique are exposed to threats.
 :::
 
 ::: {.subfactor-field}
@@ -161,7 +161,7 @@ The degree to which modifications to how the employed authenticators are used to
 ::: {.subfactor-field}
 **Reasoning**
 
-Physiological or psychological impairments can limit the accessibility of employed authenticators. Authentication solutions can compensate for such limitations by implementing supportive measures; however, these measures may entail security risks. The specific measures that can be considered—and, consequently, the security risks that may be introduced as a result of impairments—are inherent to the employed authenticators [10].
+Physiological or psychological impairments can limit the accessibility of employed authenticators. Authentication solutions can compensate for such limitations by implementing supportive measures; however, these measures may entail security risks. The specific measures that can be considered—and, consequently, the security risks that may be introduced as a result of impairments—are inherent to the employed authenticators [2].
 :::
 
 ::: {.subfactor-field}

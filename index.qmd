@@ -1,146 +1,298 @@
 ---
-title: '<span class="acronym-literal">AQUÆDICT</span> - Quality Predictions for Authentication Solutions'
-subtitle: "Interactive Research Artifact - Version 2"
+title: '<span class="acronym-literal">AQUA</span> - A Modular Authentication Quality Modeling Framework'
+subtitle: "Interactive Research Artifact"
 output-file: "authentication-quality-models"
 ---
 
-::: {.callout-note}
-## [AQUA]{.acronym-literal} Version 2 ([AQUÆDICT]{.acronym-literal})
+# [AQUA]{.acronym-literal}
 
-This is **Version 2** of the interactive research artifact, now named **[AQUÆDICT]{.acronym-literal}**.
-
-[AQUÆDICT]{.acronym-literal} builds on the original **[AQUA]{.acronym-literal}** quality modeling framework [1] and extends it in two major ways.
-
-First, the conceptualization of authentication quality is refined. Quality previously attributed to an **Authenticator Employment** is now modeled as **Authentication Technique Quality**. An Authenticator Employment defines how authenticators are composed, while an Authentication Technique represents the concrete composition of authenticators that is implemented by an Authentication Solution [2].
-
-Second, [AQUÆDICT]{.acronym-literal} extends the previously definitional [AQUA]{.acronym-literal} quality models [1] with **quality prediction models**. For each quality subfactor, prediction metrics are defined that enable authentication qualities to be assessed and compared. Ordinal quality levels are normalized to the interval **[0, 1]** to make different quality assessments comparable [3].
-
-[View [AQUA]{.acronym-literal} Version 1](https://aqua-authentication.github.io/AQUA/)
+::: {.floating-site-nav role="navigation" aria-label="Page navigation"}
+[[AQUA]{.acronym-literal} Overview](authentication-quality-models.html){.floating-nav-link .active}
+[Definitional Models](definitional-models.html){.floating-nav-link}
+[Prediction Models](prediction-models.html){.floating-nav-link}
 :::
 
-Welcome to the [AQUÆDICT]{.acronym-literal} Webpage.
+Welcome to the **[AQUA]{.acronym-literal} website**.
 
-Authentication is one of the most widely used security controls [4]. It is the process by which a user verifies the identity they claim using one or more **authenticators** [5], such as a password or fingerprint. The conceptual approach used to perform authentication is an **authentication technique** [2], while the key design, architectural, and implementation choices made to realize authentication form an **authentication solution** [6].
+[AQUA]{.acronym-literal} is a modular quality modeling framework for authentication solutions. This website documents the framework, its definitional quality models, and the quality prediction models built upon it.
 
-[AQUÆDICT]{.acronym-literal} builds on [AQUA]{.acronym-literal}, a modular quality modeling framework for authentication solutions [1]. Its modular approach allows authentication quality to be considered at different levels. Authenticators have inherent quality properties, authentication techniques are affected by the authenticators they employ and their composition, and authentication solutions additionally depend on their concrete implementation.
+::: {.callout-note icon="false"}
+## Current Status
 
-[AQUÆDICT]{.acronym-literal} applies this framework to **quality prediction** by defining quality prediction models for **Authenticators**, **Authentication Techniques**, and **Authentication Solutions**. These models enable authentication qualities to be assessed and compared.
+This website reflects the current refinement of [AQUA]{.acronym-literal}. In the refined framework, **Authentication Technique Quality** replaces the previously proposed **Authenticator Employment Quality**: Authenticator Employment remains a central concept, but the resulting quality manifests in the Authentication Technique.
 
-# Authentication Quality Concepts {#authentication-quality-concepts .unnumbered}
+The framework and the related [AQUÆDICT]{.acronym-literal} quality prediction models are still under active development and may be subject to minor changes.
 
-[AQUÆDICT]{.acronym-literal} builds on the modular [AQUA]{.acronym-literal} framework [1], which decomposes authentication into four interrelated concepts: **Authenticator**, **Authenticator Employment**, **Authentication Technique**, and **Authentication Solution**.
-
-An **Authenticator** is the fundamental entity a user possesses, controls, and uses to perform authentication, such as a password or fingerprint.
-
-An **Authenticator Employment** defines the composition scheme of authenticators in terms of their cardinality, mode, and order.
-
-An **Authentication Technique** is the concrete composition of one or more authenticators that conforms to an Authenticator Employment.
-
-An **Authentication Solution** comprises the key design, architectural, and implementation choices made to realize authentication. One part of an Authentication Solution is the Authentication Technique it implements.
-
-Authenticators, Authentication Techniques, and Authentication Solutions each have distinct qualities. These qualities propagate from the **Authenticator**, over its composition within an **Authentication Technique**, to its concrete implementation as an **Authentication Solution**. While an Authenticator Employment determines how authenticators are composed and thereby affects Authentication Technique Quality, the resulting quality is attributed to the Authentication Technique.
-
-![The refined [AQUA]{.acronym-literal} concept framework [1] underlying [AQUÆDICT]{.acronym-literal}. Solid edges depict concepts; dashed edges represent instantiations.](figures/concepts-with-technique.svg){.concept-model-image}
-
-Credentials bind an authenticator to a user’s identity. They are not represented as a separate concept in this artifact, but distinguishing credentials from authenticators is relevant when considering availability properties.
-
-# [AQUÆDICT]{.acronym-literal} Quality Model Overview {#aquaedict-quality-model-overview}
-
-::: {.callout-note}
-## Research Status
-
-[AQUÆDICT]{.acronym-literal} represents the current state of the research and may be further refined in future versions.
+[View the original AQUA artifact (Version 1.0)](versions/1.0/)
 :::
 
-[AQUÆDICT]{.acronym-literal} distinguishes three fundamental levels of authentication quality: **Authenticator Quality**, **Authentication Technique Quality**, and **Authentication Solution Quality**. These qualities build on each other from the atomic level of an Authenticator, over the composition of Authenticators in an Authentication Technique, to the concrete implementation of an Authentication Solution.
+## What is [AQUA]{.acronym-literal}?
+Authentication solutions can differ substantially in quality. For example, passkey-based authentication can provide security advantages over password-based authentication [2], while multi-factor authentication tends to improve security at the cost of usability compared with single-factor authentication [3]. However, existing approaches use inconsistent terminology [4] and often do not distinguish whether a quality effect originates from the authenticator itself, from how authenticators are composed, or from the concrete implementation of the authentication solution [5–7].
 
-The original [AQUA]{.acronym-literal} framework introduced the quality models [AQUA-A]{.acronym-literal}, [AQUA-E]{.acronym-literal}, and [AQUA-S]{.acronym-literal} [1]. In [AQUÆDICT]{.acronym-literal}, the middle quality level is refined: the quality previously attributed to an **Authenticator Employment** is now attributed to the **Authentication Technique**. While an Authenticator Employment determines how Authenticators are composed and therefore affects their resulting quality, the actual manifestation of this quality is inherent to the Authentication Technique.
+[AQUA]{.acronym-literal} addresses this problem through a **modular quality modeling framework for authentication solutions**. It decomposes authentication into four interrelated concepts—**Authenticator**, **Authenticator Employment**, **Authentication Technique**, and **Authentication Solution**—so that quality properties can be associated with their conceptual origin and their propagation through an authentication solution can be modeled explicitly.
 
-Based on these three quality levels, [AQUÆDICT]{.acronym-literal} defines three corresponding quality prediction models:
+# Authentication Concepts
 
-- **[AQUÆDICT-A]{.acronym-literal}** for Authenticators
-- **[AQUÆDICT-T]{.acronym-literal}** for Authentication Techniques
-- **[AQUÆDICT-S]{.acronym-literal}** for Authentication Solutions
+[AQUA]{.acronym-literal} decomposes authentication into four interrelated concepts: **Authenticator**, **Authenticator Employment**, **Authentication Technique**, and **Authentication Solution**. This decomposition distinguishes quality effects originating from inherent authenticator properties, from the way authenticators are composed, and from their concrete technical realization.
 
-![Overview of the [AQUÆDICT]{.acronym-literal} quality models and their quality-factor dependencies.](figures/aqua-models.svg){.concept-model-image}
+::: {.concept-grid}
 
+::: {.concept-card .concept-authenticator}
 
-# Quality Prediction Models
+### Authenticator
 
-::: {.callout-note}
-## Work in Progress
+<span class="concept-type">Atomic concept</span>
 
-The quality prediction models presented in [AQUÆDICT]{.acronym-literal} reflect the current state of the research. The proposed prediction metrics are intended to demonstrate the overall approach and may be further refined and evaluated in future versions.
+An **Authenticator** is the entity a user possesses, controls, and uses to perform authentication.
+
+**Examples** Password, fingerprint, PIN, iris, or one-time password.
+
+**Notation**
+
+- $A$ — set of authenticators
+- $a \in A$ — an authenticator
+
 :::
 
-## Prediction Metrics
+::: {.concept-card .concept-employment}
+### Authenticator Employment
 
-[AQUÆDICT]{.acronym-literal} extends the definitional quality models of [AQUA]{.acronym-literal} [1] with **quality prediction models** for **Authenticators**, **Authentication Techniques**, and **Authentication Solutions**. These are represented by [AQUÆDICT-A]{.acronym-literal}, [AQUÆDICT-T]{.acronym-literal}, and [AQUÆDICT-S]{.acronym-literal}, respectively.
+<span class="concept-type">Composition scheme</span>
 
-For each quality subfactor, a **prediction metric** is defined. The metrics are based on quality rankings defined by the inherent properties of the Authenticators.
+An **Authenticator Employment** specifies how authenticators are composed independently of the concrete authenticators being used. It defines **slots**, their **cardinality**, and their **mode** and **order**.
 
-For an ordinal scale with $k$ quality levels,
+**Modes**
+
+[Hover or focus a mode to see an example.]{.mode-hint}
+
+<div class="employment-modes">
+
+<span class="employment-mode" tabindex="0">
+  Sequential
+  <span class="mode-popover">
+    <strong>Example.</strong> A password is entered first and a fingerprint is provided afterwards. This corresponds to a sequential use of authenticators and is commonly used in multi-factor authentication [8].
+  </span>
+</span>
+
+<span class="employment-mode" tabindex="0">
+  Simultaneous
+  <span class="mode-popover">
+    <strong>Example.</strong> Two authenticators are used at the same time, such as in authentication techniques that rely on multiple authenticators simultaneously [9].
+  </span>
+</span>
+
+<span class="employment-mode" tabindex="0">
+  Conditional
+  <span class="mode-popover">
+    <strong>Example.</strong> The authenticator composition depends on a condition, for example in adaptive authentication where the concrete path is chosen depending on contextual circumstances [10].
+  </span>
+</span>
+
+</div>
+
+Sequential employment is commonly used for multi-factor authentication [8], simultaneous employment can represent techniques in which authenticators are used at the same time [9], and conditional employment can represent adaptive authentication [10].
+
+**Notation**
+
+- $\varepsilon$ — a slot awaiting an authenticator
+- $E$ — an authenticator employment
+- $E(\varepsilon)$ — a single employment
+- $E_{\mathrm{seq}}$, $E_{\mathrm{sim}}$, $E_{\mathrm{cond}}$ — sequential, simultaneous, and conditional employment
+- $|E|$ — cardinality of an employment
+
+:::
+
+::: {.concept-card .concept-technique}
+### Authentication Technique
+
+<span class="concept-type">Concrete composition</span>
+
+An **Authentication Technique** assigns concrete authenticators to the slots specified by an Authenticator Employment. The authenticators are then used according to the employment's mode and order.
+
+**Example**
+
+A password followed by a fingerprint.
+
+**Notation**
+
+- $T$ — an authentication technique
+- $T = (E, (a_1,\ldots,a_k))$ — an employment $E$ with concrete authenticators assigned to its slots
+  
+For readability, techniques can be written in substitution form:
 
 $$
-L_k = \{l_0 < l_1 < \dots < l_{k-1}\}
+T := E_{\mathrm{seq}}(pw, fp)
 $$
 
-the levels are ordered from the worst quality level $l_0$ to the best quality level $l_{k-1}$. At the Authenticator level, the corresponding quality prediction function for a quality subfactor $q$ is defined as
+:::
+
+::: {.concept-card .concept-solution}
+### Authentication Solution
+
+<span class="concept-type">Technical realization</span>
+
+An **Authentication Solution** realizes an Authentication Technique through concrete design, architectural, and implementation decisions [1].
+
+**Example**
+
+An Android application and a desktop application may implement the same Authentication Technique while constituting different Authentication Solutions.
+
+**Notation**
+
+- $S$ — an authentication solution
+- $T$ — the authentication technique implemented by the solution
 
 $$
-Q_q : A \rightarrow L_{k_q}
+S\ \text{implements}\ T
 $$
 
-where $A$ is an Authenticator and $k_q$ is the number of quality levels defined for the respective subfactor.
+:::
 
-## Normalization
+:::
 
-To make ordinal quality assessments comparable with cardinal subfactors, the ordinal scales are normalized to the interval **[0, 1]** using an established normalization approach from multi-criteria decision analysis [3].
+::: {.concept-summary}
+### From structure to realization
+
+An Authenticator Employment defines the **structure** of an authentication composition through its slots, while an Authentication Technique assigns **concrete authenticators** to those slots. The Authentication Solution then provides the **technical realization** of that technique.
+:::
+
+# Concept Relationships
+
+The four authentication concepts in [AQUA]{.acronym-literal} are connected through clearly defined relationships. An **Authentication Technique** conforms to an **Authenticator Employment** by assigning authenticators to its slots. An **Authentication Solution** implements an Authentication Technique and thereby provides its technical realization.
+
+These relationships also separate the different levels at which authentication is described: the Authenticator represents the atomic element, the Authenticator Employment specifies its composition structure, the Authentication Technique represents a concrete composition, and the Authentication Solution represents its technical realization.
+
+<div class="concept-framework-figure">
+
+![The AQUA concept framework showing the relationships between Authenticator, Authenticator Employment, Authentication Technique, and Authentication Solution.](figures/concepts-with-technique.svg)
+
+</div>
+
+::: {.callout-note icon="false"}
+## Formal notation
+
+[AQUA]{.acronym-literal} provides a formal representation for authenticator compositions.
+
+- $\varepsilon$ denotes a **slot**.
+- $E$ denotes an **Authenticator Employment**.
+- A single employment is written as $E(\varepsilon)$.
+- For $X_1,\ldots,X_n$ being slots or sub-employments:
 
 $$
-\operatorname{norm}(l_i) = \frac{i}{k_q - 1}
+E_{\mathrm{mode}}(X_1,\ldots,X_n), \qquad \mathrm{mode}\in\{\mathrm{seq},\mathrm{sim},\mathrm{cond}\}.
 $$
 
-The normalization assigns **0** to the worst quality level and **1** to the best quality level, independent of the number of levels used by a particular quality subfactor. This provides a common scale on which different quality assessments can be compared.
+The cardinality $|E|$ denotes the number of slots specified by an employment.
 
-# [AQUÆDICT]{.acronym-literal} Quality Models {#aquaedict-quality-models}
+An **Authentication Technique** is formally represented as
 
-In the following, the three quality models are presented in detail. Each model is presented first by its interactive tree structure, where hovering over an element reveals additional information. The detailed descriptions provide reasoning and examples for the quality subfactors; where prediction metrics are currently specified, these are shown alongside the corresponding subfactors. A detailed description follows each tree.
+$$
+T = (E,(a_1,\ldots,a_k)),
+$$
 
-{{< include authenticator-tree.qmd >}}
+where $E$ has cardinality $k$ and $a_i \in A$ is the authenticator assigned to the $i$-th slot.
 
-{{< include authenticator-table.qmd >}}
+For readability, [AQUA]{.acronym-literal} also uses a substitution form. For example,
 
-{{< include auth-technique-tree.qmd >}}
+$$
+T := E_{\mathrm{seq}}(pw,fp).
+$$
 
-{{< include auth-technique-table.qmd >}}
+An **Authentication Solution** $S$ implements an Authentication Technique $T$.
+:::
 
-{{< include auth-sol-tree.qmd >}}
+# Quality Relationships
 
-{{< include auth-sol-table.qmd >}}
+The concepts introduced above form the basis for how [AQUA]{.acronym-literal} separates and relates authentication quality. **Authenticator**, **Authentication Technique**, and **Authentication Solution** each possess distinct quality properties. These qualities are related unidirectionally: properties originating at the authenticator level can affect the quality of the technique in which the authenticator is used, which in turn can affect the quality of the solution that implements the technique.
 
-# References {.unnumbered .unlisted}
+::: {.quality-flow}
+[**Authenticator Quality**]{.quality-authenticator}
 
-[1] A. R. Mattukat, K. Carka, M. Zerbe, and H. Lichter, “Aqua - a modular authentication quality modeling framework,” 2026. To be published.
+↓
 
-[2] A. R. Mattukat, V. Schmandt, T. Langstrof, M. Zerbe, and H. Lichter, “A faceted classification of authenticator-centric authentication techniques,” in *Proceedings of the 21st International Conference on Evaluation of Novel Approaches to Software Engineering - Volume 1: ENASE*, SciTePress, 2026, pp. 568–578. [Online]. Available: <https://doi.org/10.5220/0014982200004015>
+[**Authentication Technique Quality**]{.quality-technique}
 
-[3] I. Z. Mukhametzyanov, *Normalization of Multidimensional Data for Multi-Criteria Decision Making Problems: Inversion, Displacement, Asymmetry*, vol. 348 of *International Series in Operations Research & Management Science*. Springer International Publishing, 2023. [Online]. Available: <https://doi.org/10.1007/978-3-031-33837-3>
+↓
 
-[4] David Temoshok, Diana Proud-Madruga, Yee-Yin Choong, Ryan Galluzzo, Sarbari Gupta, Connie LaSalle, Naomi Lefkovitz, and Andrew Regenscheid, “Digital identity guidelines: NIST special publication.” [Online]. Available: <https://doi.org/10.6028/NIST.SP.800-63-4>
+[**Authentication Solution Quality**]{.quality-solution}
+:::
 
-[5] D. Todorov, *Mechanics of User Identification and Authentication: Fundamentals of Identity Management*. CRC Press, 2007.
+## Authenticator Quality
 
-[6] V. Pillitteri and R. Ross, “Enhanced security requirements for protecting controlled unclassified information: NIST Special Publication 800-172r3.” [Online]. Available: <https://doi.org/10.6028/NIST.SP.800-172r3>
+**Authenticator Quality** captures quality properties that are inherent to an authenticator itself. These properties exist independently of a particular composition or technical implementation.
 
-[7] J. Bonneau, C. Herley, P. C. v. Oorschot, and F. Stajano, “The quest to replace passwords: A framework for comparative evaluation of web authentication schemes,” in *Proceedings of the 2012 IEEE Symposium on Security and Privacy*, ser. SP ’12. USA: IEEE Computer Society, 2012, pp. 553–567. [Online]. Available: <https://doi.org/10.1109/SP.2012.44>
+For example, properties related to how inherently easy an authenticator is to use originate at this level.
 
-[8] N. Fenton and J. Bieman, *Software Metrics: A Rigorous and Practical Approach, Third Edition*, 3rd ed. USA: CRC Press, Inc., 2014.
+## Authentication Technique Quality
 
-[9] S. Furnell, K. Helkala, and N. Woods, “Accessible authentication: Assessing the applicability for users with disabilities,” *Computers & Security*, vol. 113, p. 102561, 2022. [Online]. Available: <https://doi.org/10.1016/j.cose.2021.102561>
+**Authentication Technique Quality** describes the quality of a concrete composition of authenticators.
 
-[10] S. Furnell and M. Bishop, “Addressing cyber security skills: the spectrum, not the silo,” *Computer Fraud & Security*, vol. 2020, no. 2, pp. 6–11, 2020.
+It depends on the qualities of the authenticators used, while the **Authenticator Employment determines how these qualities are combined** through its cardinality, mode, and order. Consequently, the employment affects quality, but the resulting quality manifests in the Authentication Technique.
 
-[11] A. Pfitzmann and M. Hansen, “A terminology for talking about privacy by data minimization: Anonymity, unlinkability, undetectability, unobservability, pseudonymity, and identity management,” Aug. 2010, v0.34. [Online]. Available: <http://dud.inf.tu-dresden.de/literatur/Anon%20Terminology%20v0.34.pdf>
+## Authentication Solution Quality
 
-[12] J. Küster, “lea.online - software applications for individuals with low literacy,” *Electronic Communications of the EASST*, vol. 83, Feb. 2025.
+**Authentication Solution Quality** builds on the quality of the Authentication Technique that the solution implements.
+
+However, the technique does not determine the solution's quality completely. Solution-specific design, architectural, and implementation decisions can further influence the resulting quality.
+
+
+::: {.callout-note icon="false"}
+## The role of Authenticator Employment
+
+Authenticator Employment remains a central concept of [AQUA]{.acronym-literal}, but it is **not a quality-bearing concept of its own**. It specifies how authenticators are composed and thereby determines properties of an Authentication Technique. The resulting quality is therefore modeled as **Authentication Technique Quality**.
+:::
+
+
+# Explore [AQUA]{.acronym-literal}
+
+[AQUA]{.acronym-literal} provides the conceptual framework on which the following model families are built. The **definitional quality models** describe the quality structure of authentication concepts, while **[AQUÆDICT]{.acronym-literal}** extends this foundation with **quality prediction models** and corresponding prediction metrics.
+
+::: {.columns}
+::: {.column width="50%"}
+
+::: {.explore-card .explore-def}
+## Definitional Quality Models
+
+The definitional models capture the quality structure of the three quality-bearing concepts in [AQUA]{.acronym-literal}:
+
+- [AQUA-A]{.acronym-literal} — Authenticator Quality Model
+- [AQUA-T]{.acronym-literal} — Authentication Technique Quality Model
+- [AQUA-S]{.acronym-literal} — Authentication Solution Quality Model
+
+[Explore definitional quality models →](definitional-models.html){.explore-link}
+:::
+
+:::
+::: {.column width="50%"}
+
+::: {.explore-card .explore-pred}
+## Quality Prediction Models
+[AQUÆDICT]{.acronym-literal} extends [AQUA]{.acronym-literal} with quality prediction models that operationalize quality subfactors through prediction metrics and corresponding quality predictions.
+
+[Explore quality prediction models →](prediction-models.html){.explore-link}
+:::
+
+:::
+:::
+
+# References {.unnumbered}
+
+[1] V. Pillitteri, R. Ross, Enhanced Security Requirements for Protecting Controlled Unclassified Information: NIST Special Publication 800-172r3, Technical Report 800-172r3, National Institute of Standards and Technology, 2026. doi:10.6028/NIST.SP.800-172r3.
+
+[2] A. Matzen, A. Rüffer, M. Byllemos, O. Heine, M. Papaioannou, G. Choudhary, N. Dragoni, Challenges and potential improvements for passkey adoption—a literature review with a user-centric perspective, Applied Sciences 15 (2025). URL: https://www.mdpi.com/2076-3417/15/8/4414. doi:10.3390/app15084414.
+
+[3] S. Klivan, S. Höltervennhoff, N. Huaman, A. Krause, L. Simko, Y. Acar, S. Fahl, ”we’ve disabled mfa for you”: An evaluation of the security and usability of multi-factor authentication recovery deployments, in: Proceedings of the 2023 ACM SIGSAC Conference on Computer and Communications Security, CCS ’23, Association for Computing Machinery, New York, NY, USA, 2023, p. 3138–3152. URL: https://doi.org/10.1145/3576915.3623180. doi:10.1145/3576915.3623180.
+
+[4] L. Neil, J. M. Haney, K. Buchanan, C. Healy, Analyzing cybersecurity definitions for non-experts, in: Furnell, Steven and Clarke, Nathan (Ed.), Human Aspects of Information Security and Assurance, Springer Nature Switzerland, Cham, 2023, pp. 391–404.
+
+[5] J. Bonneau, C. Herley, P. C. v. Oorschot, F. Stajano, The quest to replace passwords: A framework for comparative evaluation of web authentication schemes, in: Proceedings of the 2012 IEEE Symposium on Security and Privacy, SP ’12, IEEE Computer Society, USA, 2012, p. 553–567. URL: https://doi.org/10.1109/SP.2012.44. doi:10.1109/SP.2012.44.
+
+[6] S. Furnell, K. Helkala, N. Woods, Accessible authentication: Assessing the applicability for users with disabilities, Computers & Security 113 (2022) 102561. URL: https://www.sciencedirect.com/science/article/pii/S0167404821003850. doi:10.1016/j.cose.2021.102561.
+
+[7] S. Zafar, M. Mehboob, A. Naveed, B. Malik, Security quality model: an extension of dromey’s model, Software Quality Journal 23 (2015) 29–54. URL: https://doi.org/10.1007/s11219-013-9223-1. doi:10.1007/s11219-013-9223-1.
+
+[8] A. Ometov, S. Bezzateev, N. Mäkitalo, S. Andreev, T. Mikkonen, Y. Koucheryavy, Multi-factor authentication: A survey, Cryptography 2 (2018). URL: https://www.mdpi.com/2410-387X/2/1/1. doi:10.3390/cryptography2010001.
+
+[9] A. R. Mattukat, V. Schmandt, T. Langstrof, M. Zerbe, H. Lichter, A faceted classification of authenticator-centric authentication techniques, in: Proceedings of the 21st International Conference on Evaluation of Novel Approaches to Software Engineering - Volume 1: ENASE, INSTICC, SciTePress, 2026, pp. 568–578. doi:10.5220/0014982200004015.
+
+[10] P. Arias-Cabarcos, C. Krupitzer, C. Becker, A survey on adaptive authentication, ACM Comput. Surv. 52 (2019). URL: https://doi.org/10.1145/3336117. doi:10.1145/3336117.

@@ -17,7 +17,7 @@ The degree of memorization required of a user to use the authenticators of the a
 ::: {.subfactor-field}
 **Reasoning**
 
-Memorization burden is a well-known aspect in authentication, which heavily affects the usability of authentication [7].
+Memorization burden is a well-known aspect in authentication, which heavily affects the usability of authentication [1].
 :::
 
 ::: {.subfactor-field}
@@ -109,7 +109,7 @@ The degree to which an authentication solution, including the authentication tec
 ::: {.subfactor-field}
 **Reasoning**
 
-Authentication solutions provide the means required for a user to use the authenticators of the implemented authentication technique. For example, some authenticators must be entered manually using some form of input device, while others require the user’s visual or auditory abilities to be properly used [8].
+Authentication solutions provide the means required for a user to use the authenticators of the implemented authentication technique. For example, some authenticators must be entered manually using some form of input device, while others require the user’s visual or auditory abilities to be properly used [2].
 :::
 
 ::: {.subfactor-field}
@@ -172,18 +172,18 @@ The level of security an authentication solution provides through the authentica
 :::
 
 ::: {.subfactor-card}
-#### Attack robustness
+#### Threat sensitivity
 
 ::: {.subfactor-field}
 **Description**
 
-The degree to which an authentication solution is robust against threats affecting the authentication technique it implements.
+The degree to which the authentication technique implemented by an authentication solution is exposed to threats.
 :::
 
 ::: {.subfactor-field}
 **Reasoning**
 
-The authentication technique implemented by an authentication solution can be exposed to different threats that allow its authenticators to be exploited or compromised. The concrete implementation of the technique can further affect how robust the resulting authentication solution is against these threats.
+The authentication technique implemented by an authentication solution can be exposed to different threats that allow its authenticators to be exploited or compromised. The concrete implementation of the technique can further affect the resulting authentication solution’s exposure to these threats.
 :::
 
 ::: {.subfactor-field}
@@ -206,7 +206,7 @@ The degree to which modifications to the implementation of an authentication tec
 ::: {.subfactor-field}
 **Reasoning**
 
-Physiological or psychological impairments can limit the accessibility of the authenticators used by the implemented authentication technique. Authentication solutions can compensate for such limitations by implementing supportive measures; however, these measures may entail security risks. The specific measures that can be considered—and, consequently, the security risks that may be introduced as a result of impairments—depend on the authenticators used by the technique [10].
+Physiological or psychological impairments can limit the accessibility of the authenticators used by the implemented authentication technique. Authentication solutions can compensate for such limitations by implementing supportive measures; however, these measures may entail security risks. The specific measures that can be considered—and, consequently, the security risks that may be introduced as a result of impairments—depend on the authenticators used by the technique [2].
 :::
 
 ::: {.subfactor-field}
@@ -256,7 +256,7 @@ The degree to which an authentication solution ensures that multiple verifiers u
 ::: {.subfactor-field}
 **Reasoning**
 
-Unlinkability is an important characteristic for privacy [11]. In terms of authentication, we adapt the definition of Bonneau et al. [7].
+Unlinkability captures whether multiple verifiers can determine that the same user is authenticating with both of them.
 :::
 
 ::: {.subfactor-field}
@@ -279,7 +279,7 @@ The degree to which the authentication solution relies on trusted third parties 
 ::: {.subfactor-field}
 **Reasoning**
 
-User data shared with third parties is a crucial privacy subfactor; third parties are a major source of compromised sensitive user data [7].
+User data shared with third parties is a crucial privacy subfactor; third parties are a major source of compromised sensitive user data [1].
 :::
 
 ::: {.subfactor-field}
@@ -354,7 +354,7 @@ The degree of complexity associated with how easy or difficult it is for a human
 ::: {.subfactor-field}
 **Reasoning**
 
-Security solutions and, thus, authentication solutions are difficult to understand as a whole, evidenced by the pure existence of security patterns. However, the difficulties are not caused by their architectural complexity, but rather by the overall concepts they entail [12].
+Authentication solutions combine design, architectural, and implementation decisions. Cognitive complexity captures how easy or difficult the resulting solution is for a human to understand.
 :::
 
 ::: {.subfactor-field}

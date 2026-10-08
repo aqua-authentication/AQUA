@@ -1,12 +1,8 @@
 #!/usr/bin/env bash
-set -u
+set -euo pipefail
 
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 cd "$SCRIPT_DIR" || exit 1
-
-SOURCE_HTML="$SCRIPT_DIR/_output/authentication-quality-models.html"
-FINAL_HTML="$SCRIPT_DIR/_output/a-quality-model-for-authentication-solutions.html"
-PUBLISHED_HTML="$SCRIPT_DIR/docs/index.html"
 
 if ! command -v quarto >/dev/null 2>&1; then
   echo
@@ -20,44 +16,55 @@ if ! command -v node >/dev/null 2>&1; then
   exit 1
 fi
 
-quarto render index.qmd --to html
-if [ $? -ne 0 ]; then
+if ! quarto render --to html; then
   echo
-  echo "Rendering failed. Check that Quarto is installed."
+  echo "Rendering failed."
   exit 1
 fi
 
-node "$SCRIPT_DIR/make-standalone.js" "$SOURCE_HTML"
-if [ $? -ne 0 ]; then
-  echo
-  echo "Standalone HTML processing failed."
-  exit 1
-fi
+OUTPUT_DIR="$SCRIPT_DIR/_output"
+DOCS_DIR="$SCRIPT_DIR/docs"
 
-mv -f "$SOURCE_HTML" "$FINAL_HTML"
-if [ $? -ne 0 ]; then
-  echo
-  echo "Renaming the rendered HTML failed."
-  exit 1
-fi
+HTML_FILES=(
+  "authentication-quality-models.html"
+  "definitional-models.html"
+  "prediction-models.html"
+)
 
-mkdir -p "$SCRIPT_DIR/docs"
-cp -f "$FINAL_HTML" "$PUBLISHED_HTML"
-if [ $? -ne 0 ]; then
-  echo
-  echo "Copying the HTML to docs/index.html failed."
-  exit 1
-fi
+for file in "${HTML_FILES[@]}"; do
+  if [ ! -f "$OUTPUT_DIR/$file" ]; then
+    echo
+    echo "Expected rendered file not found: _output/$file"
+    exit 1
+  fi
+
+  if ! node "$SCRIPT_DIR/make-standalone.js" "$OUTPUT_DIR/$file"; then
+    echo
+    echo "Standalone HTML processing failed for $file."
+    exit 1
+  fi
+done
+
+mkdir -p "$DOCS_DIR"
+
+# Keep the canonical landing-page filename as well as index.html so the
+# persistent cross-page navigation works in both _output and docs.
+cp -f "$OUTPUT_DIR/authentication-quality-models.html" "$DOCS_DIR/authentication-quality-models.html"
+cp -f "$OUTPUT_DIR/authentication-quality-models.html" "$DOCS_DIR/index.html"
+cp -f "$OUTPUT_DIR/definitional-models.html" "$DOCS_DIR/definitional-models.html"
+cp -f "$OUTPUT_DIR/prediction-models.html" "$DOCS_DIR/prediction-models.html"
 
 echo
 echo "HTML successfully created:"
-echo "$FINAL_HTML"
+echo "$OUTPUT_DIR/authentication-quality-models.html"
+echo "$OUTPUT_DIR/definitional-models.html"
+echo "$OUTPUT_DIR/prediction-models.html"
 echo
-echo "GitHub Pages copy updated:"
-echo "$PUBLISHED_HTML"
+echo "GitHub Pages copies updated in:"
+echo "$DOCS_DIR"
 
 if command -v xdg-open >/dev/null 2>&1; then
-  xdg-open "$FINAL_HTML" >/dev/null 2>&1 &
+  xdg-open "$OUTPUT_DIR/authentication-quality-models.html" >/dev/null 2>&1 &
 elif command -v open >/dev/null 2>&1; then
-  open "$FINAL_HTML" >/dev/null 2>&1 &
+  open "$OUTPUT_DIR/authentication-quality-models.html" >/dev/null 2>&1 &
 fi

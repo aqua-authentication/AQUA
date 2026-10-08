@@ -15,165 +15,6 @@
 
 <div class="subfactor-popover" id="subfactor-popover" hidden role="tooltip"></div>
 
-
-<style id="quality-model-prediction-popover-styles">
-/* Compact subfactor hover, including prediction and worked examples. */
-.subfactor-popover[data-kind="subfactor"] {
-  width: min(550px, calc(100vw - 20px));
-  max-height: none;
-  overflow: visible;
-  box-sizing: border-box;
-  transform-origin: top left;
-}
-
-.subfactor-popover[data-kind="subfactor"] .subfactor-popover-title {
-  padding: 0.58rem 0.78rem 0.5rem;
-  font-size: 0.96rem;
-  line-height: 1.22;
-}
-
-.subfactor-popover[data-kind="subfactor"] .subfactor-popover-field {
-  grid-template-columns: 6rem minmax(0, 1fr);
-  gap: 0.62rem;
-  padding: 0.5rem 0.78rem;
-}
-
-.subfactor-popover[data-kind="subfactor"] .subfactor-popover-label {
-  font-size: 0.69rem;
-  line-height: 1.25;
-}
-
-.subfactor-popover[data-kind="subfactor"] .subfactor-popover-value {
-  min-width: 0;
-  font-size: 0.82rem;
-  line-height: 1.34;
-}
-
-.subfactor-popover[data-kind="subfactor"] .subfactor-popover-prediction,
-.subfactor-popover[data-kind="subfactor"] .subfactor-popover-normalization,
-.subfactor-popover[data-kind="subfactor"] .subfactor-popover-calculation {
-  padding-top: 0.48rem;
-  padding-bottom: 0.5rem;
-}
-
-.subfactor-popover[data-kind="subfactor"] .subfactor-popover-prediction .prediction-metric-content,
-.subfactor-popover[data-kind="subfactor"] .subfactor-popover-normalization .normalization-example-content,
-.subfactor-popover[data-kind="subfactor"] .subfactor-popover-calculation .calculation-example-content {
-  width: 100%;
-  min-width: 0;
-}
-
-.subfactor-popover[data-kind="subfactor"] .subfactor-popover-prediction .rank-header,
-.subfactor-popover[data-kind="subfactor"] .subfactor-popover-prediction .rank-row {
-  grid-template-columns: 2.05rem minmax(0, 1fr);
-  column-gap: 0.5rem;
-}
-
-.subfactor-popover[data-kind="subfactor"] .subfactor-popover-prediction .rank-header {
-  margin-top: 0.1rem;
-  padding-bottom: 0.16rem;
-  font-size: 0.68rem;
-}
-
-.subfactor-popover[data-kind="subfactor"] .subfactor-popover-prediction .rank-row {
-  align-items: start;
-  padding: 0.18rem 0;
-}
-
-.subfactor-popover[data-kind="subfactor"] .subfactor-popover-prediction .rank-value {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  align-self: start !important;
-  width: 1.85rem;
-  height: 1.85rem;
-  min-height: 1.85rem;
-  border-radius: 0.32rem;
-  font-size: 0.75rem;
-  line-height: 1;
-}
-
-.subfactor-popover[data-kind="subfactor"] .subfactor-popover-prediction .rank-value > p {
-  margin: 0 !important;
-  padding: 0 !important;
-  line-height: 1 !important;
-}
-
-.subfactor-popover[data-kind="subfactor"] .subfactor-popover-prediction .rank-content {
-  padding: 0;
-  font-size: 0.78rem;
-  line-height: 1.28;
-}
-
-.subfactor-popover[data-kind="subfactor"] .subfactor-popover-prediction .rank-content > p {
-  margin: 0 0 0.1rem;
-}
-
-.subfactor-popover[data-kind="subfactor"] .subfactor-popover-prediction .rank-content em {
-  margin-top: 0.05rem;
-  font-size: 0.74rem;
-  line-height: 1.24;
-}
-
-/* Worked example cards in the hover. */
-.subfactor-popover[data-kind="subfactor"] .normalization-example-content,
-.subfactor-popover[data-kind="subfactor"] .calculation-example-content {
-  font-size: 0.76rem;
-  line-height: 1.27;
-}
-
-.subfactor-popover[data-kind="subfactor"] .normalization-example-content > p,
-.subfactor-popover[data-kind="subfactor"] .calculation-example-content > p {
-  margin: 0 0 0.28rem;
-}
-
-.subfactor-popover[data-kind="subfactor"] .normalization-grid,
-.subfactor-popover[data-kind="subfactor"] .calculation-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.35rem;
-  margin: 0.28rem 0 0;
-}
-
-.subfactor-popover[data-kind="subfactor"] .normalization-case,
-.subfactor-popover[data-kind="subfactor"] .calculation-case {
-  min-width: 0;
-  padding: 0.34rem 0.4rem;
-  border: 1px solid var(--qm-soft-border);
-  border-radius: 0.34rem;
-  background: rgba(248, 250, 252, 0.9);
-  overflow: hidden;
-}
-
-.subfactor-popover[data-kind="subfactor"] .normalization-case > p,
-.subfactor-popover[data-kind="subfactor"] .calculation-case > p {
-  margin: 0 0 0.1rem;
-}
-
-.subfactor-popover[data-kind="subfactor"] .math.display,
-.subfactor-popover[data-kind="subfactor"] mjx-container[display="true"] {
-  margin: 0.12rem 0 !important;
-}
-
-.subfactor-popover[data-kind="subfactor"] .normalization-case mjx-container,
-.subfactor-popover[data-kind="subfactor"] .calculation-case mjx-container {
-  font-size: 76% !important;
-  max-width: 100%;
-}
-
-@media (max-width: 680px) {
-  .subfactor-popover[data-kind="subfactor"] {
-    width: calc(100vw - 12px);
-  }
-
-  .subfactor-popover[data-kind="subfactor"] .subfactor-popover-field {
-    grid-template-columns: 5.4rem minmax(0, 1fr);
-    padding-left: 0.55rem;
-    padding-right: 0.55rem;
-  }
-}
-</style>
-
 <script id="quality-model-interactions">
 (function () {
   "use strict";
@@ -223,10 +64,118 @@
 
     function modelKeyFor(section) {
       if (!section) return "";
-      if (section.id === "authenticator-quality-model") return "authenticator";
-      if (section.id === "authentication-technique-quality-model") return "technique";
-      if (section.id === "authentication-solution-quality-model") return "solution";
+
+      var identifier = String(section.id || "").toLowerCase();
+
+      if (identifier === "authenticator-quality-model" || /^aquaedict-a(?:-|$)/.test(identifier)) {
+        return "authenticator";
+      }
+
+      if (identifier === "authentication-technique-quality-model" || /^aquaedict-t(?:-|$)/.test(identifier)) {
+        return "technique";
+      }
+
+      if (identifier === "authentication-solution-quality-model" || /^aquaedict-s(?:-|$)/.test(identifier)) {
+        return "solution";
+      }
+
       return "";
+    }
+
+    function layerLabelsFor(modelKey) {
+      var labels = {
+        authenticator: {
+          definition: "AQUA-A Definition",
+          prediction: "AQUÆDICT-A Prediction"
+        },
+        technique: {
+          definition: "AQUA-T Definition",
+          prediction: "AQUÆDICT-T Prediction"
+        },
+        solution: {
+          definition: "AQUA-S Definition",
+          prediction: "AQUÆDICT-S Prediction"
+        }
+      };
+
+      return labels[modelKey] || null;
+    }
+
+    function cardFieldByName(card, fieldName) {
+      var wanted = String(fieldName || "").toLowerCase();
+      var children = card ? card.children : [];
+
+      for (var i = 0; i < children.length; i += 1) {
+        var field = children[i];
+
+        if (!field.classList || !field.classList.contains("subfactor-field")) {
+          continue;
+        }
+
+        var label = field.firstElementChild;
+        if (label && label.textContent.trim().toLowerCase() === wanted) {
+          return field;
+        }
+      }
+
+      return null;
+    }
+
+    function sectionHasPredictionLayer(modelSection) {
+      if (!modelSection) {
+        return false;
+      }
+
+      var cards = modelSection.querySelectorAll(".subfactor-card");
+      for (var i = 0; i < cards.length; i += 1) {
+        if (cardFieldByName(cards[i], "Prediction Metric")) {
+          return true;
+        }
+      }
+
+      return false;
+    }
+
+    function annotatePredictionCards(modelSection) {
+      if (!modelSection) {
+        return;
+      }
+
+      var modelKey = modelKeyFor(modelSection);
+      var labels = layerLabelsFor(modelKey);
+
+      if (!labels) {
+        return;
+      }
+
+      var cards = modelSection.querySelectorAll(".subfactor-card");
+      for (var i = 0; i < cards.length; i += 1) {
+        var card = cards[i];
+        var predictionField = cardFieldByName(card, "Prediction Metric");
+
+        if (!predictionField) {
+          continue;
+        }
+
+        var firstDefinitionField = null;
+        var children = card.children;
+        for (var j = 0; j < children.length; j += 1) {
+          if (children[j].classList && children[j].classList.contains("subfactor-field")) {
+            firstDefinitionField = children[j];
+            break;
+          }
+        }
+
+        card.classList.add("has-prediction-layer", "prediction-layer-" + modelKey);
+
+        if (firstDefinitionField) {
+          firstDefinitionField.classList.add("definition-layer-start");
+          firstDefinitionField.setAttribute("data-layer-label", labels.definition);
+        }
+
+        predictionField.classList.add("prediction-layer-start");
+        predictionField.setAttribute("data-layer-label", labels.prediction);
+      }
     }
 
     function directChildTitle(group) {
@@ -305,36 +254,25 @@
     }
 
     function fieldHtml(card, fieldName) {
-      var wanted = String(fieldName || "").toLowerCase();
-      var children = card ? card.children : [];
-
       /*
        * Read only direct .subfactor-field children. This is important for
        * Prediction Metric because that field contains its own nested layout.
        */
-      for (var i = 0; i < children.length; i += 1) {
-        var field = children[i];
-
-        if (!field.classList || !field.classList.contains("subfactor-field")) {
-          continue;
-        }
-
-        var label = field.firstElementChild;
-        if (!label || label.textContent.trim().toLowerCase() !== wanted) {
-          continue;
-        }
-
-        var html = "";
-        var content = label.nextElementSibling;
-        while (content) {
-          html += content.outerHTML;
-          content = content.nextElementSibling;
-        }
-
-        return html;
+      var field = cardFieldByName(card, fieldName);
+      if (!field) {
+        return "";
       }
 
-      return "";
+      var label = field.firstElementChild;
+      var html = "";
+      var content = label ? label.nextElementSibling : null;
+
+      while (content) {
+        html += content.outerHTML;
+        content = content.nextElementSibling;
+      }
+
+      return html;
     }
 
     function buildSubfactorLookup(modelSection) {
@@ -493,6 +431,17 @@
       popover.setAttribute("data-model", modelKey || "");
       popover.setAttribute("data-kind", "subfactor");
 
+      var labels = layerLabelsFor(modelKey);
+      var hasPrediction = !!(info.predictionMetric || info.normalizationExample || info.calculationExample);
+
+      var definitionLayerHtml = "";
+      if (hasPrediction && labels) {
+        definitionLayerHtml =
+          '<div class="subfactor-popover-layer-label subfactor-popover-definition-layer">' +
+            escapeHtml(labels.definition) +
+          "</div>";
+      }
+
       var predictionMetricHtml = "";
       if (info.predictionMetric) {
         predictionMetricHtml =
@@ -526,8 +475,17 @@
           "</div>";
       }
 
+      var predictionLayerHtml = "";
+      if (hasPrediction && labels) {
+        predictionLayerHtml =
+          '<div class="subfactor-popover-layer-label subfactor-popover-prediction-layer">' +
+            escapeHtml(labels.prediction) +
+          "</div>";
+      }
+
       popover.innerHTML =
         '<div class="subfactor-popover-title">' + escapeHtml(label) + "</div>" +
+        definitionLayerHtml +
         '<div class="subfactor-popover-field">' +
           '<div class="subfactor-popover-label">Description</div>' +
           '<div class="subfactor-popover-value">' + info.description + "</div>" +
@@ -540,6 +498,7 @@
           '<div class="subfactor-popover-label">Example</div>' +
           '<div class="subfactor-popover-value">' + info.example + "</div>" +
         "</div>" +
+        predictionLayerHtml +
         predictionMetricHtml +
         normalizationExampleHtml +
         calculationExampleHtml;
@@ -553,13 +512,13 @@
        * waiting for MathJax.typesetPromise(). Waiting kept the popover hidden
        * and caused the hover to appear broken in some standalone renders.
        */
-      if ((info.predictionMetric || info.normalizationExample || info.calculationExample) && typeof window.typesetMath === "function") {
+      if (hasPrediction && typeof window.typesetMath === "function") {
         try {
           window.typesetMath(popover);
         } catch (error) {
           /* Keep the hover usable even if math rendering fails. */
         }
-      } else if ((info.predictionMetric || info.normalizationExample || info.calculationExample) && typeof typesetMath === "function") {
+      } else if (hasPrediction && typeof typesetMath === "function") {
         try {
           typesetMath(popover);
         } catch (error) {
@@ -570,7 +529,18 @@
       positionPopover(node);
     }
 
-    function showFactorPopover(node, label, info, modelKey) {
+    function predictionContextLabel(modelKey, predictionContext) {
+      var labels = layerLabelsFor(modelKey);
+      if (!predictionContext || !labels) {
+        return "";
+      }
+
+      return '<div class="subfactor-popover-layer-label subfactor-popover-definition-layer">' +
+          escapeHtml(labels.definition) +
+        "</div>";
+    }
+
+    function showFactorPopover(node, label, info, modelKey, predictionContext) {
       if (!popover || !node || !info) {
         return;
       }
@@ -579,6 +549,7 @@
       popover.setAttribute("data-kind", "factor");
       popover.innerHTML =
         '<div class="subfactor-popover-title">' + escapeHtml(label) + "</div>" +
+        predictionContextLabel(modelKey, predictionContext) +
         '<div class="subfactor-popover-field">' +
           '<div class="subfactor-popover-label">Description</div>' +
           '<div class="subfactor-popover-value">' + info.description + "</div>" +
@@ -590,7 +561,7 @@
       positionPopover(node);
     }
 
-    function showRootPopover(node, label, info, modelKey) {
+    function showRootPopover(node, label, info, modelKey, predictionContext) {
       if (!popover || !node || !info) {
         return;
       }
@@ -599,6 +570,7 @@
       popover.setAttribute("data-kind", "root");
       popover.innerHTML =
         '<div class="subfactor-popover-title">' + escapeHtml(label) + "</div>" +
+        predictionContextLabel(modelKey, predictionContext) +
         '<div class="subfactor-popover-field">' +
           '<div class="subfactor-popover-label">Description</div>' +
           '<div class="subfactor-popover-value">' + escapeHtml(info.description) + "</div>" +
@@ -626,6 +598,7 @@
 
     function prepareInteractiveNodes(svg, modelSection, subfactorLookup, factorLookup) {
       var modelKey = modelKeyFor(modelSection);
+      var predictionContext = sectionHasPredictionLayer(modelSection);
       var edgeTitles = svg.querySelectorAll("g.edge > title");
 
       for (var e = 0; e < edgeTitles.length; e += 1) {
@@ -662,9 +635,9 @@
 
           function showPopover() {
             if (nodeKind === "root") {
-              showRootPopover(node, label, info, modelKey);
+              showRootPopover(node, label, info, modelKey, predictionContext);
             } else if (nodeKind === "factor") {
-              showFactorPopover(node, label, info, modelKey);
+              showFactorPopover(node, label, info, modelKey, predictionContext);
             } else {
               showSubfactorPopover(node, label, info, modelKey);
             }
@@ -825,6 +798,11 @@
       if (lastFocusedElement && typeof lastFocusedElement.focus === "function") {
         lastFocusedElement.focus();
       }
+    }
+
+    var qualityModelSections = document.querySelectorAll("section.level1");
+    for (var sectionIndex = 0; sectionIndex < qualityModelSections.length; sectionIndex += 1) {
+      annotatePredictionCards(qualityModelSections[sectionIndex]);
     }
 
     if (treeImages.length) {

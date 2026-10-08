@@ -1,7 +1,10 @@
 .quarto/
 .vscode/
+_output/
+docs/
 .DS_Store
 Thumbs.db
 *.tmp
-/.quarto/
 **/*.quarto_ipynb
+
+/.quarto/

@@ -1,11 +1,11 @@
-# [AQUÆDICT-S]{.acronym-literal}: Authentication Solution QM {#authentication-solution-quality-model}
+# [AQUA-S]{.acronym-literal}: Authentication Solution QM {#authentication-solution-quality-model}
 
 ::: {.model-intro .solution}
-**[AQUÆDICT-S]{.acronym-literal}** includes the Security factor and its subfactors, as well as five Usability subfactors, whose quality depends on the **Authentication Technique** implemented by the solution. In addition, we identified two solution-specific Usability subfactors and two solution-specific quality factors: Privacy and Applicability. The [**Description**](#solution-table) documents them.
+**[AQUA-S]{.acronym-literal}** includes the Security factor and its subfactors, as well as five Usability subfactors, whose quality depends on the **Authentication Technique** implemented by the solution. In addition, we identified two solution-specific Usability subfactors and two solution-specific quality factors: Privacy and Applicability. The [**Description**](#solution-table) documents them.
 :::
 
 ## Structure {#solution-tree}
 
 ::: {.tree-figure}
-![Hierarchical structure of [AQUÆDICT-S]{.acronym-literal}. Dashed outlines identify quality factors and subfactors whose quality depends on Authentication Technique Quality; solid outlines identify solution-specific elements.](figures/solution-tree.svg){.quality-tree}
+![Hierarchical structure of [AQUA-S]{.acronym-literal}. Dashed outlines identify quality factors and subfactors whose quality depends on Authentication Technique Quality; solid outlines identify solution-specific elements.](figures/solution-tree.svg){.quality-tree}
 :::
