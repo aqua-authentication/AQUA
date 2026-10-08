@@ -1,0 +1,13 @@
+# [AQUÆDICT-A]{.acronym-literal}: Authenticator Quality Prediction Model {#aquaedict-a-prediction-model}
+
+::: {.model-intro .authenticator}
+[AQUÆDICT-A]{.acronym-literal} operationalizes the quality factors and subfactors defined by [AQUA-A]{.acronym-literal} [1]. The underlying quality structure remains unchanged; [AQUÆDICT-A]{.acronym-literal} adds prediction metrics for deriving Authenticator quality predictions.
+
+Hover or focus a quality subfactor in the model below to inspect its definition together with the corresponding prediction metric and worked example.
+:::
+
+## Quality Structure
+
+::: {.tree-figure}
+![Quality structure underlying [AQUÆDICT-A]{.acronym-literal}, inherited from [AQUA-A]{.acronym-literal}.](figures/authenticator-tree.svg){.quality-tree}
+:::

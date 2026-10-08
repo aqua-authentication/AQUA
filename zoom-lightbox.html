@@ -64,10 +64,118 @@
 
     function modelKeyFor(section) {
       if (!section) return "";
-      if (section.id === "authenticator-quality-model") return "authenticator";
-      if (section.id === "authenticator-employment-quality-model") return "employment";
-      if (section.id === "authentication-solution-quality-model") return "solution";
+
+      var identifier = String(section.id || "").toLowerCase();
+
+      if (identifier === "authenticator-quality-model" || /^aquaedict-a(?:-|$)/.test(identifier)) {
+        return "authenticator";
+      }
+
+      if (identifier === "authentication-technique-quality-model" || /^aquaedict-t(?:-|$)/.test(identifier)) {
+        return "technique";
+      }
+
+      if (identifier === "authentication-solution-quality-model" || /^aquaedict-s(?:-|$)/.test(identifier)) {
+        return "solution";
+      }
+
       return "";
+    }
+
+    function layerLabelsFor(modelKey) {
+      var labels = {
+        authenticator: {
+          definition: "AQUA-A Definition",
+          prediction: "AQUÆDICT-A Prediction"
+        },
+        technique: {
+          definition: "AQUA-T Definition",
+          prediction: "AQUÆDICT-T Prediction"
+        },
+        solution: {
+          definition: "AQUA-S Definition",
+          prediction: "AQUÆDICT-S Prediction"
+        }
+      };
+
+      return labels[modelKey] || null;
+    }
+
+    function cardFieldByName(card, fieldName) {
+      var wanted = String(fieldName || "").toLowerCase();
+      var children = card ? card.children : [];
+
+      for (var i = 0; i < children.length; i += 1) {
+        var field = children[i];
+
+        if (!field.classList || !field.classList.contains("subfactor-field")) {
+          continue;
+        }
+
+        var label = field.firstElementChild;
+        if (label && label.textContent.trim().toLowerCase() === wanted) {
+          return field;
+        }
+      }
+
+      return null;
+    }
+
+    function sectionHasPredictionLayer(modelSection) {
+      if (!modelSection) {
+        return false;
+      }
+
+      var cards = modelSection.querySelectorAll(".subfactor-card");
+      for (var i = 0; i < cards.length; i += 1) {
+        if (cardFieldByName(cards[i], "Prediction Metric")) {
+          return true;
+        }
+      }
+
+      return false;
+    }
+
+    function annotatePredictionCards(modelSection) {
+      if (!modelSection) {
+        return;
+      }
+
+      var modelKey = modelKeyFor(modelSection);
+      var labels = layerLabelsFor(modelKey);
+
+      if (!labels) {
+        return;
+      }
+
+      var cards = modelSection.querySelectorAll(".subfactor-card");
+      for (var i = 0; i < cards.length; i += 1) {
+        var card = cards[i];
+        var predictionField = cardFieldByName(card, "Prediction Metric");
+
+        if (!predictionField) {
+          continue;
+        }
+
+        var firstDefinitionField = null;
+        var children = card.children;
+        for (var j = 0; j < children.length; j += 1) {
+          if (children[j].classList && children[j].classList.contains("subfactor-field")) {
+            firstDefinitionField = children[j];
+            break;
+          }
+        }
+
+        card.classList.add("has-prediction-layer", "prediction-layer-" + modelKey);
+
+        if (firstDefinitionField) {
+          firstDefinitionField.classList.add("definition-layer-start");
+          firstDefinitionField.setAttribute("data-layer-label", labels.definition);
+        }
+
+        predictionField.classList.add("prediction-layer-start");
+        predictionField.setAttribute("data-layer-label", labels.prediction);
+      }
     }
 
     function directChildTitle(group) {
@@ -146,17 +254,25 @@
     }
 
     function fieldHtml(card, fieldName) {
-      var fields = card.querySelectorAll(".subfactor-field");
-      var wanted = fieldName.toLowerCase();
-
-      for (var i = 0; i < fields.length; i += 1) {
-        var paragraphs = fields[i].querySelectorAll("p");
-        if (paragraphs.length >= 2 && paragraphs[0].textContent.trim().toLowerCase() === wanted) {
-          return paragraphs[1].innerHTML;
-        }
+      /*
+       * Read only direct .subfactor-field children. This is important for
+       * Prediction Metric because that field contains its own nested layout.
+       */
+      var field = cardFieldByName(card, fieldName);
+      if (!field) {
+        return "";
       }
 
-      return "";
+      var label = field.firstElementChild;
+      var html = "";
+      var content = label ? label.nextElementSibling : null;
+
+      while (content) {
+        html += content.outerHTML;
+        content = content.nextElementSibling;
+      }
+
+      return html;
     }
 
     function buildSubfactorLookup(modelSection) {
@@ -176,7 +292,10 @@
           title: heading.textContent.trim(),
           description: fieldHtml(cards[i], "Description"),
           reasoning: fieldHtml(cards[i], "Reasoning"),
-          example: fieldHtml(cards[i], "Example")
+          example: fieldHtml(cards[i], "Example"),
+          predictionMetric: fieldHtml(cards[i], "Prediction Metric"),
+          normalizationExample: fieldHtml(cards[i], "Normalization Example"),
+          calculationExample: fieldHtml(cards[i], "Calculation Example")
         };
       }
 
@@ -219,11 +338,11 @@
         authenticator: {
           description: "The authenticator is the most fundamental part of authentication. It is something a user possesses, controls, and uses to perform authentication, such as a password or fingerprint. Qualitative properties characterize the authenticator. Some of these properties are inherent to the authenticator and independent of the solution."
         },
-        employment: {
-          description: "An authenticator employment (employment for short) is a composition scheme. It specifies the cardinality (single or multiple authenticators), mode (conditional or unconditional use), and order in which authenticators are used. Qualitative properties characterize the employment. An employment’s quality is heavily based on the inherent quality of the employed authenticators."
+        technique: {
+          description: "An authentication technique is the concrete composition of one or more authenticators that conforms to an authenticator employment. The authenticator employment determines how authenticators are composed in terms of cardinality, mode, and order. While the employment determines the composition and thereby affects quality, the resulting quality is inherent to the authentication technique."
         },
         solution: {
-          description: "Authentication is realized by an authentication solution. An authentication solution (solution for short) is the key design, architectural, and implementation choices made to realize authentication. Qualitative properties characterize the solution. Certain aspects of the quality of an authentication solution depend on the quality of the employment. Other quality factors, such as privacy, are determined solely by the authentication solution."
+          description: "Authentication is realized by an authentication solution. An authentication solution (solution for short) is the key design, architectural, and implementation choices made to realize authentication. Qualitative properties characterize the solution. Certain aspects of the quality of an authentication solution depend on the quality of the authentication technique. Other quality factors, such as privacy, are determined solely by the authentication solution."
         }
       };
 
@@ -236,19 +355,6 @@
 
       if (direct) {
         return direct;
-      }
-
-      /*
-       * AQUA-S currently labels the tree node "Ease of memorization" while
-       * its Description card is titled "Memorization effortlessness".
-       * This alias links the existing texts without changing either source.
-       */
-      if (
-        modelSection &&
-        modelSection.id === "authentication-solution-quality-model" &&
-        key === "easeofmemorization"
-      ) {
-        return lookup.memorizationeffortlessness || null;
       }
 
       return null;
@@ -276,10 +382,27 @@
         .replace(/"/g, "&quot;");
     }
 
+    function fitSubfactorPopoverToViewport() {
+      if (!popover || popover.hidden || popover.getAttribute("data-kind") !== "subfactor") {
+        return;
+      }
+
+      popover.style.transform = "none";
+      var naturalHeight = popover.getBoundingClientRect().height;
+      var availableHeight = Math.max(240, window.innerHeight - 16);
+
+      if (naturalHeight > availableHeight) {
+        var fitScale = Math.max(0.82, availableHeight / naturalHeight);
+        popover.style.transform = "scale(" + fitScale.toFixed(3) + ")";
+      }
+    }
+
     function positionPopover(node) {
       if (!popover || popover.hidden || !node) {
         return;
       }
+
+      fitSubfactorPopoverToViewport();
 
       var nodeBounds = node.getBoundingClientRect();
       var popoverBounds = popover.getBoundingClientRect();
@@ -307,8 +430,62 @@
 
       popover.setAttribute("data-model", modelKey || "");
       popover.setAttribute("data-kind", "subfactor");
+
+      var labels = layerLabelsFor(modelKey);
+      var hasPrediction = !!(info.predictionMetric || info.normalizationExample || info.calculationExample);
+
+      var definitionLayerHtml = "";
+      if (hasPrediction && labels) {
+        definitionLayerHtml =
+          '<div class="subfactor-popover-layer-label subfactor-popover-definition-layer">' +
+            escapeHtml(labels.definition) +
+          "</div>";
+      }
+
+      var predictionMetricHtml = "";
+      if (info.predictionMetric) {
+        predictionMetricHtml =
+          '<div class="subfactor-popover-field subfactor-popover-prediction">' +
+            '<div class="subfactor-popover-label">Prediction Metric</div>' +
+            '<div class="subfactor-popover-value prediction-metric">' +
+              info.predictionMetric +
+            "</div>" +
+          "</div>";
+      }
+
+      var normalizationExampleHtml = "";
+      if (info.normalizationExample) {
+        normalizationExampleHtml =
+          '<div class="subfactor-popover-field subfactor-popover-normalization">' +
+            '<div class="subfactor-popover-label">Normalization Example</div>' +
+            '<div class="subfactor-popover-value normalization-example">' +
+              info.normalizationExample +
+            "</div>" +
+          "</div>";
+      }
+
+      var calculationExampleHtml = "";
+      if (info.calculationExample) {
+        calculationExampleHtml =
+          '<div class="subfactor-popover-field subfactor-popover-calculation">' +
+            '<div class="subfactor-popover-label">Calculation Example</div>' +
+            '<div class="subfactor-popover-value calculation-example">' +
+              info.calculationExample +
+            "</div>" +
+          "</div>";
+      }
+
+      var predictionLayerHtml = "";
+      if (hasPrediction && labels) {
+        predictionLayerHtml =
+          '<div class="subfactor-popover-layer-label subfactor-popover-prediction-layer">' +
+            escapeHtml(labels.prediction) +
+          "</div>";
+      }
+
       popover.innerHTML =
         '<div class="subfactor-popover-title">' + escapeHtml(label) + "</div>" +
+        definitionLayerHtml +
         '<div class="subfactor-popover-field">' +
           '<div class="subfactor-popover-label">Description</div>' +
           '<div class="subfactor-popover-value">' + info.description + "</div>" +
@@ -320,15 +497,50 @@
         '<div class="subfactor-popover-field">' +
           '<div class="subfactor-popover-label">Example</div>' +
           '<div class="subfactor-popover-value">' + info.example + "</div>" +
-        "</div>";
+        "</div>" +
+        predictionLayerHtml +
+        predictionMetricHtml +
+        normalizationExampleHtml +
+        calculationExampleHtml;
 
       activePopoverNode = node;
       popover.style.visibility = "hidden";
       popover.hidden = false;
+
+      /*
+       * Quarto exposes typesetMath(). Use it synchronously here instead of
+       * waiting for MathJax.typesetPromise(). Waiting kept the popover hidden
+       * and caused the hover to appear broken in some standalone renders.
+       */
+      if (hasPrediction && typeof window.typesetMath === "function") {
+        try {
+          window.typesetMath(popover);
+        } catch (error) {
+          /* Keep the hover usable even if math rendering fails. */
+        }
+      } else if (hasPrediction && typeof typesetMath === "function") {
+        try {
+          typesetMath(popover);
+        } catch (error) {
+          /* Keep the hover usable even if math rendering fails. */
+        }
+      }
+
       positionPopover(node);
     }
 
-    function showFactorPopover(node, label, info, modelKey) {
+    function predictionContextLabel(modelKey, predictionContext) {
+      var labels = layerLabelsFor(modelKey);
+      if (!predictionContext || !labels) {
+        return "";
+      }
+
+      return '<div class="subfactor-popover-layer-label subfactor-popover-definition-layer">' +
+          escapeHtml(labels.definition) +
+        "</div>";
+    }
+
+    function showFactorPopover(node, label, info, modelKey, predictionContext) {
       if (!popover || !node || !info) {
         return;
       }
@@ -337,6 +549,7 @@
       popover.setAttribute("data-kind", "factor");
       popover.innerHTML =
         '<div class="subfactor-popover-title">' + escapeHtml(label) + "</div>" +
+        predictionContextLabel(modelKey, predictionContext) +
         '<div class="subfactor-popover-field">' +
           '<div class="subfactor-popover-label">Description</div>' +
           '<div class="subfactor-popover-value">' + info.description + "</div>" +
@@ -348,7 +561,7 @@
       positionPopover(node);
     }
 
-    function showRootPopover(node, label, info, modelKey) {
+    function showRootPopover(node, label, info, modelKey, predictionContext) {
       if (!popover || !node || !info) {
         return;
       }
@@ -357,6 +570,7 @@
       popover.setAttribute("data-kind", "root");
       popover.innerHTML =
         '<div class="subfactor-popover-title">' + escapeHtml(label) + "</div>" +
+        predictionContextLabel(modelKey, predictionContext) +
         '<div class="subfactor-popover-field">' +
           '<div class="subfactor-popover-label">Description</div>' +
           '<div class="subfactor-popover-value">' + escapeHtml(info.description) + "</div>" +
@@ -384,6 +598,7 @@
 
     function prepareInteractiveNodes(svg, modelSection, subfactorLookup, factorLookup) {
       var modelKey = modelKeyFor(modelSection);
+      var predictionContext = sectionHasPredictionLayer(modelSection);
       var edgeTitles = svg.querySelectorAll("g.edge > title");
 
       for (var e = 0; e < edgeTitles.length; e += 1) {
@@ -420,9 +635,9 @@
 
           function showPopover() {
             if (nodeKind === "root") {
-              showRootPopover(node, label, info, modelKey);
+              showRootPopover(node, label, info, modelKey, predictionContext);
             } else if (nodeKind === "factor") {
-              showFactorPopover(node, label, info, modelKey);
+              showFactorPopover(node, label, info, modelKey, predictionContext);
             } else {
               showSubfactorPopover(node, label, info, modelKey);
             }
@@ -583,6 +798,11 @@
       if (lastFocusedElement && typeof lastFocusedElement.focus === "function") {
         lastFocusedElement.focus();
       }
+    }
+
+    var qualityModelSections = document.querySelectorAll("section.level1");
+    for (var sectionIndex = 0; sectionIndex < qualityModelSections.length; sectionIndex += 1) {
+      annotatePredictionCards(qualityModelSections[sectionIndex]);
     }
 
     if (treeImages.length) {

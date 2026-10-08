@@ -1,0 +1,47 @@
+---
+pagetitle: "AQUA – Definitional Quality Models"
+---
+
+# [AQUA]{.acronym-literal} Definitional Quality Models
+
+::: {.floating-site-nav role="navigation" aria-label="Page navigation"}
+[[AQUA]{.acronym-literal} Overview](authentication-quality-models.html){.floating-nav-link}
+[Definitional Models](definitional-models.html){.floating-nav-link .active}
+[Prediction Models](prediction-models.html){.floating-nav-link}
+:::
+
+The [AQUA]{.acronym-literal} framework is demonstrated through three tailored, interrelated quality models: **[AQUA-A]{.acronym-literal}** for Authenticators, **[AQUA-T]{.acronym-literal}** for Authentication Techniques, and **[AQUA-S]{.acronym-literal}** for Authentication Solutions.
+
+These models are **definitional quality models**. They structure the quality of their respective authentication concepts into quality factors and subfactors and document their meaning, reasoning, and examples. They do **not** define assessment or prediction metrics. The models are initial and non-exhaustive and serve to demonstrate how authentication quality can be modeled across the quality-bearing concepts of [AQUA]{.acronym-literal}.
+
+# [AQUA]{.acronym-literal} Quality Model Overview {#aqua-quality-model-overview}
+
+To demonstrate the modular quality modeling approach of [AQUA]{.acronym-literal}, three initial, non-exhaustive, and interrelated definitional quality models were developed:
+
+**[AQUA-A]{.acronym-literal}** for Authenticator Quality, **[AQUA-T]{.acronym-literal}** for Authentication Technique Quality, and **[AQUA-S]{.acronym-literal}** for Authentication Solution Quality. [AQUA-A]{.acronym-literal} and [AQUA-T]{.acronym-literal} define **Usability** and **Security** as quality factors. The corresponding quality of an Authentication Technique depends on the quality of its authenticators and on how they are composed through their Authenticator Employment. [AQUA-S]{.acronym-literal} builds on the quality of the implemented Authentication Technique and additionally defines the solution-specific quality factors **Privacy** and **Applicability**. The figure below provides a high-level overview of the three quality models and their quality-factor dependencies.
+
+![Overview of the [AQUA]{.acronym-literal} definitional quality models and their quality-factor dependencies.](figures/aqua-models.svg){.concept-model-image}
+
+# Explore the Quality Models
+
+The three quality models are presented below in detail. Each model is introduced through an interactive tree that visualizes its quality factors and subfactors. Hovering over an element reveals additional information.
+
+A detailed documentation follows each tree, providing the **description**, **reasoning**, and an **example** for each quality subfactor.
+
+{{< include authenticator-tree.qmd >}}
+
+{{< include authenticator-table.qmd >}}
+
+{{< include auth-technique-tree.qmd >}}
+
+{{< include auth-technique-table.qmd >}}
+
+{{< include auth-sol-tree.qmd >}}
+
+{{< include auth-sol-table.qmd >}}
+
+# References {.unnumbered}
+
+[1] J. Bonneau, C. Herley, P. C. v. Oorschot, F. Stajano, The quest to replace passwords: A framework for comparative evaluation of web authentication schemes, in: Proceedings of the 2012 IEEE Symposium on Security and Privacy, SP ’12, IEEE Computer Society, USA, 2012, p. 553–567. URL: https://doi.org/10.1109/SP.2012.44. doi:10.1109/SP.2012.44.
+
+[2] S. Furnell, K. Helkala, N. Woods, Accessible authentication: Assessing the applicability for users with disabilities, Computers & Security 113 (2022) 102561. URL: https://www.sciencedirect.com/science/article/pii/S0167404821003850. doi:10.1016/j.cose.2021.102561.

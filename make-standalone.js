@@ -85,7 +85,15 @@ try {
   html = html.replace(
     /<script\b[^>]*>[\s\S]*?<\/script>/gi,
     function (block) {
-      return /id=["']quality-model-interactions["']/i.test(block)
+      var isInteractionScript =
+        /id=["']quality-model-interactions["']/i.test(block);
+
+      var isMathScript =
+        /MathJax/i.test(block) ||
+        /mathjax/i.test(block) ||
+        /tex-mml-chtml/i.test(block);
+
+      return isInteractionScript || isMathScript
         ? block
         : "";
     }
@@ -93,7 +101,7 @@ try {
 
   writeUtf8(path, html);
 
-  echo("Created standalone HTML with one local interaction script.");
+  echo("Created standalone HTML with interaction and math scripts preserved.");
 } catch (error) {
   echo(error.message);
   quit(1);

@@ -1,4 +1,4 @@
-name: Build and deploy AQUA V1 + AQUÆDICT V2
+name: Build and deploy AQUA website
 
 on:
   push:
@@ -18,20 +18,23 @@ concurrency:
 
 jobs:
   build:
+    name: Build Pages artifact
     runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     steps:
-      - name: Check out V1 from main
+      # Build the current website from the commit that triggered this workflow.
+      - name: Check out current AQUA source
         uses: actions/checkout@v4
         with:
-          ref: main
-          path: v1-source
+          path: current-source
 
-      - name: Check out V2 from v2
+      # Version 1.0 remains frozen and is always rebuilt from this tag.
+      - name: Check out AQUA Version 1.0
         uses: actions/checkout@v4
         with:
-          ref: v2
-          path: v2-source
+          ref: artifact-v1.0
+          path: v1-source
 
       - name: Install Graphviz
         run: |
@@ -43,84 +46,157 @@ jobs:
         with:
           node-version: "20"
 
+      # Pin the Quarto version used to produce the current tested artifact.
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
+        with:
+          version: "1.10.19"
 
-      # -------------------------
-      # Build AQUA Version 1
-      # -------------------------
-      - name: Render V1 tree graphics
-        working-directory: v1-source
+      # ------------------------------------------------------------------
+      # Current AQUA website
+      # /                              landing page
+      # /definitional-models.html      AQUA definitional models
+      # /prediction-models.html        AQUAEDICT prediction models
+      # ------------------------------------------------------------------
+      - name: Render current tree graphics
+        working-directory: current-source
         run: |
+          set -euo pipefail
           mkdir -p figures
-          dot -Tsvg trees/solution-tree.dot -o figures/solution-tree.svg
-          dot -Tsvg trees/employment-tree.dot -o figures/employment-tree.svg
-          dot -Tsvg trees/authenticator-tree.dot -o figures/authenticator-tree.svg
-          node fix-tree-branches.js \
-            figures/solution-tree.svg \
-            figures/employment-tree.svg \
-            figures/authenticator-tree.svg
 
-      - name: Render V1 Quarto project
-        working-directory: v1-source
-        run: quarto render index.qmd --to html
-
-      - name: Make V1 standalone HTML
-        working-directory: v1-source
-        run: node make-standalone.js "_output/authentication-quality-models.html"
-
-      # -------------------------
-      # Build AQUÆDICT Version 2
-      # -------------------------
-      - name: Render V2 tree graphics
-        working-directory: v2-source
-        run: |
-          mkdir -p figures
           dot -Tsvg trees/solution-tree.dot -o figures/solution-tree.svg
           dot -Tsvg trees/technique-tree.dot -o figures/technique-tree.svg
           dot -Tsvg trees/authenticator-tree.dot -o figures/authenticator-tree.svg
+
           node fix-tree-branches.js \
             figures/solution-tree.svg \
             figures/technique-tree.svg \
             figures/authenticator-tree.svg
 
-      - name: Render V2 Quarto project
-        working-directory: v2-source
-        run: quarto render index.qmd --to html
-
-      - name: Make V2 standalone HTML
-        working-directory: v2-source
-        run: node make-standalone.js "_output/authentication-quality-models.html"
-
-      # -------------------------
-      # Assemble one Pages site
-      # /       -> V1
-      # /v1/    -> V1
-      # /v2/    -> V2
-      # -------------------------
-      - name: Prepare GitHub Pages site
+      - name: Render current Quarto project
+        working-directory: current-source
         run: |
-          mkdir -p public/v1 public/v2
+          set -euo pipefail
+          quarto render --to html
 
-          cp "v1-source/_output/authentication-quality-models.html" "public/index.html"
-          cp "v1-source/_output/authentication-quality-models.html" "public/v1/index.html"
-          cp "v2-source/_output/authentication-quality-models.html" "public/v2/index.html"
+          test -f _output/authentication-quality-models.html
+          test -f _output/definitional-models.html
+          test -f _output/prediction-models.html
+
+      - name: Make current pages standalone
+        working-directory: current-source
+        run: |
+          set -euo pipefail
+          node make-standalone.js "_output/authentication-quality-models.html"
+          node make-standalone.js "_output/definitional-models.html"
+          node make-standalone.js "_output/prediction-models.html"
+
+      # ------------------------------------------------------------------
+      # Frozen AQUA Version 1.0
+      # /versions/1.0/
+      # ------------------------------------------------------------------
+      - name: Render Version 1.0 tree graphics
+        working-directory: v1-source
+        run: |
+          set -euo pipefail
+          mkdir -p figures
+
+          dot -Tsvg trees/solution-tree.dot -o figures/solution-tree.svg
+          dot -Tsvg trees/employment-tree.dot -o figures/employment-tree.svg
+          dot -Tsvg trees/authenticator-tree.dot -o figures/authenticator-tree.svg
+
+          node fix-tree-branches.js \
+            figures/solution-tree.svg \
+            figures/employment-tree.svg \
+            figures/authenticator-tree.svg
+
+      - name: Render Version 1.0 Quarto project
+        working-directory: v1-source
+        run: |
+          set -euo pipefail
+          quarto render index.qmd --to html
+          test -f _output/authentication-quality-models.html
+
+      - name: Make Version 1.0 standalone
+        working-directory: v1-source
+        run: |
+          set -euo pipefail
+          node make-standalone.js "_output/authentication-quality-models.html"
+
+      # ------------------------------------------------------------------
+      # Assemble exactly one static GitHub Pages artifact.
+      # ------------------------------------------------------------------
+      - name: Assemble Pages site
+        run: |
+          set -euo pipefail
+          rm -rf public
+          mkdir -p public/versions/1.0 public/v1 public/v2
+
+          # Current site at the repository root.
+          cp current-source/_output/authentication-quality-models.html public/index.html
+          cp current-source/_output/authentication-quality-models.html public/authentication-quality-models.html
+          cp current-source/_output/definitional-models.html public/definitional-models.html
+          cp current-source/_output/prediction-models.html public/prediction-models.html
+
+          # Frozen Version 1.0. Keep aliases for stable/direct links.
+          cp v1-source/_output/authentication-quality-models.html public/versions/1.0/index.html
+          cp v1-source/_output/authentication-quality-models.html public/versions/1.0/authentication-quality-models.html
+          cp v1-source/_output/authentication-quality-models.html public/versions/1.0/a-quality-model-for-authentication-solutions.html
+
+          # Backward-compatible redirects for the temporary /v1/ and /v2/ URLs.
+          cat > public/v1/index.html <<'EOF'
+          <!doctype html>
+          <html lang="en">
+          <head>
+            <meta charset="utf-8">
+            <meta http-equiv="refresh" content="0; url=../versions/1.0/">
+            <link rel="canonical" href="../versions/1.0/">
+            <title>AQUA Version 1.0</title>
+          </head>
+          <body>
+            <p><a href="../versions/1.0/">Open AQUA Version 1.0</a></p>
+          </body>
+          </html>
+          EOF
+
+          cat > public/v2/index.html <<'EOF'
+          <!doctype html>
+          <html lang="en">
+          <head>
+            <meta charset="utf-8">
+            <meta http-equiv="refresh" content="0; url=../">
+            <link rel="canonical" href="../">
+            <title>AQUA</title>
+          </head>
+          <body>
+            <p><a href="../">Open the current AQUA website</a></p>
+          </body>
+          </html>
+          EOF
+
+          touch public/.nojekyll
+
+          # Fail early if the public layout is incomplete.
+          test -f public/index.html
+          test -f public/authentication-quality-models.html
+          test -f public/definitional-models.html
+          test -f public/prediction-models.html
+          test -f public/versions/1.0/index.html
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
 
       - name: Upload GitHub Pages artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v4
         with:
           path: public
 
   deploy:
+    name: Deploy GitHub Pages
     needs: build
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
-
-    permissions:
-      pages: write
-      id-token: write
+    timeout-minutes: 5
 
     environment:
       name: github-pages

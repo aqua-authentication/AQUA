@@ -55,7 +55,7 @@ digraph QualityModel {
   EaseOfEnrollment                [label="Ease of enrollment",          fillcolor="white", width=2.05];
   EaseOfRecovery                  [label="Ease of recovery",            fillcolor="white", width=2.05];
 
-  ThreatSensitivity               [label="Threat sensitivity",          fillcolor="white", width=2.05, style="rounded,filled,dashed", penwidth=1.3];
+  ThreatSensitivity                [label="Threat sensitivity",          fillcolor="white", width=2.05, style="rounded,filled,dashed", penwidth=1.3];
   ImpairmentRisks                 [label="Impairment risks",            fillcolor="white", width=2.05, style="rounded,filled,dashed", penwidth=1.3];
 
   Anonymity                       [label="Anonymity",                   fillcolor="white", width=2.05];
