@@ -62,7 +62,7 @@ Based on these three quality levels, [AQUÆDICT]{.acronym-literal} defines three
 - **[AQUÆDICT-T]{.acronym-literal}** for Authentication Techniques
 - **[AQUÆDICT-S]{.acronym-literal}** for Authentication Solutions
 
-![Overview of the [AQUÆDICT]{.acronym-literal} quality models and their quality-factor dependencies.](figures/aquaedict-models.svg){.concept-model-image}
+![Overview of the [AQUÆDICT]{.acronym-literal} quality models and their quality-factor dependencies.](figures/aqua-models.svg){.concept-model-image}
 
 
 # Quality Prediction Models
