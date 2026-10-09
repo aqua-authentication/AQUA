@@ -18,11 +18,12 @@ if errorlevel 1 (
   exit /b 1
 )
 
-for %%F in (
-  "authentication-quality-models.html"
-  "definitional-models.html"
-  "prediction-models.html"
-) do (
+rem Public pages currently enabled. To restore prediction models, append
+rem prediction-models.html to HTML_FILES and re-enable its copy below.
+set "HTML_FILES=authentication-quality-models.html definitional-models.html"
+rem set "HTML_FILES=%HTML_FILES% prediction-models.html"
+
+for %%F in (%HTML_FILES%) do (
   if not exist "%~dp0_output\%%~F" (
     echo.
     echo Expected rendered file not found: _output\%%~F
@@ -67,19 +68,14 @@ if errorlevel 1 (
   exit /b 1
 )
 
-copy /Y "%~dp0_output\prediction-models.html" "%~dp0docs\prediction-models.html" >nul
-if errorlevel 1 (
-  echo.
-  echo Copying prediction-models.html failed.
-  pause
-  exit /b 1
-)
+rem Prediction models are intentionally not published for now.
+rem copy /Y "%~dp0_output\prediction-models.html" "%~dp0docs\prediction-models.html" >nul
 
 echo.
 echo HTML successfully created:
 echo %~dp0_output\authentication-quality-models.html
 echo %~dp0_output\definitional-models.html
-echo %~dp0_output\prediction-models.html
+rem echo %~dp0_output\prediction-models.html
 echo.
 echo GitHub Pages copies updated in:
 echo %~dp0docs

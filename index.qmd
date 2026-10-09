@@ -9,19 +9,25 @@ output-file: "authentication-quality-models"
 ::: {.floating-site-nav role="navigation" aria-label="Page navigation"}
 [[AQUA]{.acronym-literal} Overview](authentication-quality-models.html){.floating-nav-link .active}
 [Definitional Models](definitional-models.html){.floating-nav-link}
-[Prediction Models](prediction-models.html){.floating-nav-link}
+<!--[Prediction Models](prediction-models.html){.floating-nav-link}-->
 :::
 
 Welcome to the **[AQUA]{.acronym-literal} website**.
 
+<!--
 [AQUA]{.acronym-literal} is a modular quality modeling framework for authentication solutions. This website documents the framework, its definitional quality models, and the quality prediction models built upon it.
+-->
+
+[AQUA]{.acronym-literal} is a modular quality modeling framework for authentication solutions. This website documents the framework and its definitional quality models.
 
 ::: {.callout-note icon="false"}
 ## Current Status
 
 This website reflects the current refinement of [AQUA]{.acronym-literal}. In the refined framework, **Authentication Technique Quality** replaces the previously proposed **Authenticator Employment Quality**: Authenticator Employment remains a central concept, but the resulting quality manifests in the Authentication Technique.
 
+<!--
 The framework and the related [AQUÆDICT]{.acronym-literal} quality prediction models are still under active development and may be subject to minor changes.
+-->
 
 [View the original AQUA artifact (Version 1.0)](versions/1.0/)
 :::
@@ -245,10 +251,15 @@ Authenticator Employment remains a central concept of [AQUA]{.acronym-literal}, 
 
 # Explore [AQUA]{.acronym-literal}
 
+<!--
 [AQUA]{.acronym-literal} provides the conceptual framework on which the following model families are built. The **definitional quality models** describe the quality structure of authentication concepts, while **[AQUÆDICT]{.acronym-literal}** extends this foundation with **quality prediction models** and corresponding prediction metrics.
+-->
+
+[AQUA]{.acronym-literal} provides the conceptual framework on which its **definitional quality models** are built. These models describe the quality structure of the quality-bearing authentication concepts.
 
 ::: {.columns}
-::: {.column width="50%"}
+::: {.column width="100%"}
+<!-- change back to 50% when prediction comes back-->
 
 ::: {.explore-card .explore-def}
 ## Definitional Quality Models
@@ -263,6 +274,7 @@ The definitional models capture the quality structure of the three quality-beari
 :::
 
 :::
+<!--
 ::: {.column width="50%"}
 
 ::: {.explore-card .explore-pred}
@@ -273,6 +285,7 @@ The definitional models capture the quality structure of the three quality-beari
 :::
 
 :::
+-->
 :::
 
 # References {.unnumbered}

@@ -7,7 +7,7 @@ pagetitle: "AQUÆDICT – Quality Prediction Models"
 ::: {.floating-site-nav role="navigation" aria-label="Page navigation"}
 [[AQUA]{.acronym-literal} Overview](authentication-quality-models.html){.floating-nav-link}
 [Definitional Models](definitional-models.html){.floating-nav-link}
-[Prediction Models](prediction-models.html){.floating-nav-link .active}
+<!--Prediction Models](prediction-models.html){.floating-nav-link .active}-->
 :::
 
 [AQUÆDICT]{.acronym-literal} extends the [AQUA]{.acronym-literal} framework with **quality prediction models**. It does not introduce new definitional quality models. Instead, it builds on the existing definitional models **[AQUA-A]{.acronym-literal}**, **[AQUA-T]{.acronym-literal}**, and **[AQUA-S]{.acronym-literal}** [1] and operationalizes their quality factors and subfactors through prediction metrics.

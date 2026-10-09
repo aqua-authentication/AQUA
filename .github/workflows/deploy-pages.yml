@@ -4,7 +4,8 @@ on:
   push:
     branches:
       - main
-      - v2
+      # V2 has been merged into main; keep deployment on main only.
+      # - v2
   workflow_dispatch:
 
 permissions:
@@ -56,6 +57,9 @@ jobs:
       # Current AQUA website
       # /                              landing page
       # /definitional-models.html      AQUA definitional models
+      #
+      # AQUAEDICT prediction models remain in the repository but are
+      # intentionally not rendered/deployed for now.
       # /prediction-models.html        AQUAEDICT prediction models
       # ------------------------------------------------------------------
       - name: Render current tree graphics
@@ -81,7 +85,8 @@ jobs:
 
           test -f _output/authentication-quality-models.html
           test -f _output/definitional-models.html
-          test -f _output/prediction-models.html
+          # Re-enable together with prediction-models.qmd in _quarto.yml:
+          # test -f _output/prediction-models.html
 
       - name: Make current pages standalone
         working-directory: current-source
@@ -89,7 +94,8 @@ jobs:
           set -euo pipefail
           node make-standalone.js "_output/authentication-quality-models.html"
           node make-standalone.js "_output/definitional-models.html"
-          node make-standalone.js "_output/prediction-models.html"
+          # Re-enable when prediction models are published again:
+          # node make-standalone.js "_output/prediction-models.html"
 
       # ------------------------------------------------------------------
       # Frozen AQUA Version 1.0
@@ -136,7 +142,8 @@ jobs:
           cp current-source/_output/authentication-quality-models.html public/index.html
           cp current-source/_output/authentication-quality-models.html public/authentication-quality-models.html
           cp current-source/_output/definitional-models.html public/definitional-models.html
-          cp current-source/_output/prediction-models.html public/prediction-models.html
+          # Re-enable when prediction models are published again:
+          # cp current-source/_output/prediction-models.html public/prediction-models.html
 
           # Frozen Version 1.0. Keep aliases for stable/direct links.
           cp v1-source/_output/authentication-quality-models.html public/versions/1.0/index.html
@@ -144,7 +151,7 @@ jobs:
           cp v1-source/_output/authentication-quality-models.html public/versions/1.0/a-quality-model-for-authentication-solutions.html
 
           # Backward-compatible redirects for the temporary /v1/ and /v2/ URLs.
-          cat > public/v1/index.html <<'EOF'
+          cat > public/v1/index.html <<'REDIRECT_V1'
           <!doctype html>
           <html lang="en">
           <head>
@@ -157,9 +164,9 @@ jobs:
             <p><a href="../versions/1.0/">Open AQUA Version 1.0</a></p>
           </body>
           </html>
-          EOF
+          REDIRECT_V1
 
-          cat > public/v2/index.html <<'EOF'
+          cat > public/v2/index.html <<'REDIRECT_V2'
           <!doctype html>
           <html lang="en">
           <head>
@@ -172,7 +179,7 @@ jobs:
             <p><a href="../">Open the current AQUA website</a></p>
           </body>
           </html>
-          EOF
+          REDIRECT_V2
 
           touch public/.nojekyll
 
@@ -180,7 +187,8 @@ jobs:
           test -f public/index.html
           test -f public/authentication-quality-models.html
           test -f public/definitional-models.html
-          test -f public/prediction-models.html
+          # Re-enable when prediction models are published again:
+          # test -f public/prediction-models.html
           test -f public/versions/1.0/index.html
 
       - name: Configure GitHub Pages

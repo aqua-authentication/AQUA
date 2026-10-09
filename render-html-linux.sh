@@ -28,7 +28,8 @@ DOCS_DIR="$SCRIPT_DIR/docs"
 HTML_FILES=(
   "authentication-quality-models.html"
   "definitional-models.html"
-  "prediction-models.html"
+  # Prediction models are intentionally not published for now.
+  # "prediction-models.html"
 )
 
 for file in "${HTML_FILES[@]}"; do
@@ -52,13 +53,14 @@ mkdir -p "$DOCS_DIR"
 cp -f "$OUTPUT_DIR/authentication-quality-models.html" "$DOCS_DIR/authentication-quality-models.html"
 cp -f "$OUTPUT_DIR/authentication-quality-models.html" "$DOCS_DIR/index.html"
 cp -f "$OUTPUT_DIR/definitional-models.html" "$DOCS_DIR/definitional-models.html"
-cp -f "$OUTPUT_DIR/prediction-models.html" "$DOCS_DIR/prediction-models.html"
+# Re-enable when prediction models are published again:
+# cp -f "$OUTPUT_DIR/prediction-models.html" "$DOCS_DIR/prediction-models.html"
 
 echo
 echo "HTML successfully created:"
 echo "$OUTPUT_DIR/authentication-quality-models.html"
 echo "$OUTPUT_DIR/definitional-models.html"
-echo "$OUTPUT_DIR/prediction-models.html"
+# echo "$OUTPUT_DIR/prediction-models.html"
 echo
 echo "GitHub Pages copies updated in:"
 echo "$DOCS_DIR"

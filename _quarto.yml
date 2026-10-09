@@ -4,7 +4,9 @@ project:
   render:
     - index.qmd
     - definitional-models.qmd
-    - prediction-models.qmd
+    # Prediction models are intentionally kept in the repository but are
+    # temporarily excluded from the public site. Re-enable when needed:
+    # - prediction-models.qmd
 
 format:
   html:
