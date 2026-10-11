@@ -62,9 +62,14 @@ h3 {
 }
 
 .acronym-literal {
-  font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
-  font-weight: 700;
-  font-style: italic;
+  font-family: "EB Garamond", Garamond, serif;
+  font-variant-caps: all-small-caps;
+  font-feature-settings: "smcp" 1, "c2sc" 1;
+
+  font-size: 1.08em;
+  font-weight: 600;
+  font-style: normal;
+  letter-spacing: 0.045em;
 }
 
 figcaption {
@@ -79,8 +84,20 @@ figcaption {
 .concept-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1.25rem;
+  gap: 1.5rem;
   margin: 1.5rem 0;
+}
+
+/*
+ * The normal article column is intentionally comfortable for reading prose,
+ * but it made the four concept cards unnecessarily narrow on large screens.
+ * Let only this landing-page grid use the otherwise empty space to the right.
+ */
+@media (min-width: 1200px) {
+  .concept-grid {
+    width: min(1120px, calc(100vw - 22rem));
+    max-width: none;
+  }
 }
 
 .concept-card {
@@ -1193,25 +1210,45 @@ body.svg-lightbox-open { overflow: hidden; }
 
 /* ---------- Persistent page navigation ---------- */
 
+/*
+ * A conventional sticky header inside the article column. It remains visible
+ * while scrolling, but no longer floats independently at the right edge.
+ */
 .floating-site-nav {
-  position: fixed;
-  top: 50%;
-  right: 1.15rem;
+  position: sticky;
+  top: 0.75rem;
   z-index: 1000;
 
   display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.3rem;
 
-  padding: 0.45rem;
+  width: 100%;
+  margin: 0 0 1.6rem;
+  padding: 0.38rem 0.45rem;
 
   border: 1px solid var(--qm-soft-border);
-  border-radius: 14px;
-  background: rgba(255, 255, 255, 0.94);
-  box-shadow: 0 8px 28px rgba(32, 42, 53, 0.12);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 7px 24px rgba(32, 42, 53, 0.10);
 
-  transform: translateY(-50%);
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(9px);
+}
+
+/* Small brand anchor makes the component read clearly as site navigation. */
+.floating-site-nav::before {
+  content: "AQUA";
+  margin-right: auto;
+  padding: 0 0.65rem;
+  color: var(--qm-title);
+  font-family: Georgia, "Times New Roman", serif;
+  font-variant-caps: all-small-caps;
+  font-feature-settings: "smcp" 1, "c2sc" 1;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.055em;
 }
 
 .floating-site-nav p {
@@ -1223,10 +1260,10 @@ body.svg-lightbox-open { overflow: hidden; }
   align-items: center;
   justify-content: center;
 
-  min-width: 7.4rem;
-  padding: 0.55rem 0.8rem;
+  min-width: 7.8rem;
+  padding: 0.54rem 0.82rem;
 
-  border-radius: 9px;
+  border-radius: 8px;
 
   color: var(--qm-ink);
   font-size: 0.8rem;
@@ -1237,6 +1274,7 @@ body.svg-lightbox-open { overflow: hidden; }
   transition:
     background 0.15s ease,
     color 0.15s ease,
+    box-shadow 0.15s ease,
     transform 0.15s ease;
 }
 
@@ -1244,59 +1282,37 @@ body.svg-lightbox-open { overflow: hidden; }
   background: var(--qm-surface);
   color: var(--qm-title);
   text-decoration: none;
-  transform: translateX(-2px);
+  transform: translateY(-1px);
 }
 
 .floating-nav-link.active {
   background: var(--qm-title);
   color: #fff;
+  box-shadow: 0 2px 7px rgba(32, 42, 53, 0.16);
   pointer-events: none;
 }
 
-/* Move navigation to the bottom when horizontal space becomes limited */
-@media (max-width: 1100px) {
-  .floating-site-nav {
-    top: auto;
-    right: 50%;
-    bottom: 1rem;
-
-    flex-direction: row;
-    gap: 0.25rem;
-
-    transform: translateX(50%);
-  }
-
-  .floating-nav-link {
-    min-width: auto;
-    padding: 0.55rem 0.75rem;
-  }
-
-  .floating-nav-link:hover {
-    transform: translateY(-1px);
-  }
-
-  body {
-    padding-bottom: 4.5rem;
-  }
-}
-
-@media (max-width: 520px) {
-  .floating-site-nav {
-    right: 0.6rem;
-    bottom: 0.6rem;
-    left: 0.6rem;
-
-    justify-content: space-between;
-    transform: none;
-  }
-
-  .floating-nav-link {
-    flex: 1;
-    padding: 0.55rem 0.35rem;
-    font-size: 0.75rem;
-  }
-}
-
 .floating-nav-link .acronym-literal {
-  margin-right: 0.22em;
+  margin-right: 0.18em;
+}
+
+@media (max-width: 700px) {
+  .floating-site-nav {
+    top: 0.4rem;
+    justify-content: stretch;
+    gap: 0.25rem;
+    margin-bottom: 1.25rem;
+    padding: 0.32rem;
+  }
+
+  .floating-site-nav::before {
+    display: none;
+  }
+
+  .floating-nav-link {
+    flex: 1 1 0;
+    min-width: 0;
+    padding: 0.52rem 0.45rem;
+    font-size: 0.76rem;
+  }
 }

@@ -4,13 +4,13 @@ subtitle: "Interactive Research Artifact"
 output-file: "authentication-quality-models"
 ---
 
-# [AQUA]{.acronym-literal}
-
 ::: {.floating-site-nav role="navigation" aria-label="Page navigation"}
 [[AQUA]{.acronym-literal} Overview](authentication-quality-models.html){.floating-nav-link .active}
 [Definitional Models](definitional-models.html){.floating-nav-link}
 <!--[Prediction Models](prediction-models.html){.floating-nav-link}-->
 :::
+
+# [AQUA]{.acronym-literal}
 
 Welcome to the **[AQUA]{.acronym-literal} website**.
 
@@ -55,8 +55,8 @@ An **Authenticator** is the entity a user possesses, controls, and uses to perfo
 
 **Notation**
 
-- $A$ — set of authenticators
-- $a \in A$ — an authenticator
+- $A$ : set of authenticators
+- $a \in A$ : an authenticator
 
 :::
 
@@ -100,11 +100,11 @@ Sequential employment is commonly used for multi-factor authentication [8], simu
 
 **Notation**
 
-- $\varepsilon$ — a slot awaiting an authenticator
-- $E$ — an authenticator employment
-- $E(\varepsilon)$ — a single employment
-- $E_{\mathrm{seq}}$, $E_{\mathrm{sim}}$, $E_{\mathrm{cond}}$ — sequential, simultaneous, and conditional employment
-- $|E|$ — cardinality of an employment
+- $\varepsilon$ : a slot awaiting an authenticator
+- $E$ : an authenticator employment
+- $E(\varepsilon)$ : a single employment
+- $E_{\mathrm{seq}}$, $E_{\mathrm{sim}}$, $E_{\mathrm{cond}}$ : sequential, simultaneous, and conditional employment
+- $|E|$ : cardinality of an employment
 
 :::
 
@@ -121,8 +121,8 @@ A password followed by a fingerprint.
 
 **Notation**
 
-- $T$ — an authentication technique
-- $T = (E, (a_1,\ldots,a_k))$ — an employment $E$ with concrete authenticators assigned to its slots
+- $T$ : an authentication technique
+- $T = (E, (a_1,\ldots,a_k))$ : an employment $E$ with concrete authenticators assigned to its slots
   
 For readability, techniques can be written in substitution form:
 
@@ -145,8 +145,8 @@ An Android application and a desktop application may implement the same Authenti
 
 **Notation**
 
-- $S$ — an authentication solution
-- $T$ — the authentication technique implemented by the solution
+- $S$ : an authentication solution
+- $T$ : the authentication technique implemented by the solution
 
 $$
 S\ \text{implements}\ T

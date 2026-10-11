@@ -2,13 +2,13 @@
 pagetitle: "AQUA – Definitional Quality Models"
 ---
 
-# [AQUA]{.acronym-literal} Definitional Quality Models
-
 ::: {.floating-site-nav role="navigation" aria-label="Page navigation"}
 [[AQUA]{.acronym-literal} Overview](authentication-quality-models.html){.floating-nav-link}
 [Definitional Models](definitional-models.html){.floating-nav-link .active}
 <!--[Prediction Models](prediction-models.html){.floating-nav-link}-->
 :::
+
+# [AQUA]{.acronym-literal} Definitional Quality Models
 
 The [AQUA]{.acronym-literal} framework is demonstrated through three tailored, interrelated quality models: **[AQUA-A]{.acronym-literal}** for Authenticators, **[AQUA-T]{.acronym-literal}** for Authentication Techniques, and **[AQUA-S]{.acronym-literal}** for Authentication Solutions.
 
