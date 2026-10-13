@@ -5,7 +5,7 @@ output-file: "authentication-quality-models"
 ---
 
 ::: {.floating-site-nav role="navigation" aria-label="Page navigation"}
-[[AQUA]{.acronym-literal} Overview](authentication-quality-models.html){.floating-nav-link .active}
+[Home](authentication-quality-models.html){.floating-nav-link .floating-home-link .active}
 [Definitional Models](definitional-models.html){.floating-nav-link}
 <!--[Prediction Models](prediction-models.html){.floating-nav-link}-->
 :::

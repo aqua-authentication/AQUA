@@ -62,14 +62,22 @@ h3 {
 }
 
 .acronym-literal {
+  display: inline-block;
   font-family: "EB Garamond", Garamond, serif;
-  font-variant-caps: all-small-caps;
-  font-feature-settings: "smcp" 1, "c2sc" 1;
+  font-variant-caps: small-caps;
+  font-feature-settings: "smcp" 1;
+  text-transform: lowercase;
 
   font-size: 1.08em;
   font-weight: 600;
   font-style: normal;
   letter-spacing: 0.045em;
+}
+
+/* Keep the acronym in small caps, but give its initial A a subtle lead. */
+.acronym-literal::first-letter {
+  font-size: 1em;
+  text-transform: uppercase;
 }
 
 figcaption {
@@ -83,22 +91,18 @@ figcaption {
 
 .concept-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.25rem;
+  width: 100%;
+  max-width: 100%;
   margin: 1.5rem 0;
 }
 
 /*
- * The normal article column is intentionally comfortable for reading prose,
- * but it made the four concept cards unnecessarily narrow on large screens.
- * Let only this landing-page grid use the otherwise empty space to the right.
+ * Concept cards deliberately stay inside the normal article column.
+ * One full-width card per row gives each concept a wide, horizontal layout
+ * without breaking alignment with the surrounding page content.
  */
-@media (min-width: 1200px) {
-  .concept-grid {
-    width: min(1120px, calc(100vw - 22rem));
-    max-width: none;
-  }
-}
 
 .concept-card {
   --concept-color: var(--framework);
@@ -1220,35 +1224,20 @@ body.svg-lightbox-open { overflow: hidden; }
   z-index: 1000;
 
   display: flex;
-  flex-direction: row;
   align-items: center;
   justify-content: flex-end;
-  gap: 0.3rem;
+  gap: 0.4rem;
 
   width: 100%;
-  margin: 0 0 1.6rem;
-  padding: 0.38rem 0.45rem;
+  margin: 0 0 1.5rem;
+  padding: 0.55rem 0.7rem;
 
   border: 1px solid var(--qm-soft-border);
-  border-radius: 12px;
+  border-radius: 14px;
   background: rgba(255, 255, 255, 0.95);
-  box-shadow: 0 7px 24px rgba(32, 42, 53, 0.10);
+  box-shadow: 0 8px 24px rgba(32, 42, 53, 0.08);
 
-  backdrop-filter: blur(9px);
-}
-
-/* Small brand anchor makes the component read clearly as site navigation. */
-.floating-site-nav::before {
-  content: "AQUA";
-  margin-right: auto;
-  padding: 0 0.65rem;
-  color: var(--qm-title);
-  font-family: Georgia, "Times New Roman", serif;
-  font-variant-caps: all-small-caps;
-  font-feature-settings: "smcp" 1, "c2sc" 1;
-  font-size: 1rem;
-  font-weight: 700;
-  letter-spacing: 0.055em;
+  backdrop-filter: blur(8px);
 }
 
 .floating-site-nav p {
@@ -1278,6 +1267,10 @@ body.svg-lightbox-open { overflow: hidden; }
     transform 0.15s ease;
 }
 
+.floating-home-link {
+  min-width: 5.2rem;
+}
+
 .floating-nav-link:hover {
   background: var(--qm-surface);
   color: var(--qm-title);
@@ -1305,9 +1298,6 @@ body.svg-lightbox-open { overflow: hidden; }
     padding: 0.32rem;
   }
 
-  .floating-site-nav::before {
-    display: none;
-  }
 
   .floating-nav-link {
     flex: 1 1 0;
