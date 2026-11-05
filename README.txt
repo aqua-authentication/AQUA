@@ -1,5 +1,8 @@
 AQUA — QUICK GUIDE
 
+THIS REPOSITORY IS NOT USED ANYMORE
+USE https://scam-research-project.gitlab.io/aqua/ TO VIEW THE WEBSITE
+
 SITE PAGES
 - index.qmd: AQUA framework landing page
 - definitional-models.qmd: AQUA-A / AQUA-T / AQUA-S definitional quality models
